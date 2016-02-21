@@ -1,0 +1,27 @@
+{% extends "layout.html" %}
+{% from "macros/log.html" import render_log_entry %}
+{% from "macros/projects.html" import render_category_nav,
+   render_project_list, render_project_entries %}
+
+{% block title %}Project Category {{ this.name }}{% endblock %}
+{% block body %}
+  <h3>Project Category {{ this.name }}</h3>
+ <div class="category">{{ render_category_nav(active=this._id) }}</div>
+  {{ render_project_list(this.children) }}
+
+{% for year in site.query('/log') %}
+  {% for month in year.children %}
+    {% for day in month.children %}
+      {% if this.name in day.categories %}
+        {{ render_log_entry(day, from_index=true, yyyymm=true) }}
+        {% for image in day.attachments.images %}
+          <a href="{{day|url}}"><img src="{{ image.thumbnail(100,100)|url }}"></a>
+        {% endfor %}
+      {% endif %}
+    {% endfor %}
+  {% endfor %}
+{% endfor %}
+
+<iframe width="0" height="0" border="0" name="frame" style="border-style: none;"></iframe>
+
+{% endblock %}

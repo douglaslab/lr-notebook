@@ -1,0 +1,95 @@
+{% extends "layout.html" %}
+{% from "macros/log.html" import render_months, render_days, render_log_entry %}
+{% from "macros/log.html" import link_to_entry %}
+{% from "macros/log.html" import link_to_hidden_entry %}
+{% from "macros/projects.html" import render_my_categories %}
+{% block title %}{{ this.title }}{% endblock %}
+{% block body %}
+
+<iframe width="0" height="0" border="0" name="frame" style="border-style: none;"></iframe>
+
+{% for year in site.query('/log') %}
+<div class="calendar row">
+  <div class="eight columns">
+    <a {% if this.parent.parent == year %}class="active"{% endif %} href="{{ year|url }}">{{ year.label }}
+    </a>{{ render_months(year.children, this.parent) }}</div>
+</div>
+{% endfor %}
+
+<!-- <br> -->
+
+
+<div class="row">
+  <div class="ten columns">
+   <span class="days">{{this.parent.parent.label}}-{{this.parent.label}}</span>
+   &nbsp;
+    {% for entry in site.query(this.parent.path).include_undiscoverable(true) %}
+      {% if entry.is_hidden %}
+        {{ link_to_hidden_entry(entry) }}
+      {% else %}
+       {{ link_to_entry(entry, active=this) }}
+      {% endif %}
+    {% endfor %}
+  </div>
+</div>
+
+
+{{ render_days(this, this.label) }}
+
+{{ render_log_entry(this) }}
+
+<div class="row">
+  <div class="two columns">Images:</div>
+<div class="nine columns">
+    {% for image in this.attachments.images %}
+      {% if image.height > 100 %}
+        <a href="{{image|url}}"><img src="{{ image.thumbnail(100)|url }}"></a>
+      {% else %}
+        <a href="{{image|url}}"><img src="{{ image|url }}"></a>
+      {% endif %}
+    {% endfor %}
+  </div>
+</div>
+
+<div class="row">
+  <div class="two columns">Attachments:</div>
+<div class="nine columns">
+    {% for item in this.attachments %}
+      {% if not item in this.attachments.images %}
+        <a href="{{item|url}}">{{item.path.split('/')[-1]}}</a>
+        {% if not loop.revindex %},{% endif %}
+      {% endif %}
+    {% endfor %}
+  </div>
+</div>
+
+<hr style="margin-top:2em;">
+
+<div class="row">
+  <div class="ten columns">
+    {% if this.categories %}
+      <div class="category">categories: {{ this.categories|join(" ") }}</div>
+    {% else %}
+    <div class="category">categories: None (<a href="/admin/edit?path={{this.path}}">+</a>)</div>
+    {% endif %}
+    {% if this.tags %}
+      <div class="category">tags: </div>
+    {% else %}
+    <div class="category">tags: None (<a href="/admin/edit?path={{this.path}}">+</a>)</div>
+    {% endif %}
+
+  </div>
+  <div class="two columns">
+    <span class="u-pull-right">
+    {% if this.author %}
+      by {{ this.author }}
+    {% else %}
+      author unknown.
+    {% endif %}
+    </span>
+  </div>
+</div>
+
+
+
+{% endblock %}

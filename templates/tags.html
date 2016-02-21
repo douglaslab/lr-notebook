@@ -1,0 +1,8 @@
+{% extends "layout.html" %}
+{% from "macros/tags.html" import render_tag_nav %}
+{% block title %}Tags{% endblock %}
+{% block body %}
+  <h3>Tags</h3>
+  <div class="category">{{ render_tag_nav(active=none) }}</div>
+
+{% endblock %}

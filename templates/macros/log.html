@@ -1,0 +1,87 @@
+{% macro render_years(logs, from_index=false) %}
+{% for year in logs.children %}
+  {% if from_index %}
+    <a href="{{ year|url }}">{{ year.title }}</a>
+  {% else %}
+    <strong>{{ year.title }}</strong>
+  {% endif %}
+{% endfor %}
+{% endmacro %}
+
+{% macro render_months(months, active=None) %}
+  {% for month in months %} 
+    {% if month == active %}
+      <a class="active" href="{{month|url}}">{{month.label}}</a>
+    {% elif not month.children %}
+      <a class="nochildren" href="{{month|url}}">{{month.label}}</a>
+    {% else %}
+      <a href="{{month|url}}">{{month.label}}</a>
+    {% endif %}
+  {% endfor %}
+{% endmacro %}
+
+
+<!-- render_month displays links to days -->
+{% macro render_days(month, active=None) %}
+  {% for day in month.children %}
+    <a {% if day == active %}class="active"{% endif %} href="{{ day|url }}">{{ day.path.split('/')[-1]|int }}</a> 
+  {% endfor %}
+{% endmacro %}
+
+<!-- 
+This macro renders html for a log-entry, and is intended to be used on pages
+that display a single log-entry, or pages that index a list of log-entries.
+
+It always returns the date, author, and title. For an index this is enough.
+
+By default it also includes 'body' contents, but index pages can hide body 
+by setting 'from_index=True'.
+-->
+{% macro link_to_hidden_entry(entry) %}
+  <form target="frame" action="/admin/api/browsefs" method="post">
+    <input type="hidden" name="path" value="{{entry.path}}">
+    <input class="hidden-button-link" type="submit" value="{{ entry.path.split('/')[-1]|int }}">
+  </form> 
+{% endmacro %}
+
+{% macro link_to_entry(entry, active=None) %}
+  <a {% if entry == active %}class="active"{% endif %} href="{{ entry|url }}">{{ entry.path.split('/')[-1]|int }}</a> 
+{% endmacro %}
+
+{% macro render_log_entry(entry, from_index=false, yyyymm=false) %}
+
+<div class="log-entry">
+  {% if not from_index %}<h5 class="active">{% endif %}
+  <div class="row"> <!-- date,author,title row -->
+    <div class="ten columns"> <!-- description -->
+      {% if from_index %}
+      {% if yyyymm %}
+    <form style="display:inline;" target="frame" action="/admin/api/browsefs" method="post">
+    <input type="hidden" name="path" value="{{entry.path}}">
+    <input type="image" src={{ '/static/images/link.png'|url }}>
+    </form>
+
+      {{entry.pub_date.year}}-{{entry.parent.label}}-{% endif %}{{ entry.path.split('/')[-1]|int }}: <a href="{{ entry|url }}">{{ entry.description }}</a>
+      {% else %}
+        {{ entry.description }}
+      {% endif %}
+    </div>
+    <div class="two columns"> <!-- reveal in finder -->
+{% if not from_index %}
+    <form target="frame" action="/admin/api/browsefs" method="post">
+    <input type="hidden" name="path" value="{{entry.path}}">
+    <input class="button-primary" type="submit" value="Open">
+{% endif %}
+    </div> 
+  </div> <!-- end date,author,title row -->
+
+  {% if not from_index %} <!-- log-entry page shows full body contents  -->
+    </h5>
+    <hr>
+    {{ entry.body }}
+  {% endif %}
+
+</div> <!-- end class log-entry -->
+{% endmacro %}
+
+

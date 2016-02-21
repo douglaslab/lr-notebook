@@ -1,0 +1,26 @@
+{% macro render_tag_nav(active=none) %}
+  <ul>
+  {% for tag in site.query('/tags') %}
+    <li{% if tag._id == active %} class="active"{% endif
+      %}><a href="{{ tag|url }}">{{ tag.name }}</a>
+  {% endfor %}
+  </ul>
+{% endmacro %}
+
+{% macro render_project_list(projects) %}
+  <ul>
+  {% for project in projects %}
+    <li><a href="{{ project|url }}">{{ project.name }}</a>
+  {% endfor %}
+  </ul>
+{% endmacro %}
+
+{% macro render_my_tags(active=none) %}
+  <ul>
+  <li>categories:
+  {% for tag in site.query('/tags') %}
+    {% if tag._id in active %}<li>
+    <a href="{{ tag|url }}">{{ tag.name }}</a></li>{% endif %}
+  {% endfor %}
+  </ul>
+{% endmacro %}

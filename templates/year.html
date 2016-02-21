@@ -1,0 +1,21 @@
+{% extends "layout.html" %}
+{% from "macros/log.html" import render_months %}
+{% from "macros/log.html" import render_days %}
+
+{% block title %}{{ this.title }}{% endblock %}
+{% block body %}
+
+{% for year in site.query('/log') %}
+<div class="calendar row">
+  <div class="eight columns">
+    <a {% if this == year %}class="active"{% endif %} href="{{ year|url }}">{{ year.label }}
+    </a>{{ render_months(year.children) }}</div>
+</div>
+{% endfor %}
+
+<h1>{{this.label}}</h1>
+{% for month in this.children %}
+  <a {% if not month.children %}class="nochildren"{% endif %} href="{{month|url}}">{{month.label}}</a> {{ render_days(month) }}<br>
+{% endfor %}
+
+{% endblock %}

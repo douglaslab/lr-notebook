@@ -1,0 +1,25 @@
+{% extends "layout.html" %}
+{% from "macros/log.html" import render_months %}
+
+{% block title %}{{ this.title }}{% endblock %}
+{% block body %}
+<form style="float:right;" target="frame" action="/admin/api/browsefs" method="post">
+  <input type="hidden" name="path" value="{{this.path}}">
+  <input type="image" src={{ '/static/images/link.png'|url }}>
+</form>
+
+<h3>{{ this.title }}</h3>
+
+{% for year in site.query('/log') %}
+<div class="calendar row">
+  <div class="eight columns">
+    <a href="{{ year|url }}">{{ year.label }}
+    </a>{{ render_months(year.children, this.parent) }}</div>
+</div>
+{% endfor %}
+
+<br>
+
+{{ this.body }}
+
+{% endblock %}

@@ -1,0 +1,130 @@
+/* Disabled to use skeleton.css (SD) */
+
+/*body {
+    font-family: 'Verdana', sans-serif;
+    margin: 50px 25px;
+}
+
+a {
+    color: #2a99b6;
+}
+
+a:hover {
+    color: #33bbdf;
+}
+
+header, footer, div.page {
+    width: 760px;
+    margin: 0 auto;
+    background: #daeef3;
+    padding: 20px 30px;
+}
+
+header h1 {
+    color: #169bbd;
+    margin: 0;
+    font-weight: normal;
+    font-size: 42px;
+}
+
+header nav ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}*/
+
+/* Re-enabled to override skeleton.css (SD) */
+
+header, footer, div.page {
+    max-width: 760px;
+}
+
+header, h4 {
+    margin-bottom: 0;
+}
+
+header nav ul li {
+    display: inline;
+    margin: 0 8px 0 0;
+    padding: 0;
+}
+
+body {
+    margin: 50px 50px;
+}
+
+footer {
+    margin-top: 2em;
+}
+
+.active {
+    color:#cc0000;
+}
+
+a.nochildren, div.category {
+    color:#ccc;
+}
+
+
+.category ul li {
+    color: #bbbbbb;
+    display: inline;
+    margin: 0 3px 0 0;
+    padding: 0;
+}
+
+.calendar {
+  font-family: "Anonymous Pro";
+}
+
+
+a {
+    text-decoration: none;
+}
+
+img.thumb {
+    height:200px;
+}
+
+input[type="submit"].hidden-button-link {
+  border:none;
+  outline:none;
+  cursor:pointer;
+  color:#ccc;
+  padding:0;
+  margin-top:1em;
+
+}
+
+input[type="image"] {
+  display: inline;
+  float: left;
+  margin-right:0.25em;
+}
+
+form {
+  display: inline;
+  margin:0;
+  padding:0;
+}
+
+.highlight {
+  padding: 0.1em 0em 0.1em 1em;
+  background: #eee;
+}
+
+.days {
+font-family: "Anonymous Pro", "HelveticaNeue", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  margin-top: 0;
+  margin-bottom: 2rem;
+  font-weight: 300;
+  font-size: 2rem; 
+  line-height: 1.5;
+  letter-spacing: -.05rem;
+}
+
+/*
+div.page {
+    background: #f1fbfe;
+}
+*/

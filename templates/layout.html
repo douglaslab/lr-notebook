@@ -1,0 +1,44 @@
+<!doctype html>
+<meta charset="utf-8">
+<link rel="icon" type="image/x-icon" href="{{ '/static/favicon.ico'|asseturl }}">
+<link rel="stylesheet" href="{{ '/static/normalize.css'|asseturl }}">
+<link rel="stylesheet" href="{{ '/static/skeleton.css'|asseturl }}">
+<link rel="stylesheet" href="{{ '/static/style.css'|asseturl }}">
+<link rel="stylesheet" href="{{ '/static/fonts/fa/css/font-awesome.min.css'|asseturl }}">
+<link rel="stylesheet" href="{{ '/static/fonts/source-sans-pro/source-sans-pro.css'|asseturl }}">
+<link rel="stylesheet" href="{{ get_pygments_stylesheet()|url }}">
+
+<!-- <link rel="stylesheet" href="{{ '/static/font-awesome.min.css'|url }}">
+ -->
+<title>{% block title %}Welcome{% endblock %}</title>
+<body>
+  <header>
+    <h1>nb-{{config.PROJECT.name}}</h1>
+    <nav>
+      <ul class="nav navbar-nav">
+        <li{% if this._path == '/' %} class="active"{% endif
+          %}><a href="{{ '/'|url }}">Welcome</a></li>
+        {% for href, title in [
+          ['/log', 'Log'],
+          ['/projects', 'Projects'],
+          ['/tags', 'Tags'],
+          ['/about', 'About']
+        ] %}
+          <li{% if this.is_child_of(href) %} class="active"{% endif
+            %}><a href="{{ href|url }}">{{ title }}</a></li>
+        {% endfor %}
+      </ul>
+    </nav>
+  </header>
+
+  <iframe width="0" height="0" border="0" name="frame" style="border-style: none;"></iframe>
+
+  <div class="page">
+    {% block body %}{% endblock %}
+  </div>
+
+  <footer>
+    &copy; 2016. Made with <a target="_new" href="http://bionano.ucsf.edu/"><i class="fa fa-{{['cubes', 'cutlery', 'flask', 'gamepad', 'gears', 'hand-lizard-o', 'sliders']|random }}"></i></a> in SF.
+
+  </footer>
+</body>

@@ -1,0 +1,17 @@
+{
+  "name": "source-sans-pro",
+  "version": "2.20.0",
+  "license": "OFL-1.1",
+  "bugs": {
+    "url": "https://github.com/adobe-fonts/source-sans-pro/issues"
+  },
+  "homepage": "https://github.com/adobe-fonts/source-sans-pro",
+  "gitHead": "4463d0c33e6567df4da97406642c64028e103630",
+  "readme": "# Source Sans Pro\n\nSource Sans Pro is a set of OpenType fonts that have been designed to work well\nin user interface (UI) environments. In addition to a functional OpenType font, this open\nsource project provides all of the source files that were used to build this OpenType font\nby using the AFDKO makeotf tool.\n\n## Font installation instructions\n\n* [Mac OS X](http://support.apple.com/kb/HT2509)\n* [Windows](https://www.microsoft.com/en-us/Typography/TrueTypeInstall.aspx)\n* [Linux/Unix-based systems](https://github.com/adobe-fonts/source-code-pro/issues/17#issuecomment-8967116)\n* Bower<br/>\n\t`bower install git://github.com/adobe-fonts/source-sans-pro.git#release`\n* npm v2.x<br/>\n\t`npm install --fetch-only git://github.com/adobe-fonts/source-sans-pro.git#release`\n* npm v3.x<br/>\n\t`npm install git://github.com/adobe-fonts/source-sans-pro.git#release`\n\n## Getting Involved\n\nSend suggestions for changes to the Source Sans OpenType font project maintainer, [Paul D. Hunt](mailto:opensourcefonts@adobe.com?subject=[GitHub] Source Sans Pro), for consideration.\n\n## Further information\n\nFor information about the design and background of Source Sans, please refer to the [official font readme file](http://www.adobe.com/products/type/font-information/source-sans-pro-readme.html).\n",
+  "readmeFilename": "README.md",
+  "description": "Source Sans Pro is a set of OpenType fonts that have been designed to work well in user interface (UI) environments. In addition to a functional OpenType font, this open source project provides all of the source files that were used to build this OpenType font by using the AFDKO makeotf tool.",
+  "_id": "source-sans-pro@2.20.0",
+  "_shasum": "f75e11423e6fc7ad7fdbbcadd17b8860233cf400",
+  "_from": "git://github.com/adobe-fonts/source-sans-pro.git#release",
+  "_resolved": "git://github.com/adobe-fonts/source-sans-pro.git#4463d0c33e6567df4da97406642c64028e103630"
+}

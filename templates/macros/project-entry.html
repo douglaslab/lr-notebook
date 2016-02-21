@@ -1,0 +1,115 @@
+{% macro render_project_entry(entry, from_index=false, yyyymm=false) %}
+{% set day = entry.parent %}
+<div class="project-entry">
+  {% if not from_index %}<h5 class="active">{% endif %}
+  <div class="row"> <!-- date,author,title row -->
+    <div class="ten columns"> <!-- description -->
+      {% if from_index %}
+      {% if yyyymm %}
+    <form style="display:inline;" target="frame" action="/admin/api/browsefs" method="post">
+    <input type="hidden" name="path" value="{{entry.path}}">
+    <input type="image" src={{ '/static/images/link.png'|url }}>
+    </form>
+      <a href="{{day|url}}">{{day.parent.parent.label}}-{{day.parent.label}}-{% endif %}{{ day.path.split('/')[-1]|int }}</a>: <a href="{{ entry|url }}">{{ entry.description }}</a>
+      {% else %}
+        {{ entry.description }}
+      {% endif %}
+    </div>
+    <div class="two columns"> <!-- reveal in finder -->
+{% if not from_index %}
+    <form target="frame" action="/admin/api/browsefs" method="post">
+    <input type="hidden" name="path" value="{{entry.path}}">
+    <input class="button-primary" type="submit" value="{{entry.path.split('/')[-1]}}">
+{% endif %}
+    </div> 
+  </div> <!-- end date,author,title row -->
+
+  {% if not from_index %} <!-- log-entry page shows full body contents  -->
+    </h5>
+    <hr>
+    {{ entry.body }}
+  {% endif %}
+
+</div> <!-- end class log-entry -->
+{% endmacro %}
+
+
+{% macro render_attachments(entry) %}
+
+{% set attachment_count = entry.attachments.count() %}
+{% set image_count = entry.attachments.images.count() %}
+{% set video_count = entry.attachments.videos.count() %}
+
+{% if attachment_count > (image_count+video_count) %}
+<div class="row">
+  <div class="one column"></div>
+  <div class="two columns"><!-- Attachments: --></div>
+<div class="nine columns">
+    {% for item in entry.attachments %}
+      {% if not item in (entry.attachments.images or entry.attachments.videos) %}
+        <a href="{{item|url}}">{{item.path.split('/')[-1]}}</a>
+        {% if not loop.revindex %},{% endif %}
+      {% endif %}
+    {% endfor %}
+  </div>
+</div>
+{% endif %}
+
+{% if entry.attachments.images %}
+<div class="row">
+  <div class="one column"></div>
+  <div class="two columns"><!-- Images: --></div>
+  <div class="nine columns">
+    {% for image in entry.attachments.images %}
+      {% if image.height > 100 %}
+        <a href="{{image|url}}"><img src="{{ image.thumbnail(100)|url }}"></a>
+      {% else %}
+        <a href="{{image|url}}"><img src="{{ image|url }}"></a>
+      {% endif %}
+    {% endfor %}
+  </div>
+</div>
+{% endif %}
+
+{% if entry.attachments.videos %}
+<div class="row">
+  <div class="one column"></div>
+  <div class="two columns"><!-- videos: --></div>
+  <div class="nine columns">
+    {% for item in entry.attachments.videos %}
+        <a href="{{item|url}}">{{item.path.split('/')[-1]}}</a>
+        {% if not loop.revindex %},{% endif %}
+    {% endfor %}
+  </div>
+</div>
+{% endif %}
+
+{% endmacro %}
+
+{% macro render_entry_footer(entry) %}
+<hr style="margin-top:2em;">
+<div class="row">
+<div class="one column"></div>
+  <div class="nine columns">
+    {% if entry.category %}
+      <div class="category">categories: <a href="/projects/categories/{{entry.category}}">{{entry.category}}</a></div>
+    {% else %}
+    <div class="category">categories: None (<a href="/admin/edit?path={{entry|url}}">+</a>)</div>
+    {% endif %}
+    {% if entry.tags %}
+      <div class="category">tags: {{ entry.tags|join(" ") }}</div>
+    {% else %}
+    <div class="category">tags: None (<a href="/admin/edit?path={{entry|url}}">+</a>)</div>
+    {% endif %}
+  </div>
+  <div class="two columns">
+    <span class="u-pull-right">
+    {% if entry.parent.author %}
+      by {{ entry.parent.author }}
+    {% else %}
+      author unknown.
+    {% endif %}
+    </span>
+  </div>
+</div>
+{% endmacro %}

@@ -1,8 +1,8 @@
 {% extends "layout.html" %}
 {% from "macros/log.html" import render_months %}
-{% from "macros/log.html" import render_log_entry %}
-{% from "macros/log.html" import link_to_entry %}
-{% from "macros/log.html" import link_to_hidden_entry %}
+{% from "macros/log.html" import render_day_entry %}
+{% from "macros/log.html" import link_to_day %}
+{% from "macros/log.html" import link_to_hidden_day %}
 
 {% block title %}{{ this.title }}{% endblock %}
 
@@ -18,15 +18,16 @@
 
 <iframe width="0" height="0" border="0" name="frame" style="border-style: none;"></iframe>
 
+<!-- Display the YYYY-Mon and links to days -->
 <div class="row">
   <div class="ten columns">
    <span class="days">{{this.parent.label}}-{{this.label}}</span>
    &nbsp;
     {% for entry in site.query(this.path).include_undiscoverable(true) %}
       {% if entry.is_hidden %}
-        {{ link_to_hidden_entry(entry) }}
+        {{ link_to_hidden_day(entry) }}
       {% else %}
-       {{ link_to_entry(entry, active=this) }}
+       {{ link_to_day(entry, active=this) }}
       {% endif %}
     {% endfor %}
   </div>
@@ -41,22 +42,24 @@
     <input type="image" src={{ '/static/images/link.png'|url }}>
     </form>
 
-    {{ render_log_entry(entry, from_index=true) }}
+    {{ render_day_entry(entry, from_index=true) }}
   </div>
 </div>
 
-<div class="row">
-  <div class="one column"></div>
-<div class="nine columns">
-    {% for image in entry.attachments.images %}
-      {% if image.height > 100 %}
-        <a href="{{entry|url}}"><img src="{{ image.thumbnail(100)|url }}"></a>
-      {% else %}
-        <a href="{{entry|url}}"><img src="{{ image|url }}"></a>
-      {% endif %}
+  <div class="row">
+    <div class="one column"></div>
+    <div class="nine columns">
+    {% for child in entry.children %}
+      {% for image in child.attachments.images %}
+        {% if image.height > 100 %}
+          <a href="{{entry|url}}"><img src="{{ image.thumbnail(100)|url }}"></a>
+        {% else %}
+          <a href="{{entry|url}}"><img src="{{ image|url }}"></a>
+        {% endif %}
+      {% endfor %}
     {% endfor %}
+    </div>
   </div>
-</div>
 {% endfor %}
 {% endblock %}
 

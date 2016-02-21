@@ -1,8 +1,10 @@
 {% extends "layout.html" %}
-{% from "macros/log.html" import render_months, render_days, render_log_entry %}
-{% from "macros/log.html" import link_to_entry %}
-{% from "macros/log.html" import link_to_hidden_entry %}
+{% from "macros/log.html" import render_months, render_days %}
+{% from "macros/log.html" import link_to_day, link_to_hidden_day %}
 {% from "macros/projects.html" import render_my_categories %}
+{% from "macros/project-entry.html" import render_project_entry %}
+{% from "macros/project-entry.html" import render_attachments, render_entry_footer %}
+
 {% block title %}{{ this.title }}{% endblock %}
 {% block body %}
 
@@ -12,84 +14,28 @@
 <div class="calendar row">
   <div class="eight columns">
     <a {% if this.parent.parent == year %}class="active"{% endif %} href="{{ year|url }}">{{ year.label }}
-    </a>{{ render_months(year.children, this.parent) }}</div>
+    </a>{{ render_months(year.children, this.parent.parent) }}</div>
 </div>
 {% endfor %}
 
-<!-- <br> -->
-
-
 <div class="row">
   <div class="ten columns">
-   <span class="days">{{this.parent.parent.label}}-{{this.parent.label}}</span>
+   <span class="days"><a href="{{this.parent.parent.parent|url}}">{{this.parent.parent.parent.label}}</a>-<a href="{{this.parent.parent|url}}">{{this.parent.parent.label}}</a></span>
    &nbsp;
-    {% for entry in site.query(this.parent.path).include_undiscoverable(true) %}
+    {% for entry in site.query(this.parent.parent.path).include_undiscoverable(true) %}
       {% if entry.is_hidden %}
-        {{ link_to_hidden_entry(entry) }}
+        {{ link_to_hidden_day(entry) }}
       {% else %}
-       {{ link_to_entry(entry, active=this) }}
+       {{ link_to_day(entry, active=this.parent) }}
       {% endif %}
     {% endfor %}
   </div>
 </div>
 
+<br/>
 
-{{ render_days(this, this.label) }}
-
-{{ render_log_entry(this) }}
-
-<div class="row">
-  <div class="two columns">Images:</div>
-<div class="nine columns">
-    {% for image in this.attachments.images %}
-      {% if image.height > 100 %}
-        <a href="{{image|url}}"><img src="{{ image.thumbnail(100)|url }}"></a>
-      {% else %}
-        <a href="{{image|url}}"><img src="{{ image|url }}"></a>
-      {% endif %}
-    {% endfor %}
-  </div>
-</div>
-
-<div class="row">
-  <div class="two columns">Attachments:</div>
-<div class="nine columns">
-    {% for item in this.attachments %}
-      {% if not item in this.attachments.images %}
-        <a href="{{item|url}}">{{item.path.split('/')[-1]}}</a>
-        {% if not loop.revindex %},{% endif %}
-      {% endif %}
-    {% endfor %}
-  </div>
-</div>
-
-<hr style="margin-top:2em;">
-
-<div class="row">
-  <div class="ten columns">
-    {% if this.categories %}
-      <div class="category">categories: {{ this.categories|join(" ") }}</div>
-    {% else %}
-    <div class="category">categories: None (<a href="/admin/edit?path={{this.path}}">+</a>)</div>
-    {% endif %}
-    {% if this.tags %}
-      <div class="category">tags: </div>
-    {% else %}
-    <div class="category">tags: None (<a href="/admin/edit?path={{this.path}}">+</a>)</div>
-    {% endif %}
-
-  </div>
-  <div class="two columns">
-    <span class="u-pull-right">
-    {% if this.author %}
-      by {{ this.author }}
-    {% else %}
-      author unknown.
-    {% endif %}
-    </span>
-  </div>
-</div>
-
-
+{{ render_project_entry(this) }}
+{{ render_attachments(this) }}
+{{ render_entry_footer(this) }}
 
 {% endblock %}

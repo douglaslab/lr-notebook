@@ -1,5 +1,5 @@
 {% extends "layout.html" %}
-{% from "macros/log.html" import render_log_entry %}
+{% from "macros/log.html" import render_day_entry %}
 {% from "macros/tags.html" import render_tag_nav,
    render_project_list, render_project_entries %}
 
@@ -13,7 +13,7 @@
   {% for month in year.children %}
     {% for day in month.children %}
       {% if this.name in day.tags %}
-        {{ render_log_entry(day, from_index=true, yyyymm=true) }}
+        {{ render_day_entry(day, from_index=true, yyyymm=true) }}
         {% for image in day.attachments.images %}
           <a href="{{day|url}}"><img src="{{ image.thumbnail(100,100)|url }}"></a>
         {% endfor %}

@@ -1,8 +1,10 @@
 {% extends "layout.html" %}
-{% from "macros/log.html" import render_months, render_days, render_log_entry %}
-{% from "macros/log.html" import link_to_entry %}
-{% from "macros/log.html" import link_to_hidden_entry %}
+{% from "macros/log.html" import render_months, render_days, render_day_entry %}
+{% from "macros/log.html" import link_to_day, link_to_hidden_day %}
 {% from "macros/projects.html" import render_my_categories %}
+{% from "macros/project-entry.html" import render_attachments, render_entry_footer %}
+
+
 {% block title %}{{ this.title }}{% endblock %}
 {% block body %}
 
@@ -18,66 +20,40 @@
 
 <div class="row">
   <div class="ten columns">
-   <span class="days">{{this.parent.parent.label}}-{{this.parent.label}}</span>
+   <span class="days"><a href="{{this.parent.parent|url}}">{{this.parent.parent.label}}</a>-<a href="{{this.parent|url}}">{{this.parent.label}}</a></span>
    &nbsp;
     {% for entry in site.query(this.parent.path).include_undiscoverable(true) %}
       {% if entry.is_hidden %}
-        {{ link_to_hidden_entry(entry) }}
+        {{ link_to_hidden_day(entry) }}
       {% else %}
-       {{ link_to_entry(entry, active=this) }}
+       {{ link_to_day(entry, active=this) }}
       {% endif %}
     {% endfor %}
   </div>
 </div>
 
-{{ render_days(this, this.label) }}
+<h5>Notebook entry for {{this.parent.parent.label}}-{{this.parent.label}}-{{this.title}}</h5>
 
-{{ render_log_entry(this) }}
 
-<div class="row">
-  <div class="two columns">Images:</div>
-<div class="nine columns">
-    {% for image in this.attachments.images %}
-      {% if image.height > 100 %}
-        <a href="{{image|url}}"><img src="{{ image.thumbnail(100)|url }}"></a>
-      {% else %}
-        <a href="{{image|url}}"><img src="{{ image|url }}"></a>
-      {% endif %}
-    {% endfor %}
-  </div>
-</div>
+{% if this.body %}
 
-<div class="row">
-  <div class="two columns">Attachments:</div>
-<div class="nine columns">
-    {% for item in this.attachments %}
-      {% if not item in this.attachments.images %}
-        <a href="{{item|url}}">{{item.path.split('/')[-1]}}</a>
-        {% if not loop.revindex %},{% endif %}
-      {% endif %}
-    {% endfor %}
-  </div>
-</div>
+<h1 style="text-decoration:underline;">Contents for today should be moved into subfolders.</h1>
 
-<hr style="margin-top:2em;">
+{{ render_day_entry(this) }}
+{{ render_attachments(this) }}
 
-<div class="row">
-  <div class="ten columns">
-    {% if this.categories %}
-      <div class="category">categories: {{ this.categories|join(" ") }}</div>
-    {% else %}
-    <div class="category">categories: <a href="/admin/edit?path={{this.path}}">None</a></div>
-    {% endif %}
-  </div>
-  <div class="two columns">
-    <span class="u-pull-right">
-    {% if this.author %}
-      by {{ this.author }}
-    {% else %}
-      author unknown.
-    {% endif %}
-    </span>
-  </div>
-</div>
+{% else %}
+
+{% for entry in this.children %}
+  <form style="display:inline;" target="frame" action="/admin/api/browsefs" method="post">
+    <input type="hidden" name="path" value="{{entry.path}}">
+    <input type="image" style="margin-top:1rem;" src={{ '/static/images/link.png'|url }}>
+  </form>
+  <h5><a href="{{entry|url}}">{{entry.path.split('/')[-1]}}</a>: {{entry.description}}</h5>
+  {{ render_attachments(entry) }}
+{% endfor %}
+
+{% endif %}
+
 
 {% endblock %}

@@ -37,21 +37,20 @@ It always returns the date, author, and title. For an index this is enough.
 By default it also includes 'body' contents, but index pages can hide body 
 by setting 'from_index=True'.
 -->
-{% macro link_to_hidden_entry(entry) %}
+{% macro link_to_hidden_day(entry) %}
   <form target="frame" action="/admin/api/browsefs" method="post">
     <input type="hidden" name="path" value="{{entry.path}}">
     <input class="hidden-button-link" type="submit" value="{{ entry.path.split('/')[-1]|int }}">
   </form> 
 {% endmacro %}
 
-{% macro link_to_entry(entry, active=None) %}
+{% macro link_to_day(entry, active=None) %}
   <a {% if entry == active %}class="active"{% endif %} href="{{ entry|url }}">{{ entry.path.split('/')[-1]|int }}</a> 
 {% endmacro %}
 
-{% macro render_log_entry(entry, from_index=false, yyyymm=false) %}
-
-<div class="log-entry">
-  {% if not from_index %}<h5 class="active">{% endif %}
+{% macro render_day_entry(entry, from_index=false, yyyymm=false) %}
+<div class="day-entry">
+  {% if not from_index %}<h6 class="active">{% endif %}
   <div class="row"> <!-- date,author,title row -->
     <div class="ten columns"> <!-- description -->
       {% if from_index %}
@@ -76,7 +75,7 @@ by setting 'from_index=True'.
   </div> <!-- end date,author,title row -->
 
   {% if not from_index %} <!-- log-entry page shows full body contents  -->
-    </h5>
+    </h6>
     <hr>
     {{ entry.body }}
   {% endif %}

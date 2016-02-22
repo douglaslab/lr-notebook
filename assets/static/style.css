@@ -36,7 +36,7 @@ header nav ul {
 /* Re-enabled to override skeleton.css (SD) */
 
 header, footer, div.page {
-    max-width: 760px;
+    max-width: 960px;
 }
 
 header, h4 {
@@ -60,6 +60,20 @@ footer {
 .active {
     color:#cc0000;
 }
+
+.inactive {
+    color:#cccccc;
+}
+
+.color1 {color: #4daf4a;}
+.color2 {color: #ff7f00;}
+.color3 {color: #377eb8;}
+.color4 {color: #984ea3;}
+
+.light1 {color: #b5d1b1;}
+.light2 {color: #fbdcbf;}
+.light3 {color: #8bbae5;}
+.light4 {color: #8c6e91;}
 
 a.nochildren, div.category {
     color:#ccc;
@@ -123,8 +137,9 @@ font-family: "Anonymous Pro", "HelveticaNeue", "Helvetica Neue", Helvetica, Aria
   letter-spacing: -.05rem;
 }
 
-/*
-div.page {
-    background: #f1fbfe;
+body {
+  background: #fcfcfc;
 }
-*/
+div {
+    background: #ffffff;
+}

@@ -4,6 +4,8 @@
 {% from "macros/projects.html" import render_my_categories %}
 {% from "macros/project-entry.html" import render_project_entry %}
 {% from "macros/project-entry.html" import render_attachments, render_entry_footer %}
+{% from "macros/project-entry.html" import render_entry_folders %}
+
 
 {% block title %}{{ this.title }}{% endblock %}
 {% block body %}
@@ -20,7 +22,7 @@
 
 <div class="row">
   <div class="ten columns">
-   <span class="days"><a href="{{this.parent.parent.parent|url}}">{{this.parent.parent.parent.label}}</a>-<a href="{{this.parent.parent|url}}">{{this.parent.parent.label}}</a></span>
+   <span class="days">{{this.parent.pub_date.year}}-{{this.parent.parent.label}}</a></span>
    &nbsp;
     {% for entry in site.query(this.parent.parent.path).include_undiscoverable(true) %}
       {% if entry.is_hidden %}
@@ -32,7 +34,7 @@
   </div>
 </div>
 
-<br/>
+<h5><a href="{{this.parent|url}}">{{this.parent.pub_date.strftime('%b %d,%Y')}}</a> {{ render_entry_folders(this.parent, active=this) }}</h5>
 
 {{ render_project_entry(this) }}
 {{ render_attachments(this) }}

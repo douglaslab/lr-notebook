@@ -1,12 +1,14 @@
 {% extends "layout.html" %}
 {% from "macros/log.html" import render_months %}
 {% from "macros/log.html" import render_day_entry %}
+{% from "macros/log.html" import render_day_index %}
+
 {% from "macros/log.html" import link_to_day %}
 {% from "macros/log.html" import link_to_hidden_day %}
 
 {% block title %}{{ this.title }}{% endblock %}
-
 {% block body %}
+
 {% for year in site.query('/log') %}
   <div class="calendar row">
     <div class="eight columns">
@@ -15,8 +17,6 @@
     </div>
   </div>
 {% endfor %}
-
-<iframe width="0" height="0" border="0" name="frame" style="border-style: none;"></iframe>
 
 <!-- Display the YYYY-Mon and links to days -->
 <div class="row">
@@ -34,32 +34,10 @@
 </div>
 
 {% for entry in this.children.include_undiscoverable(true) %}
-<div class="row">
-  <div class="ten columns">
-
-    <form style="display:inline;" target="frame" action="/admin/api/browsefs" method="post">
-    <input type="hidden" name="path" value="{{entry.path}}">
-    <input type="image" src={{ '/static/images/link.png'|url }}>
-    </form>
-
-    {{ render_day_entry(entry, from_index=true) }}
-  </div>
-</div>
-
-  <div class="row">
-    <div class="one column"></div>
-    <div class="nine columns">
-    {% for child in entry.children %}
-      {% for image in child.attachments.images %}
-        {% if image.height > 100 %}
-          <a href="{{entry|url}}"><img src="{{ image.thumbnail(100)|url }}"></a>
-        {% else %}
-          <a href="{{entry|url}}"><img src="{{ image|url }}"></a>
-        {% endif %}
-      {% endfor %}
-    {% endfor %}
-    </div>
-  </div>
+  {{ render_day_index(entry)}}
 {% endfor %}
+
+<iframe width="0" height="0" border="0" name="frame" style="border-style: none;"></iframe>
+
 {% endblock %}
 

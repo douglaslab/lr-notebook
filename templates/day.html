@@ -4,11 +4,8 @@
 {% from "macros/projects.html" import render_my_categories %}
 {% from "macros/project-entry.html" import render_attachments, render_entry_footer %}
 
-
 {% block title %}{{ this.title }}{% endblock %}
 {% block body %}
-
-<iframe width="0" height="0" border="0" name="frame" style="border-style: none;"></iframe>
 
 {% for year in site.query('/log') %}
 <div class="calendar row">
@@ -32,28 +29,26 @@
   </div>
 </div>
 
-<h5>Notebook entry for {{this.parent.parent.label}}-{{this.parent.label}}-{{this.title}}</h5>
-
+<h2>{{this.pub_date.strftime('%b %d,%Y')}}</h2>
 
 {% if this.body %}
-
-<h1 style="text-decoration:underline;">Contents for today should be moved into subfolders.</h1>
-
 {{ render_day_entry(this) }}
 {{ render_attachments(this) }}
-
 {% else %}
 
 {% for entry in this.children %}
-  <form style="display:inline;" target="frame" action="/admin/api/browsefs" method="post">
+  <h5>{{entry.path.split('/')[-1]}}: <a href="{{entry|url}}">{{entry.description}}</a>
+ <form style="display:inline; float:right;" target="frame" action="/admin/api/browsefs" method="post">
     <input type="hidden" name="path" value="{{entry.path}}">
-    <input type="image" style="margin-top:1rem;" src={{ '/static/images/link.png'|url }}>
+    <input class="button-primary" type="submit" value="{{entry.path.split('/')[-1]}}">
+    <!-- <input type="image" style="margin-top:0.2rem; border: #33C3F0 1px solid;" src={{ '/static/images/link.png'|url }}> -->
+    </h5>
   </form>
-  <h5><a href="{{entry|url}}">{{entry.path.split('/')[-1]}}</a>: {{entry.description}}</h5>
   {{ render_attachments(entry) }}
 {% endfor %}
 
 {% endif %}
 
+<iframe width="0" height="0" border="0" name="frame" style="border-style: none;"></iframe>
 
 {% endblock %}

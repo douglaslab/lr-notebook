@@ -1,7 +1,13 @@
+{% macro render_entry_folders(day, active=None) %}
+  {% for folder in day.children %}
+    <a href="{{folder|url}}" {%if folder==active%}class="active"{%endif%}>{{folder.path.split('/')[-1]}}</a>
+  {% endfor %}
+{% endmacro %}
+
 {% macro render_project_entry(entry, from_index=false, yyyymm=false) %}
 {% set day = entry.parent %}
 <div class="project-entry">
-  {% if not from_index %}<h5 class="active">{% endif %}
+  {% if not from_index %}<h2>{% endif %}
   <div class="row"> <!-- date,author,title row -->
     <div class="ten columns"> <!-- description -->
       {% if from_index %}
@@ -25,7 +31,7 @@
   </div> <!-- end date,author,title row -->
 
   {% if not from_index %} <!-- log-entry page shows full body contents  -->
-    </h5>
+    </h2>
     <hr>
     {{ entry.body }}
   {% endif %}
@@ -33,33 +39,12 @@
 </div> <!-- end class log-entry -->
 {% endmacro %}
 
-
 {% macro render_attachments(entry) %}
-
-{% set attachment_count = entry.attachments.count() %}
-{% set image_count = entry.attachments.images.count() %}
-{% set video_count = entry.attachments.videos.count() %}
-
-{% if attachment_count > (image_count+video_count) %}
+{% if entry.attachments %}
 <div class="row">
   <div class="one column"></div>
   <div class="two columns"><!-- Attachments: --></div>
 <div class="nine columns">
-    {% for item in entry.attachments %}
-      {% if not item in (entry.attachments.images or entry.attachments.videos) %}
-        <a href="{{item|url}}">{{item.path.split('/')[-1]}}</a>
-        {% if not loop.revindex %},{% endif %}
-      {% endif %}
-    {% endfor %}
-  </div>
-</div>
-{% endif %}
-
-{% if entry.attachments.images %}
-<div class="row">
-  <div class="one column"></div>
-  <div class="two columns"><!-- Images: --></div>
-  <div class="nine columns">
     {% for image in entry.attachments.images %}
       {% if image.height > 100 %}
         <a href="{{image|url}}"><img src="{{ image.thumbnail(100)|url }}"></a>
@@ -67,23 +52,14 @@
         <a href="{{image|url}}"><img src="{{ image|url }}"></a>
       {% endif %}
     {% endfor %}
-  </div>
-</div>
-{% endif %}
-
-{% if entry.attachments.videos %}
-<div class="row">
-  <div class="one column"></div>
-  <div class="two columns"><!-- videos: --></div>
-  <div class="nine columns">
-    {% for item in entry.attachments.videos %}
-        <a href="{{item|url}}">{{item.path.split('/')[-1]}}</a>
-        {% if not loop.revindex %},{% endif %}
+    {% if entry.attachments.images %}<br/>{% endif %}
+    {% for item in entry.attachments.filter(F._attachment_type != 'image') %}
+          <a class="inactive" ref="{{entry|url}}">{{item.path.split('/')[-1]}}</a>
+          {% if loop.revindex>1 %},{% endif %}
     {% endfor %}
   </div>
 </div>
 {% endif %}
-
 {% endmacro %}
 
 {% macro render_entry_footer(entry) %}

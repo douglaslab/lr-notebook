@@ -48,38 +48,91 @@ by setting 'from_index=True'.
   <a {% if entry == active %}class="active"{% endif %} href="{{ entry|url }}">{{ entry.path.split('/')[-1]|int }}</a> 
 {% endmacro %}
 
+
+{% macro render_day_index(entry) %}
+<div class="day-index">
+  <div class="row">
+    <div class="twelve columns"> <!-- description -->
+        <form style="display:inline;" target="frame" action="/admin/api/browsefs" method="post">
+        <input type="hidden" name="path" value="{{entry.path}}">
+        <input type="image" src={{ '/static/images/link.png'|url }}>
+        </form>
+        <h5>{{entry.parent.label}}-{{ entry.path.split('/')[-1]|int }}: <a href="{{ entry|url }}">{{ entry.description }}</a></h5>
+    </div>
+  </div>
+
+  {% for child in entry.children %}
+  {% set color_dark = loop.cycle('color1', 'color2', 'color3','color4') %}
+  {% set color_lite = loop.cycle('light1', 'light2', 'light3','light4') %}
+
+  <div class="row">
+    <div class="one column"></div>
+    <div class="five columns"> <!-- description -->
+      <a class="{{ color_dark }}" href="{{child|url}}">{{child.path.split('/')[-1]}}/ {{child.description}}</a><br/>
+    </div>
+    {% if child.attachments %}
+      <div class="six columns"> <!-- attachments -->
+        {% for image in child.attachments.images %}
+          {% if image.height > 100 %}
+            <a href="{{image|url}}"><img src="{{ image.thumbnail(100)|url }}"></a>
+          {% else %}
+            <a href="{{image|url}}"><img src="{{ image|url }}"></a>
+          {% endif %}
+        {% endfor %}
+
+        {% for item in child.attachments.filter(F._attachment_type != 'image') %}
+              <a class="{{ color_lite }}" ref="{{entry|url}}">{{item.path.split('/')[-1]}}</a>
+              {% if loop.revindex>1 %},{% endif %}
+        {% endfor %}
+      </div>
+    {% endif %}
+  </div>
+  {% endfor %}
+</div> <!-- end class day-index -->
+{% endmacro %}
+
 {% macro render_day_entry(entry, from_index=false, yyyymm=false) %}
 <div class="day-entry">
-  {% if not from_index %}<h6 class="active">{% endif %}
+  {% if not from_index %}
+    <h2 class="active">
+  {% endif %}
   <div class="row"> <!-- date,author,title row -->
-    <div class="ten columns"> <!-- description -->
+    <div class="five columns"> <!-- description -->
       {% if from_index %}
       {% if yyyymm %}
-    <form style="display:inline;" target="frame" action="/admin/api/browsefs" method="post">
-    <input type="hidden" name="path" value="{{entry.path}}">
-    <input type="image" src={{ '/static/images/link.png'|url }}>
-    </form>
-
-      {{entry.pub_date.year}}-{{entry.parent.label}}-{% endif %}{{ entry.path.split('/')[-1]|int }}: <a href="{{ entry|url }}">{{ entry.description }}</a>
+        <form style="display:inline;" target="frame" action="/admin/api/browsefs" method="post">
+        <input type="hidden" name="path" value="{{entry.path}}">
+        <input type="image" src={{ '/static/images/link.png'|url }}>
+        </form>
+        {{entry.pub_date.year}}-{% endif %}{{entry.parent.label}}-{{ entry.path.split('/')[-1]|int }}: <a href="{{ entry|url }}">{{ entry.description }}</a>{% for child in entry.children %} <a class="{{ loop.cycle('color1', 'color2', 'color3','color4') }}" href="{{child|url}}">{{child.description}}</a>{% endfor %}<br/>
+        </div>
+        <div class="six columns"> <!-- description -->
+        {% for child in entry.children recursive %}
+          {% if child.attachments %}
+              {% for image in child.attachments.images %}
+                {% if image.height > 100 %}
+                  <a href="{{image|url}}"><img src="{{ image.thumbnail(100)|url }}"></a>
+                {% else %}
+                  <a href="{{image|url}}"><img src="{{ image|url }}"></a>
+                {% endif %}
+              {% endfor %}
+              {% for item in child.attachments.filter(F._attachment_type != 'image') %}
+                    <a class="inactive" ref="{{entry|url}}">{{item.path.split('/')[-1]}}</a>
+                    {% if loop.revindex>1 %},{% endif %}
+              {% endfor %}
+          {% endif %}
+          {{ loop(child.children) }}
+        {% endfor %}
       {% else %}
         {{ entry.description }}
       {% endif %}
     </div>
-    <div class="two columns"> <!-- reveal in finder -->
-{% if not from_index %}
-    <form target="frame" action="/admin/api/browsefs" method="post">
-    <input type="hidden" name="path" value="{{entry.path}}">
-    <input class="button-primary" type="submit" value="Open">
-{% endif %}
-    </div> 
   </div> <!-- end date,author,title row -->
-
   {% if not from_index %} <!-- log-entry page shows full body contents  -->
-    </h6>
+    </h2>
     <hr>
     {{ entry.body }}
   {% endif %}
-
 </div> <!-- end class log-entry -->
 {% endmacro %}
 

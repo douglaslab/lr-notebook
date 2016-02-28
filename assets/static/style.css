@@ -36,7 +36,7 @@ header nav ul {
 /* Re-enabled to override skeleton.css (SD) */
 
 header, footer, div.page {
-    max-width: 960px;
+  max-width: 960px;
 }
 
 header, h4 {
@@ -44,61 +44,64 @@ header, h4 {
 }
 
 header nav ul li {
-    display: inline;
-    margin: 0 8px 0 0;
-    padding: 0;
+  display: inline;
+  margin: 0 8px 0 0;
+  padding: 0;
 }
 
 body {
-    margin: 50px 50px;
+  margin: 50px 50px;
 }
 
 footer {
-    margin-top: 2em;
+  margin-top: 2em;
 }
 
-.active {
-    color:#cc0000;
-}
-
-.inactive {
-    color:#cccccc;
-}
+.active {color:#cc0000;}
+.inactive {color:#cccccc;}
 
 .color1 {color: #4daf4a;}
 .color2 {color: #ff7f00;}
 .color3 {color: #377eb8;}
 .color4 {color: #984ea3;}
-
 .light1 {color: #b5d1b1;}
 .light2 {color: #fbdcbf;}
 .light3 {color: #8bbae5;}
 .light4 {color: #8c6e91;}
+
+.purple {color: #984ea3;}
+.lightpurple {color: #8c6e91;}
+
+.blue {color: #377eb8;}
+.lightblue {color: #8bbae5;}
+
+.green {color: #4daf4a;}
+.lightgreen {color: #b5d1b1;}
 
 .orange, .orange1 {color: #FF7F00;}
 .orange2 {color: #FE9E40;}
 .orange3 {color: #FCBD7F;}
 .orange4, .orange5, .orange6, .orange7, .orange8, .orange9 {color: #FBDCBF;}
 
+.gray {color:#999999;}
+
 a.nochildren, div.category {
     color:#ccc;
 }
 
-
 .category ul li {
-    color: #bbbbbb;
-    display: inline;
-    margin: 0 3px 0 0;
-    padding: 0;
+  color: #bbbbbb;
+  display: inline;
+  margin: 0 3px 0 0;
+  padding: 0;
 }
 
 .calendar {
   font-family: "Anonymous Pro";
 }
 
-
 a {
-    text-decoration: none;
+  text-decoration: none;
 }
 
 img.littlethumb {

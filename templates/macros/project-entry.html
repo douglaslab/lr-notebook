@@ -1,3 +1,5 @@
+{% from "macros/log.html" import get_attachment_icon %}
+
 {% macro render_entry_folders(day, active=None) %}
   {% for folder in day.children %}
     <a href="{{folder|url}}" class={%if folder==active%}"orange"{%else%}"liteorange"{%endif%}>{{folder.path.split('/')[-1]}}/</a>
@@ -54,8 +56,9 @@
     {% endfor %}
     {% if entry.attachments.images %}<br/>{% endif %}
     {% for item in entry.attachments.filter(F._attachment_type != 'image') %}
-          <a class="inactive" ref="{{entry|url}}">{{item.path.split('/')[-1]}}</a>
-          {% if loop.revindex>1 %},{% endif %}
+        <a class="inactive" ref="{{entry|url}}">{{item.path.split('/')[-1]}}</a>
+        {{ get_attachment_icon(item._id) }}
+        {% if loop.revindex>1 %},{% endif %}
     {% endfor %}
   </div>
 </div>

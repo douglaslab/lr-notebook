@@ -48,16 +48,18 @@ by setting 'from_index=True'.
   <a {% if entry == active %}class="active"{% endif %} href="{{ entry|url }}">{{ entry.path.split('/')[-1]|int }}</a> 
 {% endmacro %}
 
-
 {% macro render_day_index(entry) %}
 <div class="day-index">
   <div class="row">
     <div class="five columns"> <!-- description -->
-        {% if entry.description %}
-        <h5>{{entry.parent.label}}-{{ entry.path.split('/')[-1]|int }}: <a href="{{ entry|url }}">{{ entry.description }}</a></h5>
-        {% else %}
-        <h5><a href="{{ entry|url }}">{{entry.parent.label}}-{{ entry.path.split('/')[-1]|int }}</a></h5>
-        {% endif %}
+      {% if entry.description %}
+      <h5>{{entry.parent.label}}-{{ entry.path.split('/')[-1]|int }}: <a href="{{ entry|url }}">{{ entry.description }}</a></h5>
+      {% else %}
+      <h5><a href="{{ entry|url }}">{{entry.parent.label}}-{{ entry.path.split('/')[-1]|int }}</a></h5>
+      {% endif %}
+      {% for item in entry.attachments.filter(F._attachment_type != 'image') %}
+        {{ get_attachment_icon(item._id) }}
+      {% endfor %}
     </div>
     <div class="one column">
       <form style="display:inline;" target="frame" action="/admin/api/browsefs" method="post">
@@ -75,46 +77,80 @@ by setting 'from_index=True'.
           {% endif %}
         {% endfor %}
         {% for item in entry.attachments.filter(F._attachment_type != 'image') %}
-              <a class="color1" ref="{{entry|url}}">{{item.path.split('/')[-1]}}</a>
-              {% if loop.revindex>1 %},{% endif %}
+          <a class="color1" href="{{entry|url}}">{{item.path.split('/')[-1]}}</a>
+          {{ get_attachment_icon(item._id) }}
+          {% if loop.revindex>1 %},{% endif %}
         {% endfor %}
       </div>
     {% endif %}
   </div>
+
+  {{render_day_subfolders(entry)}}
+  
+</div> <!-- end class day-index -->
+{% endmacro %}
+
+
+{% macro render_day_subfolders(entry) %}
 
   {% for child in entry.children recursive %}
-  <div class="row">
-    <div class="one column"></div>
-    <div class="five columns"> <!-- description -->
-
-      <a style="margin-left:{{loop.depth0 * 2}}rem" href="{{child|url}}">&boxur; <span class="orange{{loop.depth}}">{{child.path.split('/')[-1]}}/{% if child.description %}</span> {{child.description}}{% else %}</span>{% endif %}</a><br/>
-    </div>
-    <div class="one column">
-      <form style="display:inline;" target="frame" action="/admin/api/browsefs" method="post">
-      <input type="hidden" name="path" value="{{child.path}}">
-      <input type="image" src={{ '/static/images/sublink.png'|url }}>
-      </form>
-    </div>
-    {% if child.attachments %}
-      <div class="five columns"> <!-- attachments -->
-        {% for image in child.attachments.images %}
-          {% if image.height > 100 %}
-            <a href="{{image|url}}"><img src="{{ image.thumbnail(100)|url }}"></a>
-          {% else %}
-            <a href="{{image|url}}"><img src="{{ image|url }}"></a>
-          {% endif %}
-        {% endfor %}
-
-        {% for item in child.attachments.filter(F._attachment_type != 'image') %}
-              <a class="light1" ref="{{entry|url}}">{{item.path.split('/')[-1]}}</a>
-              {% if loop.revindex>1 %},{% endif %}
-        {% endfor %}
+    <div class="row">
+      <div class="one column"></div>
+      <div class="five columns"> <!-- description -->
+        <a style="margin-left:{{loop.depth0 * 2}}rem" href="{{child|url}}">&boxur; <span class="orange{{loop.depth}}">{{child.path.split('/')[-1]}}/{% if child.description %}</span> {{child.description}}{% else %}</span>{% endif %}</a><br/>
+        {% if child.attachments %}
+          <span style="margin-left:{{3+loop.depth0 * 2}}rem" class="gray">
+          {% for item in child.attachments.filter(F._attachment_type != 'image') %}
+            {{ get_attachment_icon(item._id) }}
+          {% endfor %}
+          </span>
+        {% endif %}
       </div>
-    {% endif %}
-  </div>
-  {{ loop(child.children) }}
-  {% endfor %}
-</div> <!-- end class day-index -->
+      <div class="one column">
+        <form style="display:inline;" target="frame" action="/admin/api/browsefs" method="post">
+        <input type="hidden" name="path" value="{{child.path}}">
+        <input type="image" src={{ '/static/images/sublink.png'|url }}>
+        </form>
+      </div>
+      {% if child.attachments %}
+        <div class="five columns"> <!-- attachments -->
+          {% for image in child.attachments.images %}
+            {% if image.height > 100 %}
+              <a href="{{image|url}}"><img src="{{ image.thumbnail(100)|url }}"></a>
+            {% else %}
+              <a href="{{image|url}}"><img src="{{ image|url }}"></a>
+            {% endif %}
+          {% endfor %}
+
+          {% for item in child.attachments.filter(F._attachment_type != 'image') %}
+            <a class="light1" href="{{entry|url}}">{{item.path.split('/')[-1]}}</a>
+            {{ get_attachment_icon(item._id) }}
+            {% if loop.revindex>1 %},{% endif %}
+          {% endfor %}
+        </div>
+      {% endif %}
+    </div>
+    {{ loop(child.children) }}
+    {% endfor %}
+{% endmacro %}
+
+{% macro get_attachment_icon(item_id, color_class='') %}
+  {% if item_id.endswith('.ai') %}<i class="fa fa-file-image-o"></i>{% endif %}
+  {% if item_id.endswith('.doc') %}<i class="fa fa-file-word-o"></i>{% endif %}
+  {% if item_id.endswith('.docx') %}<i class="fa fa-file-word-o"></i>{% endif %}
+  {% if item_id.endswith('.key') %}<i class="icon ion-easel"></i>{% endif %}
+  {% if item_id.endswith('.ppt') %}<i class="fa fa-file-powerpoint-o"></i>{% endif %}
+  {% if item_id.endswith('.pptx') %}<i class="fa fa-file-powerpoint-o"></i>{% endif %}
+  {% if item_id.endswith('.mp4') %}<i class="fa fa-file-video-o"></i>{% endif %}
+  {% if item_id.endswith('.pdf') %}<i class="fa fa-file-pdf-o"></i>{% endif %}
+  {% if item_id.endswith('.psd') %}<i class="icon ion-paintbucket"></i>{% endif %}
+  {% if item_id.endswith('.py') %}<i class="icon ion-social-python"></i>{% endif %}
+  {% if item_id.endswith('.seq') %}<i class="icon ion-ios-pulse"></i>{% endif %}
+  {% if item_id.endswith('.svg') %}<i class="fa fa-file-image-o"></i>{% endif %}
+  {% if item_id.endswith('.sublime-settings') %}<i class="fa fa-cogs"></i>{% endif %}
+  {% if item_id.endswith('.ttf') %}<i class="fa fa-font"></i>{% endif %}
+  {% if item_id.endswith('.xls') %}<i class="fa fa-file-excel-o"></i>{% endif %}
+  {% if item_id.endswith('.zip') %}<i class="fa fa-file-archive-o"></i>{% endif %}
 {% endmacro %}
 
 {% macro render_day_entry(entry, from_index=false, yyyymm=false) %}
@@ -143,7 +179,7 @@ by setting 'from_index=True'.
                 {% endif %}
               {% endfor %}
               {% for item in child.attachments.filter(F._attachment_type != 'image') %}
-                    <a class="inactive" ref="{{entry|url}}">{{item.path.split('/')[-1]}}</a>
+                    <a class="inactive" href="{{entry|url}}">{{item.path.split('/')[-1]}}</a>
                     {% if loop.revindex>1 %},{% endif %}
               {% endfor %}
           {% endif %}
@@ -161,5 +197,3 @@ by setting 'from_index=True'.
   {% endif %}
 </div> <!-- end class log-entry -->
 {% endmacro %}
-
-

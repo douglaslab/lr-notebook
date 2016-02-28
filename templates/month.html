@@ -1,12 +1,10 @@
 {% extends "layout.html" %}
 {% from "macros/log.html" import render_months %}
-{% from "macros/log.html" import render_day_entry %}
 {% from "macros/log.html" import render_day_index %}
-
 {% from "macros/log.html" import link_to_day %}
 {% from "macros/log.html" import link_to_hidden_day %}
 
-{% block title %}{{ this.title }}{% endblock %}
+{% block title %}nb-{{config.PROJECT.name}} {{this.parent.label}}-{{this.label}}{% endblock %}
 {% block body %}
 
 {% for year in site.query('/log') %}

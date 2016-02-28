@@ -4,7 +4,7 @@
 {% from "macros/projects.html" import render_my_categories %}
 {% from "macros/project-entry.html" import render_attachments, render_entry_footer %}
 
-{% block title %}{{ this.title }}{% endblock %}
+{% block title %}nb-{{config.PROJECT.name}} {{this.pub_date.strftime('%Y-%b-%d')}}{% endblock %}
 {% block body %}
 
 {% for year in site.query('/log') %}
@@ -36,15 +36,14 @@
 {{ render_attachments(this) }}
 {% else %}
 
-{% for entry in this.children %}
+{% for entry in this.children recursive %}
   <h5>{{entry.path.split('/')[-1]}}: <a href="{{entry|url}}">{{entry.description}}</a>
- <form style="display:inline; float:right;" target="frame" action="/admin/api/browsefs" method="post">
-    <input type="hidden" name="path" value="{{entry.path}}">
-    <input class="button-primary" type="submit" value="{{entry.path.split('/')[-1]}}">
-    <!-- <input type="image" style="margin-top:0.2rem; border: #33C3F0 1px solid;" src={{ '/static/images/link.png'|url }}> -->
-    </h5>
-  </form>
+       <form style="display:inline;" target="frame" action="/admin/api/browsefs" method="post">
+      <input type="hidden" name="path" value="{{entry.path}}">
+      <input type="image" src={{ '/static/images/sublink.png'|url }}>
+      </form>
   {{ render_attachments(entry) }}
+  {{ loop(entry.children) }}
 {% endfor %}
 
 {% endif %}

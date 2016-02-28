@@ -36,7 +36,7 @@
 
 <h5><a href="{{this.parent|url}}">{{this.parent.pub_date.strftime('%b %d,%Y')}}</a> {{ render_entry_folders(this.parent, active=this) }}</h5>
 
-{{ render_project_entry(this) }}
+{{ render_project_entry(this, yyyymm=True) }}
 {{ render_attachments(this) }}
 {{ render_entry_footer(this) }}
 

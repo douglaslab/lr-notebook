@@ -52,26 +52,51 @@ by setting 'from_index=True'.
 {% macro render_day_index(entry) %}
 <div class="day-index">
   <div class="row">
-    <div class="twelve columns"> <!-- description -->
-        <form style="display:inline;" target="frame" action="/admin/api/browsefs" method="post">
-        <input type="hidden" name="path" value="{{entry.path}}">
-        <input type="image" src={{ '/static/images/link.png'|url }}>
-        </form>
+    <div class="five columns"> <!-- description -->
+        {% if entry.description %}
         <h5>{{entry.parent.label}}-{{ entry.path.split('/')[-1]|int }}: <a href="{{ entry|url }}">{{ entry.description }}</a></h5>
+        {% else %}
+        <h5><a href="{{ entry|url }}">{{entry.parent.label}}-{{ entry.path.split('/')[-1]|int }}</a></h5>
+        {% endif %}
     </div>
+    <div class="one column">
+      <form style="display:inline;" target="frame" action="/admin/api/browsefs" method="post">
+      <input type="hidden" name="path" value="{{entry.path}}">
+      <input type="image" src={{ '/static/images/link.png'|url }}>
+      </form>
+    </div>
+    {% if entry.attachments %}
+      <div class="five columns"> <!-- attachments -->
+        {% for image in entry.attachments.images %}
+          {% if image.height > 100 %}
+            <a href="{{image|url}}"><img src="{{ image.thumbnail(100)|url }}"></a>
+          {% else %}
+            <a href="{{image|url}}"><img src="{{ image|url }}"></a>
+          {% endif %}
+        {% endfor %}
+        {% for item in entry.attachments.filter(F._attachment_type != 'image') %}
+              <a class="color1" ref="{{entry|url}}">{{item.path.split('/')[-1]}}</a>
+              {% if loop.revindex>1 %},{% endif %}
+        {% endfor %}
+      </div>
+    {% endif %}
   </div>
 
-  {% for child in entry.children %}
-  {% set color_dark = loop.cycle('color1', 'color2', 'color3','color4') %}
-  {% set color_lite = loop.cycle('light1', 'light2', 'light3','light4') %}
-
+  {% for child in entry.children recursive %}
   <div class="row">
     <div class="one column"></div>
     <div class="five columns"> <!-- description -->
-      <a class="{{ color_dark }}" href="{{child|url}}">{{child.path.split('/')[-1]}}/ {{child.description}}</a><br/>
+
+      <a style="margin-left:{{loop.depth0 * 2}}rem" href="{{child|url}}">&boxur; <span class="orange{{loop.depth}}">{{child.path.split('/')[-1]}}/{% if child.description %}</span> {{child.description}}{% else %}</span>{% endif %}</a><br/>
+    </div>
+    <div class="one column">
+      <form style="display:inline;" target="frame" action="/admin/api/browsefs" method="post">
+      <input type="hidden" name="path" value="{{child.path}}">
+      <input type="image" src={{ '/static/images/sublink.png'|url }}>
+      </form>
     </div>
     {% if child.attachments %}
-      <div class="six columns"> <!-- attachments -->
+      <div class="five columns"> <!-- attachments -->
         {% for image in child.attachments.images %}
           {% if image.height > 100 %}
             <a href="{{image|url}}"><img src="{{ image.thumbnail(100)|url }}"></a>
@@ -81,12 +106,13 @@ by setting 'from_index=True'.
         {% endfor %}
 
         {% for item in child.attachments.filter(F._attachment_type != 'image') %}
-              <a class="{{ color_lite }}" ref="{{entry|url}}">{{item.path.split('/')[-1]}}</a>
+              <a class="light1" ref="{{entry|url}}">{{item.path.split('/')[-1]}}</a>
               {% if loop.revindex>1 %},{% endif %}
         {% endfor %}
       </div>
     {% endif %}
   </div>
+  {{ loop(child.children) }}
   {% endfor %}
 </div> <!-- end class day-index -->
 {% endmacro %}

@@ -1,6 +1,6 @@
 {% macro render_entry_folders(day, active=None) %}
   {% for folder in day.children %}
-    <a href="{{folder|url}}" {%if folder==active%}class="active"{%endif%}>{{folder.path.split('/')[-1]}}</a>
+    <a href="{{folder|url}}" class={%if folder==active%}"orange"{%else%}"liteorange"{%endif%}>{{folder.path.split('/')[-1]}}/</a>
   {% endfor %}
 {% endmacro %}
 

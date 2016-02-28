@@ -75,6 +75,11 @@ footer {
 .light3 {color: #8bbae5;}
 .light4 {color: #8c6e91;}
 
+.orange, .orange1 {color: #FF7F00;}
+.orange2 {color: #FE9E40;}
+.orange3 {color: #FCBD7F;}
+.orange4, .orange5, .orange6, .orange7, .orange8, .orange9 {color: #FBDCBF;}
+
 a.nochildren, div.category {
     color:#ccc;
 }
@@ -96,8 +101,23 @@ a {
     text-decoration: none;
 }
 
+img.littlethumb {
+  height:100px;
+  border-radius: 2px;
+  border: 1px solid #ddd;
+}
+
 img.thumb {
-    height:200px;
+  height:200px;
+  border-radius: 2px;
+  border: 1px solid #ddd;
+}
+
+img.bigthumb {
+  margin-left: 1rem;
+  height:400px;
+  border-radius: 4px;
+  border: 1px solid #ddd;
 }
 
 input[type="submit"].hidden-button-link {

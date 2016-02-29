@@ -25,7 +25,9 @@ Instructions here to create a notebook.
 ## Running Lektor server
 
 From the Terminal:
-```$ cd [path_to_lektor_repo]
+```
+$ cd [path_to_lektor_repo]
 $ . venv/bin/activate
-$ lektor --project "path_to_my_lr-notebook" server -p 5000```
+$ lektor --project "path_to_my_lr-notebook" server -p 5000
+```
 

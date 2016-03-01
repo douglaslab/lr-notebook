@@ -77,9 +77,8 @@ by setting 'from_index=True'.
           {% endif %}
         {% endfor %}
         {% for item in entry.attachments.filter(F._attachment_type != 'image') %}
-          <a class="color1" href="{{entry|url}}">{{item.path.split('/')[-1]}}</a>
-          {{ get_attachment_icon(item._id) }}
-          {% if loop.revindex>1 %},{% endif %}
+          {% if loop.first %}<br/>{% endif %}
+          <a class="orange3" href="{{entry|url}}">{{item.path.split('/')[-1]}}</a>{{ get_attachment_icon(item._id) }}{% if not loop.last %},{% endif %}
         {% endfor %}
       </div>
     {% endif %}
@@ -94,6 +93,8 @@ by setting 'from_index=True'.
 {% macro render_day_subfolders(entry) %}
 
   {% for child in entry.children recursive %}
+
+    {% set thumbsize = 100/loop.depth %}
     <div class="row">
       <div class="one column"></div>
       <div class="five columns"> <!-- description -->
@@ -116,16 +117,14 @@ by setting 'from_index=True'.
         <div class="five columns"> <!-- attachments -->
           {% for image in child.attachments.images %}
             {% if image.height > 100 %}
-              <a href="{{image|url}}"><img src="{{ image.thumbnail(100)|url }}"></a>
+              <a href="{{image|url}}"><img src="{{ image.thumbnail(thumbsize)|url }}"></a>
             {% else %}
               <a href="{{image|url}}"><img src="{{ image|url }}"></a>
             {% endif %}
           {% endfor %}
-
           {% for item in child.attachments.filter(F._attachment_type != 'image') %}
-            <a class="light1" href="{{entry|url}}">{{item.path.split('/')[-1]}}</a>
-            {{ get_attachment_icon(item._id) }}
-            {% if loop.revindex>1 %},{% endif %}
+            {% if loop.first %}<br/>{% endif %}
+            <a class="green" href="{{entry|url}}">{{item.path.split('/')[-1]}}</a>{{ get_attachment_icon(item._id) }}{% if not loop.last %},{% endif %}
           {% endfor %}
         </div>
       {% endif %}
@@ -135,20 +134,25 @@ by setting 'from_index=True'.
 {% endmacro %}
 
 {% macro get_attachment_icon(item_id, color_class='') %}
-  {% if item_id.endswith('.ai') %}<i class="fa fa-file-image-o"></i>{% endif %}
+  {% if item_id.endswith('.ai') %}<i class="fa fa-object-ungroup"></i>{% endif %}
   {% if item_id.endswith('.doc') %}<i class="fa fa-file-word-o"></i>{% endif %}
   {% if item_id.endswith('.docx') %}<i class="fa fa-file-word-o"></i>{% endif %}
   {% if item_id.endswith('.key') %}<i class="icon ion-easel"></i>{% endif %}
   {% if item_id.endswith('.ppt') %}<i class="fa fa-file-powerpoint-o"></i>{% endif %}
   {% if item_id.endswith('.pptx') %}<i class="fa fa-file-powerpoint-o"></i>{% endif %}
   {% if item_id.endswith('.mp4') %}<i class="fa fa-file-video-o"></i>{% endif %}
+  {% if item_id.endswith('.mpg') %}<i class="fa fa-file-video-o"></i>{% endif %}
+  {% if item_id.endswith('.pages') %}<i class="fa fa-pencil-square-o"></i></i>{% endif %}
   {% if item_id.endswith('.pdf') %}<i class="fa fa-file-pdf-o"></i>{% endif %}
-  {% if item_id.endswith('.psd') %}<i class="icon ion-paintbucket"></i>{% endif %}
+  {% if item_id.endswith('.psd') %}<i class="fa fa-file-image-o"></i>{% endif %}
   {% if item_id.endswith('.py') %}<i class="icon ion-social-python"></i>{% endif %}
   {% if item_id.endswith('.seq') %}<i class="icon ion-ios-pulse"></i>{% endif %}
-  {% if item_id.endswith('.svg') %}<i class="fa fa-file-image-o"></i>{% endif %}
+  {% if item_id.endswith('.svg') %}<i class="fa fa-object-ungroup"></i>{% endif %}
   {% if item_id.endswith('.sublime-settings') %}<i class="fa fa-cogs"></i>{% endif %}
   {% if item_id.endswith('.ttf') %}<i class="fa fa-font"></i>{% endif %}
+  {% if item_id.endswith('.tif') %}<i class="fa fa-file-image-o"></i>{% endif %}
+  {% if item_id.endswith('.tiff') %}<i class="fa fa-file-image-o"></i>{% endif %}
+  {% if item_id.endswith('.webm') %}<i class="fa fa-file-video-o"></i>{% endif %}
   {% if item_id.endswith('.xls') %}<i class="fa fa-file-excel-o"></i>{% endif %}
   {% if item_id.endswith('.zip') %}<i class="fa fa-file-archive-o"></i>{% endif %}
 {% endmacro %}
@@ -179,8 +183,8 @@ by setting 'from_index=True'.
                 {% endif %}
               {% endfor %}
               {% for item in child.attachments.filter(F._attachment_type != 'image') %}
-                    <a class="inactive" href="{{entry|url}}">{{item.path.split('/')[-1]}}</a>
-                    {% if loop.revindex>1 %},{% endif %}
+                {% if loop.first %}<br/>{% endif %}
+                <a class="inactive" href="{{entry|url}}">{{item.path.split('/')[-1]}}</a>{% if not loop.last %},{% endif %}
               {% endfor %}
           {% endif %}
           {{ loop(child.children) }}

@@ -1,0 +1,22 @@
+{% extends "layout.html" %}
+{% from "macros/folders.html" import render_folder_nav %}
+{% block title %}Folders{% endblock %}
+{% block body %}
+
+<h3>Folders</h3>
+
+{% set folderdict = {} %}
+{% for entry in site.query('/log') recursive %} 
+ {% if entry._model == 'project-entry' %}
+   {% set fname = entry.path.split('/')[-1] %}
+   {% set fcount = folderdict[fname]|default(0) %}
+   {% set _ = folderdict.update({fname:fcount+1}) %}
+ {% endif %}
+ {{ loop(entry.children)}}
+{% endfor %}
+
+{% for folder, count in folderdict|dictsort %}
+  <a href="/folders/{{folder}}">&boxur;<span class="orange1">{{folder}}/</span></a> ({{count}} pages)<br>
+{% endfor %}
+
+{% endblock %}

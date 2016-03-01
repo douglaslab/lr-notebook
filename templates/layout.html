@@ -21,8 +21,7 @@
           %}><a href="{{ '/'|url }}">Welcome</a></li>
         {% for href, title in [
           ['/log', 'Log'],
-          ['/projects', 'Projects'],
-          ['/tags', 'Tags'],
+          ['/folders', 'Folders'],
           ['/about', 'About']
         ] %}
           <li{% if this.is_child_of(href) %} class="active"{% endif

@@ -5,18 +5,52 @@
 
 <h3>Folders</h3>
 
-{% set folderdict = {} %}
+{% set folder_to_entries = {} %}
 {% for entry in site.query('/log') recursive %} 
  {% if entry._model == 'project-entry' %}
    {% set fname = entry.path.split('/')[-1] %}
-   {% set fcount = folderdict[fname]|default(0) %}
-   {% set _ = folderdict.update({fname:fcount+1}) %}
+   {% set entries = [entry]+folder_to_entries[fname]|default([]) %}
+   {% set _ = folder_to_entries.update({fname:entries}) %}
  {% endif %}
  {{ loop(entry.children)}}
 {% endfor %}
 
-{% for folder, count in folderdict|dictsort %}
-  <a href="/folders/{{folder}}">&boxur;<span class="orange1">{{folder}}/</span></a> ({{count}} pages)<br>
+{% set blessed = site.query('/folders')|map(attribute='name')|list %}
+
+{% for folder, entries in folder_to_entries|dictsort %}
+<div class="row">
+  <div class="two columns">
+  {% if folder in blessed %}
+    <a class="indent" href="/folders/{{folder}}">&boxur;<span class="orange1">{{folder}}/</span></a>
+  {% else %}
+    <a class="indent" href="http://localhost:5000/admin/root:folders/add-child">&boxur;<span class="inactive">{{folder}}/</span></a>
+  {% endif %}
+  </div>
+  <div class="eight columns">
+  {% set last_date = None %}
+  {% for entry in entries|sort(attribute='parent.pub_date') %}
+    {% if last_date.year != entry.parent.pub_date.year %}
+      <span class="gray">{{entry.parent.pub_date.strftime('%Y')}}</span>
+    {% endif %}
+    {% if last_date.month != entry.parent.pub_date.month %}
+      <span class="lightgray">{{entry.parent.pub_date.strftime('%b')}}</span>
+    {% endif %}
+      <a href="{{entry.path|url}}">{{entry.parent.pub_date.strftime('%e')}}</a>
+    {% set last_date = entry.parent.pub_date %}
+  {% endfor %}
+  </div>
+</div>
 {% endfor %}
+
+<br>
+Unused Folders:
+{% set folders = folder_to_entries.iterkeys()|list %}
+{% for b in blessed %}
+  {% if not b in folders %}
+    <a class="inactive" href="/admin/root:folders:{{b}}/delete">{{b}}</a>
+  {% endif %}
+{% endfor %}
+
+
 
 {% endblock %}

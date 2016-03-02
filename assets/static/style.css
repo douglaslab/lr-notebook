@@ -83,7 +83,11 @@ footer {
 .orange3 {color: #FCBD7F;}
 .orange4, .orange5, .orange6, .orange7, .orange8, .orange9 {color: #FBDCBF;}
 
+.lightgray {color:#cccccc;}
 .gray {color:#999999;}
+
+
+.indent {margin-left: 1rem;}
 
 a.nochildren, div.category {
     color:#ccc;

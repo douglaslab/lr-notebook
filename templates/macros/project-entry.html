@@ -66,15 +66,12 @@
 {% endmacro %}
 
 {% macro render_entry_footer(entry) %}
+{% set foldername = entry.path.split('/')[-1] %}
 <hr style="margin-top:2em;">
 <div class="row">
 <div class="one column"></div>
   <div class="nine columns">
-    {% if entry.category %}
-      <div class="category">categories: <a href="/projects/categories/{{entry.category}}">{{entry.category}}</a></div>
-    {% else %}
-    <div class="category">categories: None (<a href="/admin/edit?path={{entry|url}}">+</a>)</div>
-    {% endif %}
+    <div class="category">folder: <a href="/folders/{{foldername}}">&boxur;<span class="orange3">{{foldername}}/</span></a></div>
     {% if entry.tags %}
       <div class="category">tags: {{ entry.tags|join(" ") }}</div>
     {% else %}

@@ -4,7 +4,11 @@
 
 Our projects start with ideas, sketches, conversations, meetings, experiments, and prototypes. We collect and inscribe information in various forms: documents, images, spreadsheets, models, source code, videos, etc. We accumulate knowledge, and with great effort it be distilled into figures, slides, manuscripts for communication via seminars, lectures, conversations, and online publication.
 
-`lr-notebook` is a [lektor](getlektor.com) project. Lektor is a static website generator. Lektor "builds out an entire project from static files into many individual HTML pages and has a built-in admin UI and minimal desktop app"<sup>[1](https://github.com/lektor/lektor)</sup>.
+The research process is messy and requires constant effort to keep all that information organized. Basically, `lr-notebook` is a [Lektor](getlektor.com) project designed to let you browse your file system as a website that gets dynamically organized specifically for research projects. If users follow some simple conventions that are roughly equivalent what everyone already does anyway, `lr-notebook` will provide some very powerful convenience features, such as indexing all the work for each project on its own page, or making everything search-able.
+
+# What is Lektor?
+
+Lektor is a static website generator . Lektor "builds out an entire project from static files into many individual HTML pages and has a built-in admin UI and minimal desktop app"<sup>[1](https://github.com/lektor/lektor)</sup>.
 
 # Getting started
 

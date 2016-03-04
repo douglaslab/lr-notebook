@@ -43,14 +43,15 @@
 {% endfor %}
 
 <br>
-Unused Folders:
+<span class="gray">Unused Folders:</span>
 {% set folders = folder_to_entries.iterkeys()|list %}
+{% set unused = false %}
 {% for b in blessed %}
   {% if not b in folders %}
     <a class="inactive" href="/admin/root:folders:{{b}}/delete">{{b}}</a>
+    {% set unused = true %}
   {% endif %}
 {% endfor %}
-
-
+{% if unused %}None.{%endif%}
 
 {% endblock %}

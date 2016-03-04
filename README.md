@@ -16,6 +16,9 @@ Our projects start with ideas, sketches, conversations, meetings, experiments, a
 - [Node.js](https://nodejs.org/en/download/)
 - [Homebrew](http://brew.sh/), then `brew install imagemagick`
 - [Python 2.7](https://www.python.org/ftp/python/2.7.11/python-2.7.11-macosx10.6.pkg)
+- [Anonymous Pro](https://www.google.com/fonts#UsePlace:use/Collection:Anonymous+Pro) (download zip)
+- [Source Sans Pro](https://www.google.com/fonts#UsePlace:use/Collection:Source+Sans+Pro) (download zip)
+
 
 ## Watch asciicast
 

@@ -7,6 +7,24 @@
 {% block title %}nb-{{config.PROJECT.name}} {{this.pub_date.strftime('%Y-%b-%d')}}{% endblock %}
 {% block body %}
 
+<script>
+function createFolder(fname) {
+    $.ajax({
+        type: 'PUT', 
+        dataType: 'json', 
+        contentType: 'application/json',
+        processData: false,
+        url: "/admin/api/rawrecord", 
+        data: JSON.stringify({"data":{"_discoverable":null,"_hidden":null,
+                "_slug":null,"_template":null,"title":null,"description":'',
+                "tags":null,"body":''},"path":"{{this.path}}/"+fname,
+                "alt":"_primary"}),
+    });
+    location.reload();
+}
+</script>
+
+
 {% for year in site.query('/log') %}
 <div class="calendar row">
   <div class="eight columns">
@@ -41,12 +59,43 @@
        <form style="display:inline;" target="frame" action="/admin/api/browsefs" method="post">
       <input type="hidden" name="path" value="{{entry.path}}">
       <input type="image" src={{ '/static/images/sublink.png'|url }}>
-      </form>
+      </form></h5>
   {{ render_attachments(entry) }}
   {{ loop(entry.children) }}
 {% endfor %}
-
 {% endif %}
+
+
+<br>
+<br>
+
+{% set folder_to_count = {} %}
+{% for entry in site.query('/log') recursive %} 
+ {% if entry._model == 'project-entry' %}
+   {% set fname = entry.path.split('/')[-1] %}
+   {% set count = 1+folder_to_count[fname]|default(0) %}
+   {% set _ = folder_to_count.update({fname:count}) %}
+ {% endif %}
+ {{ loop(entry.children)}}
+{% endfor %}
+
+{% set counts = folder_to_count|dictsort(false, 'value') %}
+{% set max_count = counts[-1][1] %}
+
+<div class="row">
+  <div class="ten columns">
+  <small><span class="lightorange">Add folder:</span>
+  {% set folders = folder_to_count.iterkeys()|list %}
+  {% for folder in folders %}
+    {% if not folder in this.children %}
+      {% set count = folder_to_count[folder] %}
+      {% set lightness = 82 - 35*(count/max_count) %}
+      <a style="color:hsl(0, 0%, {{lightness}}%);" href="#" onclick="createFolder('{{folder}}');">{{folder}}/</a>
+    {% endif %}
+  {% endfor %}
+  </small>
+  </div>
+</div>
 
 <iframe width="0" height="0" border="0" name="frame" style="border-style: none;"></iframe>
 

@@ -69,18 +69,21 @@ footer {
 .light3 {color: #8bbae5;}
 .light4 {color: #8c6e91;}
 
+
+.red {color: #cc0000;}
+
 .purple {color: #984ea3;}
 .lightpurple {color: #8c6e91;}
 
 .blue {color: #377eb8;}
-.lightblue {color: #8bbae5;}
+.lightblue {color: #169bbd;}
 
 .green {color: #4daf4a;}
 .lightgreen {color: #b5d1b1;}
 
 .orange, .orange1 {color: #FF7F00;}
 .orange2 {color: #FE9E40;}
-.orange3 {color: #FCBD7F;}
+.orange3, .lightorange {color: #FCBD7F;}
 .orange4, .orange5, .orange6, .orange7, .orange8, .orange9 {color: #FBDCBF;}
 
 .lightgray {color:#cccccc;}

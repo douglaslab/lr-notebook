@@ -91,14 +91,13 @@ by setting 'from_index=True'.
 
 
 {% macro render_day_subfolders(entry) %}
-
   {% for child in entry.children recursive %}
-
     {% set thumbsize = 100/loop.depth %}
+    {% set fontsize = 100-(10*loop.depth0) %}
     <div class="row">
       <div class="one column"></div>
       <div class="five columns"> <!-- description -->
-        <a style="margin-left:{{loop.depth0 * 2}}rem" href="{{child|url}}">&boxur; <span class="orange{{loop.depth}}">{{child.path.split('/')[-1]}}/{% if child.description %}</span> {{child.description}}{% else %}</span>{% endif %}</a><br/>
+        <a style="margin-left:{{loop.depth0 * 2}}rem" href="{{child|url}}">&boxur; <span class="orange{{loop.depth}}">{{child.path.split('/')[-1]}}/{% if child.description %}</span><span style="font-size:{{fontsize}}%"> {{child.description}}</span>{% else %}</span>{% endif %}</a><br/>
         {% if child.attachments %}
           <span style="margin-left:{{3+loop.depth0 * 2}}rem" class="gray">
           {% for item in child.attachments.filter(F._attachment_type != 'image') %}

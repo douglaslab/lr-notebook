@@ -81,13 +81,15 @@ function createFolder(fname) {
 
 {% set counts = folder_to_count|dictsort(false, 'value') %}
 {% set max_count = counts[-1][1] %}
+{% set existing_folders = this.children|map(attribute='path')|list %}
 
 <div class="row">
   <div class="ten columns">
   <small><span class="lightorange">Add folder:</span>
   {% set folders = folder_to_count.iterkeys()|list %}
   {% for folder in folders %}
-    {% if not folder in this.children %}
+    {% set fpath = this.path + "/" + folder %}
+    {% if not fpath in existing_folders %}
       {% set count = folder_to_count[folder] %}
       {% set lightness = 82 - 35*(count/max_count) %}
       <a style="color:hsl(0, 0%, {{lightness}}%);" href="#" onclick="createFolder('{{folder}}');">{{folder}}/</a>

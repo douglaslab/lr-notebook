@@ -1,0 +1,24 @@
+title: About this notebook
+---
+pub_date: 2016-03-03
+---
+author: MyName
+---
+body:
+
+<div class="row">
+<div class="six columns">
+<h5>Author</h5>
+<p>
+Name <br>
+Affiliation<br>
+Etc.<br>
+</p>
+</div>
+<div class="six columns">
+<h5>Built with</h5>
+<a target="_new" href="http://getlektor.com/">lektor</a>,
+<a target="_new" href="http://getskeleton.com/">skeleton</a>,
+<a target="_new" href="hhttp://www.sublimetext.com/">sublime</a>
+</ul>
+</div>

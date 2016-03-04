@@ -1,0 +1,20 @@
+title: Welcome to Shawn's Notebook!
+---
+current_year: 2016
+---
+current_month: 02
+---
+body:
+
+# To-do <i class="fa fa-square-o"></i>
+
+### <a class="orange1" href="/folders/lr-notebook/">lr-notebook/</a>
+- [ ] make headers match for day entry and subfolder
+- [ ] tags
+
+# Done <i class="lightblue fa fa-check-square-o"></i>
+- <i class="lightblue fa fa-check-square"></i> folder index
+- <i class="lightblue fa fa-check-square"></i> entry pages recursively display subfolder contents
+- <i class="lightblue fa fa-check-square"></i> move notebook entries into subfolders
+- <i class="lightblue fa fa-check-square"></i> remove categories from day pages, templates, model
+- <i class="lightblue fa fa-check-square"></i> port Tural's notebook as test case

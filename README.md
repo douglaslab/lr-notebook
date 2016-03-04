@@ -4,7 +4,7 @@
 
 Our projects start with ideas, sketches, conversations, meetings, experiments, and prototypes. We collect and inscribe information in various forms: documents, images, spreadsheets, models, source code, videos, etc. We accumulate knowledge, and with effort it can be distilled into figures, slides, manuscripts for communication via seminars, lectures, conversations, and online publication.
 
-Basically, `lr-notebook` is a [Lektor](getlektor.com) project designed to let you browse your file system as a website that gets dynamically organized to manage project information. If users follow some simple conventions that are roughly equivalent what everyone already does anyway, `lr-notebook` will provide some very powerful convenience features, such as indexing all the work for each project on its own page, or making everything searchable.
+Basically, `lr-notebook` is a [Lektor](https://getlektor.com) project designed to let you browse your file system as a website that gets dynamically organized to manage project information. If users follow some simple conventions that are roughly equivalent what everyone already does anyway, `lr-notebook` will provide some very powerful convenience features, such as indexing all the work for each project on its own page, or making everything searchable.
 
 # What is Lektor?
 

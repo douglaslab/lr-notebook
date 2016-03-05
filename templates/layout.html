@@ -18,18 +18,19 @@
     <h1>nb-{{config.PROJECT.name}}</h1>
     <nav>
       <ul class="nav navbar-nav">
-        <li{% if this._path == '/' %} class="active"{% endif
-          %}><a href="{{ '/'|url }}">Welcome</a></li>
+        <li><a {% if this._path == '/' %} class="active"{% endif
+          %} href="{{ '/'|url }}">Welcome</a></li>
         {% for href, title in [
           ['/log', 'Log'],
           ['/folders', 'Folders'],
           ['/about', 'About']
         ] %}
-          <li{% if this.is_child_of(href) %} class="active"{% endif
-            %}><a href="{{ href|url }}">{{ title }}</a></li>
+          <li><a {% if this.is_child_of(href) %} class="active"{% endif
+            %} href="{{ href|url }}">{{ title }}</a></li>
         {% endfor %}
       </ul>
     </nav>
+    {% block header %}{% endblock %}
   </header>
 
   <iframe width="0" height="0" border="0" name="frame" style="border-style: none;"></iframe>

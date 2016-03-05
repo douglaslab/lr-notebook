@@ -1,0 +1,46 @@
+{% extends "layout.html" %}
+{% from "macros/log.html" import render_months, render_days %}
+{% from "macros/log.html" import link_to_day, link_to_hidden_day %}
+{% from "macros/projects.html" import render_my_categories %}
+{% from "macros/project-entry.html" import render_project_entry %}
+{% from "macros/project-entry.html" import render_attachments, render_entry_footer %}
+{% from "macros/project-entry.html" import render_entry_folders %}
+
+
+{% block title %}{{ this.title }}{% endblock %}
+{% block body %}
+
+{% set p = this.path.split('/') %}
+{% set vars = {'ancestor': this.parent} %}
+
+{% for i in range(3,p|length) %}
+{% set ancestor = site.get(p[:i]|join('/')) %}
+  <a href="{{ancestor|url}}">&boxur;
+      {% if ancestor.label %}{{ancestor.label}}/</a><br>
+      {% for j in range(ancestor.parent.path|length) %}&nbsp;{% endfor %}
+    {% else %}
+      {{ ancestor.path.split('/')[-1] }}/</a><br>
+      {% for j in range(ancestor.parent.path|length) %}&nbsp;{% endfor %}
+    {% endif %}
+{% endfor %}
+
+{% for j in range(p|length) %}&nbsp;{% endfor %}
+  {% for sibling in this.parent.children %} 
+    {% if sibling == this %}
+      <span class="orange">&boxur;{{this.path.split('/')[-1]}}/</span>
+    {% else %}
+      <a href="{{sibling|url}}">&boxur;{{sibling.path.split('/')[-1]}}/</a>
+    {% endif%}
+{% endfor %}
+
+<iframe width="0" height="0" border="0" name="frame" style="border-style: none;"></iframe>
+<form style="display:inline;" target="frame" action="/admin/api/browsefs" method="post">
+<input type="hidden" name="path" value="{{this.path}}">
+<input type="image" src={{ '/static/images/link.png'|url }}>
+</form>
+
+<div style="margin-bottom:2rem;"></div>
+{{ render_attachments(this) }}
+
+
+{% endblock %}

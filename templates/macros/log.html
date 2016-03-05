@@ -84,13 +84,13 @@ by setting 'from_index=True'.
     {% endif %}
   </div>
 
-  {{render_day_subfolders(entry)}}
+  {{render_subfolders(entry)}}
   
 </div> <!-- end class day-index -->
 {% endmacro %}
 
 
-{% macro render_day_subfolders(entry) %}
+{% macro render_subfolders(entry) %}
   {% for child in entry.children recursive %}
     {% set thumbsize = 100/loop.depth %}
     {% set fontsize = 100-(10*loop.depth0) %}

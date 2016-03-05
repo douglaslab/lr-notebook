@@ -1,3 +1,5 @@
+{% from "macros/log.html" import get_attachment_icon %}
+
 {% macro render_folder_nav(active=none) %}
   render_folder_nav
 {{site.query('/log').include_undiscoverable(true)}}

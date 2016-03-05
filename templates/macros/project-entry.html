@@ -71,7 +71,14 @@
 <div class="row">
 <div class="one column"></div>
   <div class="nine columns">
-    <div class="category">folder: <a href="/folders/{{foldername}}">&boxur;<span class="orange3">{{foldername}}/</span></a></div>
+    {% if entry.children %}
+    <div class="category">children: 
+      {% for child in entry.children %} 
+        <a href="{{child|url}}">&boxur;{{child.path.split('/')[-1]}}/</a>
+      {% endfor %}
+    </div>
+    {% endif %}
+    <div class="category">folder: <a href="/folders/{{foldername}}"><span class="orange3">{{foldername}}/</span></a></div>
     {% if entry.tags %}
       <div class="category">tags: {{ entry.tags|join(" ") }}</div>
     {% else %}

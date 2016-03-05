@@ -10,14 +10,6 @@
 
 <h3>{{ this.title }}</h3>
 
-{% for year in site.query('/log') %}
-<div class="calendar row">
-  <div class="eight columns">
-    <a href="{{ year|url }}">{{ year.label }}
-    </a>{{ render_months(year.children, this.parent) }}</div>
-</div>
-{% endfor %}
-
 <br>
 
 {{ this.body }}

@@ -55,11 +55,19 @@ function createFolder(fname) {
 {% else %}
 
 {% for entry in this.children recursive %}
-  <h5>{{entry.path.split('/')[-1]}}: <a href="{{entry|url}}">{{entry.description}}</a>
+  <h5><a href="{{entry|url}}"><span class="orange">{{entry.path.split('/')[-1]}}</span>: {{entry.description}}</a>
        <form style="display:inline;" target="frame" action="/admin/api/browsefs" method="post">
       <input type="hidden" name="path" value="{{entry.path}}">
       <input type="image" src={{ '/static/images/sublink.png'|url }}>
       </form></h5>
+  {% if entry.body %}
+  <div class="row">
+    <div class="two columns"></div>
+    <div class="ten columns">
+    {{entry.body}}
+    </div>
+  </div>
+  {% endif %}
   {{ render_attachments(entry) }}
   {{ loop(entry.children) }}
 {% endfor %}

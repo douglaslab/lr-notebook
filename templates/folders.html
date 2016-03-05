@@ -1,6 +1,32 @@
 {% extends "layout.html" %}
 {% from "macros/folders.html" import render_folder_nav %}
 {% block title %}Folders{% endblock %}
+
+{% block header %}
+{% set folder_to_count = {} %}
+{% for entry in site.query('/log') recursive %} 
+ {% if entry._model == 'project-entry' %}
+   {% set fname = entry.path.split('/')[-1] %}
+   {% set count = 1+folder_to_count[fname]|default(0) %}
+   {% set _ = folder_to_count.update({fname:count}) %}
+ {% endif %}
+ {{ loop(entry.children)}}
+{% endfor %}
+
+{% set counts = folder_to_count|dictsort(false, 'value') %}
+{% set max_count = counts[-1][1] %}
+{% set existing_folders = this.children|map(attribute='path')|list %}
+{% set folders = site.query('/folders') %}
+
+<small>
+{% for folder in folders %}
+  {% set count = folder_to_count[folder.name]|default(0) %}
+  {% set lightness = 82 - 35*(count/max_count) %}
+  <a {% if folder.name==this.name %}class="active"{%else%}style="color:hsl(0, 0%, {{lightness}}%);"{%endif%} href="{{folder|url}}">{{folder.name}}</a>
+{% endfor %}
+</small>
+{% endblock %}
+
 {% block body %}
 
 <h3>Folders</h3>
@@ -43,15 +69,14 @@
 {% endfor %}
 
 <br>
-<span class="gray">Unused Folders:</span>
+Unused Folders:
 {% set folders = folder_to_entries.iterkeys()|list %}
-{% set unused = false %}
 {% for b in blessed %}
   {% if not b in folders %}
     <a class="inactive" href="/admin/root:folders:{{b}}/delete">{{b}}</a>
-    {% set unused = true %}
   {% endif %}
 {% endfor %}
-{% if unused %}None.{%endif%}
+
+
 
 {% endblock %}

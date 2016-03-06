@@ -111,14 +111,23 @@ a {
   text-decoration: none;
 }
 
+img.autosize {
+  height: auto;
+  width: 100%;
+  border-radius: 2px;
+  border: 1px solid #ddd; 
+}
+
 img.littlethumb {
   height:100px;
+  max-width: 100px;
   border-radius: 2px;
   border: 1px solid #ddd;
 }
 
 img.thumb {
   height:200px;
+  max-width: 200px;
   border-radius: 2px;
   border: 1px solid #ddd;
 }
@@ -126,6 +135,7 @@ img.thumb {
 img.bigthumb {
   margin-left: 1rem;
   height:400px;
+  max-width: 400px;
   border-radius: 4px;
   border: 1px solid #ddd;
 }

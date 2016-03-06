@@ -47,7 +47,7 @@
 <div class="row">
   <div class="two columns">
   {% if folder in blessed %}
-    <a class="indent" href="/folders/{{folder}}">&boxur;<span class="orange1">{{folder}}/</span></a>
+    <a class="indent" href="./{{folder}}">&boxur;<span class="orange1">{{folder}}/</span></a>
   {% else %}
     <a class="indent" href="/admin/root:folders/add-child">&boxur;<span class="inactive">{{folder}}/</span></a>
   {% endif %}

@@ -1,5 +1,7 @@
 # lr-notebook
 
+[![Join the chat at https://gitter.im/douglaslab/lr-notebook](https://badges.gitter.im/douglaslab/lr-notebook.svg)](https://gitter.im/douglaslab/lr-notebook?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
 `lr-notebook` is a project notebook meant to facilitate organization & collaboration in research.
 
 Our projects start with ideas, sketches, conversations, meetings, experiments, and prototypes. We collect and inscribe information in various forms: documents, images, spreadsheets, models, source code, videos, etc. We accumulate knowledge, and with effort it can be distilled into figures, slides, manuscripts for communication via seminars, lectures, conversations, and online publication.

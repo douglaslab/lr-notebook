@@ -1,0 +1,11 @@
+{% extends "layout.html" %}
+{% block title %}{{ this.name }}{% endblock %}
+{% block body %}
+
+{% for project in site.query('/projects') %} 
+  {% for entry in project.children %}
+    {{entry.date.strftime('%b %d, %Y')}}: <strong>{{project.name}}</strong> <a href="{{entry|url}}">{{entry.description}}</a><br>
+  {% endfor %}
+{% endfor %}
+
+{% endblock %}

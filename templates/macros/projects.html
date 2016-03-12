@@ -1,12 +1,3 @@
-{% macro render_category_nav(active=none) %}
-  <ul>
-  {% for category in site.query('/project-categories') %}
-    <li{% if category._id == active %} class="active"{% endif
-      %}><a href="{{ category|url }}">{{ category.name }}</a>
-  {% endfor %}
-  </ul>
-{% endmacro %}
-
 {% macro render_project_list(projects) %}
   <ul>
   {% for project in projects %}
@@ -15,12 +6,130 @@
   </ul>
 {% endmacro %}
 
-{% macro render_my_categories(active=none) %}
-  <ul>
-  <li>categories:
-  {% for category in site.query('/project-categories') %}
-    {% if category._id in active %}<li>
-    <a href="{{ category|url }}">{{ category.name }}</a></li>{% endif %}
-  {% endfor %}
-  </ul>
+{% macro render_attachments(entry) %}
+{% if entry.attachments %}
+<div class="row">
+  <div class="one column"></div>
+  <div class="two columns"><!-- Attachments: --></div>
+<div class="nine columns">
+    {% for image in entry.attachments.images %}
+      {% if image.height > 50 %}
+        <a href="{{image|url}}"><img src="{{ image.thumbnail(50)|url }}"></a>
+      {% else %}
+        <a href="{{image|url}}"><img src="{{ image|url }}"></a>
+      {% endif %}
+    {% endfor %}
+    {% if entry.attachments.images %}<br/>{% endif %}
+    {% for item in entry.attachments.filter(F._attachment_type != 'image') %}
+        <a class="inactive" href="{{item|url}}">{{item.path.split('/')[-1]}}</a>
+        {{ get_attachment_icon(item._id) }}
+        {% if loop.revindex>1 %},{% endif %}
+    {% endfor %}
+  </div>
+</div>
+{% endif %}
+{% endmacro %}
+
+{% macro get_attachment_icon(item_id, color_class='') %}
+  {% if item_id.endswith('.ai') %}<i class="fa fa-object-ungroup"></i>{% endif %}
+  {% if item_id.endswith('.doc') %}<i class="fa fa-file-word-o"></i>{% endif %}
+  {% if item_id.endswith('.docx') %}<i class="fa fa-file-word-o"></i>{% endif %}
+  {% if item_id.endswith('.key') %}<i class="icon ion-easel"></i>{% endif %}
+  {% if item_id.endswith('.ppt') %}<i class="fa fa-file-powerpoint-o"></i>{% endif %}
+  {% if item_id.endswith('.pptx') %}<i class="fa fa-file-powerpoint-o"></i>{% endif %}
+  {% if item_id.endswith('.mp4') %}<i class="fa fa-file-video-o"></i>{% endif %}
+  {% if item_id.endswith('.mpg') %}<i class="fa fa-file-video-o"></i>{% endif %}
+  {% if item_id.endswith('.pages') %}<i class="fa fa-pencil-square-o"></i></i>{% endif %}
+  {% if item_id.endswith('.pdf') %}<i class="fa fa-file-pdf-o"></i>{% endif %}
+  {% if item_id.endswith('.psd') %}<i class="fa fa-file-image-o"></i>{% endif %}
+  {% if item_id.endswith('.py') %}<i class="icon ion-social-python"></i>{% endif %}
+  {% if item_id.endswith('.seq') %}<i class="icon ion-ios-pulse"></i>{% endif %}
+  {% if item_id.endswith('.svg') %}<i class="fa fa-object-ungroup"></i>{% endif %}
+  {% if item_id.endswith('.sublime-settings') %}<i class="fa fa-cogs"></i>{% endif %}
+  {% if item_id.endswith('.ttf') %}<i class="fa fa-font"></i>{% endif %}
+  {% if item_id.endswith('.tif') %}<i class="fa fa-file-image-o"></i>{% endif %}
+  {% if item_id.endswith('.tiff') %}<i class="fa fa-file-image-o"></i>{% endif %}
+  {% if item_id.endswith('.webm') %}<i class="fa fa-file-video-o"></i>{% endif %}
+  {% if item_id.endswith('.xls') %}<i class="fa fa-file-excel-o"></i>{% endif %}
+  {% if item_id.endswith('.zip') %}<i class="fa fa-file-archive-o"></i>{% endif %}
+{% endmacro %}
+
+
+{% macro render_project_entry(entry) %}
+<div class="day-index">
+  <div class="row">
+    <div class="five columns"> <!-- description -->
+      
+      <h5>{{entry.date.strftime('%b %e,%Y')}}: <a href="{{ entry|url }}">{% if entry.description %}{{ entry.description }}{% else %}Untitled{%endif%}</a></h5>
+      {% for item in entry.attachments.filter(F._attachment_type != 'image') %}
+        {{ get_attachment_icon(item._id) }}
+      {% endfor %}
+    </div>
+    <div class="one column">
+      <form style="display:inline;" target="frame" action="/admin/api/browsefs" method="post">
+      <input type="hidden" name="path" value="{{entry.path}}">
+      <input type="image" src={{ '/static/images/link.png'|url }}>
+      </form>
+    </div>
+    {% if entry.attachments %}
+      <div class="five columns"> <!-- attachments -->
+        {% for image in entry.attachments.images %}
+          {% if image.height > 50 %}
+            <a href="{{image|url}}"><img src="{{ image.thumbnail(50)|url }}"></a>
+          {% else %}
+            <a href="{{image|url}}"><img src="{{ image|url }}"></a>
+          {% endif %}
+        {% endfor %}
+        {% for item in entry.attachments.filter(F._attachment_type != 'image') %}
+          {% if loop.first %}<br/>{% endif %}
+          <small><a class="orange3" href="{{entry|url}}">{{item.path.split('/')[-1]}}</a>{{ get_attachment_icon(item._id) }}{% if not loop.last %},{% endif %}</small>
+        {% endfor %}
+      </div>
+    {% endif %}
+  </div>
+  {{render_subfolders(entry)}}
+</div> <!-- end class day-index -->
+{% endmacro %}
+
+
+{% macro render_subfolders(entry) %}
+  {% for child in entry.children recursive %}
+    {% set thumbsize = 50/loop.depth %}
+    {% set fontsize = 50-(10*loop.depth0) %}
+    <div class="row">
+      <div class="one column"></div>
+      <div class="five columns"> <!-- description -->
+        <a style="margin-left:{{loop.depth0 * 2}}rem" href="{{child|url}}">&boxur; <span class="orange{{loop.depth}}">{{child.path.split('/')[-1]}}/{% if child.description %}</span><span style="font-size:{{fontsize}}%"> {{child.description}}</span>{% else %}</span>{% endif %}</a><br/>
+        {% if child.attachments %}
+          <span style="margin-left:{{3+loop.depth0 * 2}}rem" class="gray">
+          {% for item in child.attachments.filter(F._attachment_type != 'image') %}
+            {{ get_attachment_icon(item._id) }}
+          {% endfor %}
+          </span>
+        {% endif %}
+      </div>
+      <div class="one column">
+        <form style="display:inline;" target="frame" action="/admin/api/browsefs" method="post">
+        <input type="hidden" name="path" value="{{child.path}}">
+        <input type="image" src={{ '/static/images/sublink.png'|url }}>
+        </form>
+      </div>
+      {% if child.attachments %}
+        <div class="five columns"> <!-- attachments -->
+          {% for image in child.attachments.images %}
+            {% if image.height > 50 %}
+              <a href="{{image|url}}"><img src="{{ image.thumbnail(thumbsize)|url }}"></a>
+            {% else %}
+              <a href="{{image|url}}"><img src="{{ image|url }}"></a>
+            {% endif %}
+          {% endfor %}
+          {% for item in child.attachments.filter(F._attachment_type != 'image') %}
+            {% if loop.first %}<br/>{% endif %}
+            <a class="green" href="{{entry|url}}">{{item.path.split('/')[-1]}}</a>{{ get_attachment_icon(item._id) }}{% if not loop.last %},{% endif %}
+          {% endfor %}
+        </div>
+      {% endif %}
+    </div>
+    {{ loop(child.children) }}
+    {% endfor %}
 {% endmacro %}

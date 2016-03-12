@@ -1,43 +1,10 @@
 {% extends "layout.html" %}
-{% from "macros/log.html" import render_months, render_days %}
-{% from "macros/log.html" import link_to_day, link_to_hidden_day %}
-{% from "macros/projects.html" import render_my_categories %}
-{% from "macros/project-entry.html" import render_project_entry %}
-{% from "macros/project-entry.html" import render_attachments, render_entry_footer %}
-{% from "macros/project-entry.html" import render_entry_folders %}
-
-
-{% block title %}{{ this.title }}{% endblock %}
+{% block title %}{{ this.name }}{% endblock %}
 {% block body %}
 
-<iframe width="0" height="0" border="0" name="frame" style="border-style: none;"></iframe>
+<h1>{{ this.name }}</h1>
+<div class="description">{{ this.description }}</div>
 
-{% for year in site.query('/log') %}
-<div class="calendar row">
-  <div class="eight columns">
-    <a {% if this.parent.parent == year %}class="active"{% endif %} href="{{ year|url }}">{{ year.label }}
-    </a>{{ render_months(year.children, this.parent.parent) }}</div>
-</div>
-{% endfor %}
-
-<div class="row">
-  <div class="ten columns">
-   <span class="days">{{this.parent.pub_date.year}}-{{this.parent.parent.label}}</a></span>
-   &nbsp;
-    {% for entry in site.query(this.parent.parent.path).include_undiscoverable(true) %}
-      {% if entry.is_hidden %}
-        {{ link_to_hidden_day(entry) }}
-      {% else %}
-       {{ link_to_day(entry, active=this.parent) }}
-      {% endif %}
-    {% endfor %}
-  </div>
-</div>
-
-<h5><a href="{{this.parent|url}}">{{this.parent.pub_date.strftime('%b %d,%Y')}}</a> {{ render_entry_folders(this.parent, active=this) }}</h5>
-
-{{ render_project_entry(this, yyyymm=True) }}
-{{ render_attachments(this) }}
-{{ render_entry_footer(this) }}
+{{this.body}}
 
 {% endblock %}

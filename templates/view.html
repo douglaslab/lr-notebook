@@ -1,0 +1,29 @@
+{% extends "layout.html" %}
+{% block title %}View - {{ this.name }}{% endblock %}
+
+{% block header %}
+{% set project_to_count = {} %}
+{% for project in site.query('/projects') %} 
+  {% set fname = project.path.split('/')[-1] %}
+  {% set count = project.children|list|length %}
+  {% set _ = project_to_count.update({fname:count}) %}
+{% endfor %}
+{% set counts = project_to_count|dictsort(false, 'value') %}
+{% set max_count = counts[-1][1] %}
+<small>
+{% for project in site.query('/projects') %}
+  {% set count = project_to_count[project.name]|default(0) %}
+  {% set lightness = 82 - 35*(count/(max_count+1)) %}
+  <a {% if project.name==this.name %}class="active"{%else%}style="color:hsl(0, 0%, {{lightness}}%);"{%endif%} href="{{project|url}}">{{project.name}} ({{count}})</a>
+{% endfor %}
+</small>
+{% endblock %}
+
+{% block body %}
+<h1>View - {{ this.name }}</h1>
+<div class="description">{{ this.description }}</div>
+
+{{this.children|list}}
+
+{% endblock %}
+

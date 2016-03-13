@@ -28,7 +28,7 @@ header h1 {
 }
 
 header nav ul {
-    list-style: none;
+   .detail-style: none;
     margin: 0;
     padding: 0;
 }*/
@@ -36,7 +36,7 @@ header nav ul {
 /* Re-enabled to override skeleton.css (SD) */
 
 header, footer, div.page {
-  max-width: 960px;
+  max-width: 1200px;
 }
 
 header, h4 {
@@ -180,6 +180,11 @@ font-family: "Anonymous Pro", "HelveticaNeue", "Helvetica Neue", Helvetica, Aria
 body {
   background: #fcfcfc;
 }
+
 div {
-    background: #ffffff;
+  background: #ffffff;
+}
+
+table {
+  border:#c9c9c9 1px solid; margin: 1em 1em 1em 0; border-collapse: collapse;
 }

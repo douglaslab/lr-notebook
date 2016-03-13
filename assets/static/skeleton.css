@@ -270,7 +270,6 @@ textarea:focus,
 select:focus {
   border: 1px solid #33C3F0;
   outline: 0; }
-label,
 legend {
   display: block;
   margin-bottom: .5rem;
@@ -328,13 +327,13 @@ th,
 td {
   padding: 12px 15px;
   text-align: left;
-  border-bottom: 1px solid #E1E1E1; }
+  border: 1px solid #E1E1E1; }
 th:first-child,
 td:first-child {
-  padding-left: 0; }
+  padding-left: 1rem; }
 th:last-child,
 td:last-child {
-  padding-right: 0; }
+  padding-right: 1rem; }
 
 
 /* Spacing

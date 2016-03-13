@@ -1,8 +1,15 @@
 {% extends "layout.html" %}
+{% from "macros/projects.html" import project_header_links %}
+
 {% block title %}{{ this.name }}{% endblock %}
+
+{% block header %}
+  {{ project_header_links(this.parent, show_count=false) }}
+{% endblock %}
+
 {% block body %}
 
-<h1>{{ this.name }}</h1>
+<h1>{{this.parent.name}}: {{ this.date }}</h1>
 <div class="description">{{ this.description }}</div>
 
 {{this.body}}

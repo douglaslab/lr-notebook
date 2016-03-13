@@ -2,10 +2,28 @@
 {% block title %}{{ this.name }}{% endblock %}
 {% block body %}
 
-{% for project in site.query('/projects') %} 
+<h1>Calendar</h1>
+{% for project in this.children %}
   {% for entry in project.children %}
-    {{entry.date.strftime('%b %d, %Y')}}: <strong>{{project.name}}</strong> <a href="{{entry|url}}">{{entry.description}}</a><br>
+  <div class="row">
+    <div class="five columns">
+    {{entry.date}}: <strong>{{project.name}}</strong>
+    {% if entry.description%}
+      <a href="{{entry|url}}">{{entry.description}}</a>
+    {%else%}
+      <a class="lightgray" href="{{entry|url}}">Untitled</a>
+    {%endif%}
+    </div>
+    <div class="seven columns">
+    {% if entry.body %}
+    <details>
+      <summary>&nbsp;</summary>
+      <small>{{entry.body}}</small>
+    </details>
+    {% endif %}
+    </div>
+  </div>
   {% endfor %}
+<p></p>
 {% endfor %}
-
 {% endblock %}

@@ -1,24 +1,11 @@
 {% extends "layout.html" %}
+{% from "macros/projects.html" import project_header_links %}
 {% from "macros/projects.html" import render_project_list %}
+
 {% block title %}Projects{% endblock %}
 
 {% block header %}
-{% set project_to_count = {} %}
-{% for project in site.query('/projects') %} 
-  {% set fname = project.path.split('/')[-1] %}
-  {% set count = project.children|list|length %}
-  {% set _ = project_to_count.update({fname:count}) %}
-{% endfor %}
-{% set counts = project_to_count|dictsort(false, 'value') %}
-{% set max_count = counts[-1][1] %}
-
-<small>
-{% for project in this.children %}
-  {% set count = project_to_count[project.name]|default(0) %}
-  {% set lightness = 82 - 35*(count/(max_count+1)) %}
-  <a {% if project.name==this.name %}class="active"{%else%}style="color:hsl(0, 0%, {{lightness}}%);"{%endif%} href="{{project|url}}">{{project.name}} ({{count}})</a>
-{% endfor %}
-</small>
+  {{project_header_links(this)}}
 {% endblock %}
 
 {% block body %}

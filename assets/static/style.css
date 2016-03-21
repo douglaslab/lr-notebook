@@ -188,3 +188,22 @@ div {
 table {
   border:#c9c9c9 1px solid; margin: 1em 1em 1em 0; border-collapse: collapse;
 }
+
+details summary::-webkit-details-marker {
+  color: #999999;
+}
+
+summary::-webkit-details-marker {
+  display: none
+}
+
+summary:after {
+  content: "+"; 
+  color: #999999;
+  float: left; 
+  padding: 0; 
+  text-align: center; 
+}
+details[open] summary:after {
+  content: "-";
+}

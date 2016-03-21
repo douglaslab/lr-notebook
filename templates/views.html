@@ -1,9 +1,0 @@
-{% extends "layout.html" %}
-{% from "macros/views.html" import render_view_list %}
-{% block title %}Views{% endblock %}
-
-{% block body %}
-model = {{this._model}}
-<h1>Views</h1>
-{{ render_view_list(this.children) }}
-{% endblock %}

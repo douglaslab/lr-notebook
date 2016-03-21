@@ -75,7 +75,7 @@
 
 
 {% macro render_project_entry(entry) %}
-<div class="day-index">
+<div id="{{entry.date}}">
   <div class="row">
     <div class="four columns"> <!-- description -->
       <small>{{entry.date.strftime('%Y-%b-%e')}}</small>:
@@ -91,24 +91,22 @@
       <input type="image" src={{ '/static/images/link.png'|url }}>
       </form>
     </div>
-      <div class="five columns"> <!-- attachments -->
+      <div class="four columns"> <!-- attachments -->
       &nbsp;
       {% if entry.attachments %}
         {% for image in entry.attachments.images %}
-          {% if image.height > 30 %}
-            <a href="{{image|url}}"><img src="{{ image.thumbnail(30)|url }}"></a>
+          {% if image.height > 50 %}
+            <a href="{{image|url}}"><img src="{{ image.thumbnail(50)|url }}"></a>
           {% else %}
             <a href="{{image|url}}"><img src="{{ image|url }}"></a>
           {% endif %}
         {% endfor %}
       {% endif %}
       </div>
-      <div class="two columns">&nbsp;
-        <small>{{attachment_extension_counts(entry)}}</small>
+      <div class="three columns">&nbsp;
+        {{attachment_extension_counts(entry)}}
       </div>
-
-
-  </div>
+  </div> <!-- end row -->
   {{render_subfolders(entry)}}
 </div> <!-- end class day-index -->
 {% endmacro %}
@@ -116,19 +114,12 @@
 
 {% macro render_subfolders(entry) %}
   {% for child in entry.children recursive %}
-    {% set thumbsize = 30/loop.depth %}
-    {% set fontsize = 30-(10*loop.depth0) %}
+    {% set thumbsize = 50/loop.depth %}
+    {% set fontsize = 50-(10*loop.depth0) %}
     <div class="row">
       <div class="four columns"> <!-- description -->
         <small>
         <a style="margin-left:{{loop.depth0 * 2}}rem" href="{{child|url}}">&boxur; <span class="orange{{loop.depth}}">{{child.path.split('/')[-1]}}/{% if child.description %}</span><span style="font-size:{{fontsize}}%"> {{child.description}}</span>{% else %}</span>{% endif %}</a></small><br/>
-        {% if child.attachments %}
-          <span style="margin-left:{{3+loop.depth0 * 2}}rem" class="gray">
-          {% for item in child.attachments.filter(F._attachment_type != 'image') %}
-            {{ get_attachment_icon(item._id) }}
-          {% endfor %}
-          </span>
-        {% endif %}
       </div>
       <div class="one column">
         <form style="display:inline;" target="frame" action="/admin/api/browsefs" method="post">
@@ -137,7 +128,8 @@
         </form>
       </div>
       {% if child.attachments %}
-        <div class="five columns"> <!-- attachments -->
+        <div class="four columns"> <!-- attachments -->
+          &nbsp;
           {% for image in child.attachments.images %}
             {% if image.height > 50 %}
               <a href="{{image|url}}"><img src="{{ image.thumbnail(thumbsize)|url }}"></a>
@@ -145,8 +137,10 @@
               <a href="{{image|url}}"><img src="{{ image|url }}"></a>
             {% endif %}
           {% endfor %}
-          <small class="green">{{attachment_extension_counts(child)}}</small>
         </div>
+        <div class="three columns">&nbsp;
+        {{attachment_extension_counts(child)}}
+      </div>
       {% endif %}
     </div>
     {{ loop(child.children) }}

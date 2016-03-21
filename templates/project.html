@@ -15,9 +15,3 @@
   {{render_project_entry(entry)}}
 {% endfor %}
 {% endblock %}
-
-<!-- UNUSED -->
-{% for entry in this.children %}
-<h3>{{entry.date.strftime('%b %e,%Y')}}: <a href="{{entry|url}}">{% if entry.description%}{{entry.description}}{%else%}Untitled{%endif%}</a></h3>
-{% if entry.body %}{{entry.body}}{%else%}{{render_attachments(entry)}}{%endif%}
-{% endfor %}

@@ -1,29 +1,35 @@
 {% extends "layout.html" %}
 {% block title %}{{ this.name }}{% endblock %}
 {% block body %}
-
-<h1>Calendar</h1>
-{% for project in this.children %}
-  {% for entry in project.children %}
-  <div class="row">
-    <div class="five columns">
-    {{entry.date}}: <strong>{{project.name}}</strong>
-    {% if entry.description%}
-      <a href="{{entry|url}}">{{entry.description}}</a>
-    {%else%}
-      <a class="lightgray" href="{{entry|url}}">Untitled</a>
-    {%endif%}
-    </div>
-    <div class="seven columns">
-    {% if entry.body %}
-    <details>
-      <summary>&nbsp;</summary>
-      <small>{{entry.body}}</small>
-    </details>
-    {% endif %}
-    </div>
-  </div>
+  {% set date_to_entry = {} %}
+  {% for project in this.children %}
+    {% for entry in project.children %}
+      {% set date = entry.date %}
+      {% set entrylist = date_to_entry[date]|default([]) %}
+      {% set _ = date_to_entry.update({date:entrylist+[entry]}) %}
+    {% endfor %}
   {% endfor %}
-<p></p>
-{% endfor %}
+  <h1>Calendar</h1>
+  {% for date, entrylist in date_to_entry|dictsort %}
+    {% for entry in entrylist %}
+    <div class="row">
+      <div class="five columns">
+      {{date}}: <small><a href="{{entry.parent|url}}#{{date}}" class="orange">{{entry.parent.name}}/</a></small>
+      {% if entry.description%}
+        <a href="{{entry|url}}">{{entry.description}}</a>
+      {%else%}
+        <a class="lightgray" href="{{entry|url}}">Untitled</a>
+      {%endif%}
+      </div>
+      <div class="seven columns">
+      {% if entry.body %}
+      <details>
+        <summary>&nbsp;</summary>
+        <small>{{entry.body}}</small>
+      </details>
+      {% endif %}
+      </div>
+    </div>
+    {% endfor %}
+  {% endfor %}
 {% endblock %}

@@ -77,6 +77,7 @@ footer {
 
 .blue {color: #377eb8;}
 .lightblue {color: #169bbd;}
+.linkblue {color: #1EAEDB;}
 
 .green {color: #4daf4a;}
 .lightgreen {color: #b5d1b1;}
@@ -206,4 +207,28 @@ summary:after {
 }
 details[open] summary:after {
   content: "-";
+}
+
+
+input[type="submit"].little {
+  padding: 0px 2px;
+  height: 1.5rem;
+  line-height:0.5rem;
+  background-color: #fff;
+  border: 1px solid #33C3F0;
+  border-radius: 2px;
+}
+
+input[type="date"] {
+  border: 1px solid #33C3F0;
+}
+
+input[type="date"]::-webkit-inner-spin-button {
+  /* display: none; <- Crashes Chrome on hover */
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type="text"]::-webkit-input-placeholder {
+  color: #FCBD7F;
 }

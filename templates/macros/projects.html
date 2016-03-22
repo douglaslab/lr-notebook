@@ -20,7 +20,7 @@
 {% macro render_project_list(projects) %}
   <ul>
   {% for project in projects %}
-    <li><a href="{{ project|url }}">{{ project.name }}</a>
+    <li><a class="orange" href="{{ project|url }}">{{ project.name }}</a> <input class="little" type="submit" value="+"> </li>
   {% endfor %}
   </ul>
 {% endmacro %}

@@ -9,6 +9,83 @@
 {% endblock %}
 
 {% block body %}
+<script>
+function createEntry(project, projectdate) {
+    $.ajax({
+        type: 'PUT',
+        dataType: 'json',
+        contentType: 'application/json',
+        processData: false,
+        url: "/admin/api/rawrecord",
+        data: JSON.stringify({"data":{"_discoverable":null,"_hidden":null,
+                "_slug":null,"_template":null,"title":null,"description":'',
+                "tags":null,"body":'',"date":projectdate},"path":"{{this.path}}/"+project+"/"+projectdate,
+                "alt":"_primary"}),
+    });
+    location.reload();
+}
+function createProject(project) {
+    $.ajax({
+        type: 'PUT',
+        dataType: 'json',
+        contentType: 'application/json',
+        processData: false,
+        url: "/admin/api/rawrecord",
+        data: JSON.stringify({"data":{"_discoverable":null,"_hidden":null,
+                "_slug":null,"_template":null,"title":null,"description":'no description yet',
+                "tags":null,"body":'',"name":project},"path":"{{this.path}}/"+project,
+                "alt":"_primary"}),
+    });
+    location.reload();
+}
+</script>
+
 <h1>Projects</h1>
-{{ render_project_list(this.children) }}
+<div class="row">
+  <div class="ten columns">
+    <span style="color:#33C3F0">+Date</span> = <input id="date" type="date" value="2016-03-22">
+    <small class="gray">(Click a project's <span class="linkblue">+</span> to create the selected date's entry)</small>
+  </div>
+</div>
+
+<div style="margin-top:2rem;" class="row">
+  <div class="ten columns">
+    <ul>
+    {% for project in this.children %}
+      <li>
+      <a href="{{ project|url }}">&boxur;<span class="orange">{{ project.name }}</span></a>
+      <small>
+      {% set yyyy = 1900 %}
+      {% set mm = 0 %}
+      {% for entry in project.children|sort(attribute='date') %}
+        {% if entry.date.year > yyyy %}
+          <span class="gray">{{entry.date.year}}</span>
+          {% set yyyy = entry.date.year %}
+          {% set mm = 0 %}
+        {% endif %}
+        {% if entry.date.month > mm %}
+          <span class="lightgray">{{entry.date.strftime('%b')}}</span>
+          {% set mm = entry.date.month %}
+        {% endif %}
+        <a href="{{entry.parent|url}}#{{entry.date}}">{{entry.date.strftime('%e')}}</a>
+      {% endfor %}
+    </small> <a href="#" onclick="createEntry('{{project.name}}', document.querySelector('#date').value );">+</a></li>
+    {% endfor %}
+    <li>
+    <span style="color:#1EAEDB;">&boxur;</span> <input id="newproject" style="padding:2px 0px 3px 4px;" type="text" placeholder="new-project-name"> <a href="#" onclick="createProject(document.querySelector('#newproject').value );">+</a>
+    </li>
+    </ul>
+  </div>
+</div>
+
+<script>
+(function () {
+    var date = new Date().toISOString().substring(0, 10),
+        field = document.querySelector('#date');
+    field.value = date;
+    console.log(field.value);
+
+})()
+</script>
+
 {% endblock %}

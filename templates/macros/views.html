@@ -1,7 +1,0 @@
-{% macro render_view_list(views) %}
-  <ul>
-  {% for view in views %}
-    <li><a href="{{ view|url }}">{{ view.name }}</a>
-  {% endfor %}
-  </ul>
-{% endmacro %}

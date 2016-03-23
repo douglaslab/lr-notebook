@@ -25,6 +25,13 @@
   </ul>
 {% endmacro %}
 
+{% macro browse_to(entry) %}
+<form target="frame" action="/admin/api/browsefs" method="post">
+<input type="hidden" name="path" value="{{entry.path}}">
+<input type="image" src={{ '/static/images/link.png'|asseturl }}>
+</form>
+{% endmacro %}
+
 {% macro render_attachments(entry) %}
 {% if entry.attachments %}
 <div class="row">

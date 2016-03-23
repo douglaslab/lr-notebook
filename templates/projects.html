@@ -1,6 +1,8 @@
 {% extends "layout.html" %}
 {% from "macros/projects.html" import project_header_links %}
 {% from "macros/projects.html" import render_project_list %}
+{% from "macros/projects.html" import browse_to %}
+
 
 {% block title %}Projects{% endblock %}
 
@@ -12,48 +14,52 @@
 <script>
 function createEntry(project, projectdate) {
     $.ajax({
-        type: 'PUT',
+        type: 'POST',
         dataType: 'json',
         contentType: 'application/json',
         processData: false,
-        url: "/admin/api/rawrecord",
-        data: JSON.stringify({"data":{"_discoverable":null,"_hidden":null,
-                "_slug":null,"_template":null,"title":null,"description":'',
-                "tags":null,"body":'',"date":projectdate},"path":"{{this.path}}/"+project+"/"+projectdate,
-                "alt":"_primary"}),
+        url: "/admin/api/newrecord",
+        data: JSON.stringify({"id":projectdate,
+                              "path":"{{this.path}}/"+project,
+                              "data":{"date":projectdate}})
     });
     location.reload();
 }
+
 function createProject(project) {
     $.ajax({
-        type: 'PUT',
+        type: 'POST',
         dataType: 'json',
         contentType: 'application/json',
         processData: false,
-        url: "/admin/api/rawrecord",
-        data: JSON.stringify({"data":{"_discoverable":null,"_hidden":null,
-                "_slug":null,"_template":null,"title":null,"description":'no description yet',
-                "tags":null,"body":'',"name":project},"path":"{{this.path}}/"+project,
-                "alt":"_primary"}),
+        url: "/admin/api/newrecord",
+        data: JSON.stringify({"id":project,
+                              "path":"{{this.path}}",
+                              "data":{"name":project}})
     });
     location.reload();
 }
+
 </script>
 
 <h1>Projects</h1>
 <div class="row">
-  <div class="ten columns">
+  <div class="two columns">&nbsp;</div>
+  <div class="four columns">
     <span style="color:#33C3F0">+Date</span> = <input id="date" type="date" value="2016-03-22">
-    <small class="gray">(Click a project's <span class="linkblue">+</span> to create the selected date's entry)</small>
+  </div>
+  <div class="five columns">
+    <small class="lightgray">Click a project's <span class="linkblue">+</span> to create the selected date's entry</small>
   </div>
 </div>
 
-<div style="margin-top:2rem;" class="row">
-  <div class="ten columns">
-    <ul>
-    {% for project in this.children %}
-      <li>
+{% for project in this.children %}
+  <div class="row">
+    <div class="two columns">
+      {{browse_to(project)}}
       <a href="{{ project|url }}">&boxur;<span class="orange">{{ project.name }}</span></a>
+    </div>
+    <div class="nine columns">
       <small>
       {% set yyyy = 1900 %}
       {% set mm = 0 %}
@@ -70,11 +76,14 @@ function createProject(project) {
         <a href="{{entry.parent|url}}#{{entry.date}}">{{entry.date.strftime('%e')}}</a>
       {% endfor %}
     </small> <a href="#" onclick="createEntry('{{project.name}}', document.querySelector('#date').value );">+</a></li>
-    {% endfor %}
-    <li>
-    <span style="color:#1EAEDB;">&boxur;</span> <input id="newproject" style="padding:2px 0px 3px 4px;" type="text" placeholder="new-project-name"> <a href="#" onclick="createProject(document.querySelector('#newproject').value );">+</a>
-    </li>
-    </ul>
+    </div>
+  </div>
+{% endfor %}
+
+<div class="row">
+  <div style="margin-left:2.4rem;" class="ten columns">
+    <span style="color:#1EAEDB;">&boxur;</span><input id="newproject" style="padding:2px 0px 3px 4px;" type="text" placeholder="new-project-name">
+    <a href="#" class="orange" onclick="createProject(document.querySelector('#newproject').value );">+</a>
   </div>
 </div>
 

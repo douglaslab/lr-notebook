@@ -1,6 +1,7 @@
 {% extends "layout.html" %}
 {% from "macros/projects.html" import project_header_links %}
 {% from "macros/projects.html" import render_project_entry %}
+{% from "macros/projects.html" import browse_to %}
 
 {% block title %}{{ this.name }}{% endblock %}
 
@@ -9,9 +10,48 @@
 {% endblock %}
 
 {% block body %}
-<h1 style="display:inline-block;">{{ this.name }}</h1> {{ this.description }}
+
+<script>
+function createEntry(projectdate) {
+    $.ajax({
+        type: 'POST',
+        dataType: 'json',
+        contentType: 'application/json',
+        processData: false,
+        url: "/admin/api/newrecord",
+        data: JSON.stringify({"id":projectdate,
+                              "path":"{{this.path}}",
+                              "data":{"date":projectdate}}),
+    });
+    location.reload();
+}
+</script>
+
+<div class="row">
+  <div class="five columns">
+    <h1 style="display:inline-block;">{{ this.name }}</h1> {{ this.description }}
+  </div>
+  <div class="one column">
+    {{browse_to(this)}}
+  </div>
+  <div class="four columns">
+    <input id="date" type="date"> <a href="#" onclick="createEntry(document.querySelector('#date').value );">+</a>
+    </small>
+  </div>
+</div>
 <hr>
 {% for entry in this.children %}
   {{render_project_entry(entry)}}
 {% endfor %}
+
+<script>
+(function () {
+    var date = new Date().toISOString().substring(0, 10),
+        field = document.querySelector('#date');
+    field.value = date;
+    console.log(field.value);
+
+})()
+</script>
+
 {% endblock %}

@@ -12,7 +12,39 @@
 
 {% block body %}
 <script>
-function createEntry(project, projectdate) {
+function createProject(path, projectname) {
+    $.ajax({
+        type: 'POST',
+        dataType: 'json',
+        contentType: 'application/json',
+        processData: false,
+        url: "/admin/api/newrecord",
+        data: JSON.stringify({"id":projectname,
+                              "path":path,
+                              "data":{"name":projectname,
+                                      "date":new Date().toISOString().substring(0, 10)}})
+    });
+    location.reload();
+}
+
+
+function createFolder(path, foldername) {
+    $.ajax({
+        type: 'POST',
+        dataType: 'json',
+        contentType: 'application/json',
+        processData: false,
+        url: "/admin/api/newrecord",
+        data: JSON.stringify({"id":foldername,
+                              "path":path,
+                              "data":{"_model":"folder",
+                                      "date":new Date().toISOString().substring(0, 10),
+                                      "name":foldername}})
+    });
+    location.reload();
+}
+
+function createEntry(path, projectdate) {
     $.ajax({
         type: 'POST',
         dataType: 'json',
@@ -20,31 +52,19 @@ function createEntry(project, projectdate) {
         processData: false,
         url: "/admin/api/newrecord",
         data: JSON.stringify({"id":projectdate,
-                              "path":"{{this.path}}/"+project,
-                              "data":{"date":projectdate}})
+                              "path":path,
+                              "data":{"_model":"entry",
+                                      "date":projectdate}})
     });
     location.reload();
 }
-
-function createProject(project) {
-    $.ajax({
-        type: 'POST',
-        dataType: 'json',
-        contentType: 'application/json',
-        processData: false,
-        url: "/admin/api/newrecord",
-        data: JSON.stringify({"id":project,
-                              "path":"{{this.path}}",
-                              "data":{"name":project}})
-    });
-    location.reload();
-}
-
 </script>
 
-<h1>Projects</h1>
+
 <div class="row">
-  <div class="two columns">&nbsp;</div>
+  <div class="two columns">
+    <h1>Projects</h1>
+  </div>
   <div class="four columns">
     <span style="color:#33C3F0">+Date</span> = <input id="date" type="date" value="2016-03-22">
   </div>
@@ -52,38 +72,55 @@ function createProject(project) {
     <small class="lightgray">Click a project's <span class="linkblue">+</span> to create the selected date's entry</small>
   </div>
 </div>
+<hr>
 
-{% for project in this.children %}
-  <div class="row">
-    <div class="two columns">
-      {{browse_to(project)}}
-      <a href="{{ project|url }}">&boxur;<span class="orange">{{ project.name }}</span></a>
-    </div>
-    <div class="nine columns">
-      <small>
-      {% set yyyy = 1900 %}
-      {% set mm = 0 %}
-      {% for entry in project.children|sort(attribute='date') %}
-        {% if entry.date.year > yyyy %}
-          <span class="gray">{{entry.date.year}}</span>
-          {% set yyyy = entry.date.year %}
-          {% set mm = 0 %}
+{% for item in this.children recursive %}
+  {% if item._model != 'entry' %}
+    <div class="row">
+      <div class="two columns">
+        {{browse_to(item)}}
+        {% if item._model == 'project' %}
+          {% set spanclass = 'orange' %}
+        {% elif item._model == 'folder' %}
+          {% set spanclass = 'green' %}
         {% endif %}
-        {% if entry.date.month > mm %}
-          <span class="lightgray">{{entry.date.strftime('%b')}}</span>
-          {% set mm = entry.date.month %}
-        {% endif %}
-        <a href="{{entry.parent|url}}#{{entry.date}}">{{entry.date.strftime('%e')}}</a>
-      {% endfor %}
-    </small> <a href="#" onclick="createEntry('{{project.name}}', document.querySelector('#date').value );">+</a></li>
+        <a style="margin-left:{{loop.depth0 * 2}}rem;" href="{{ item|url }}">&boxur;<span class="{{spanclass}}">{{ item.name }}</span></a>
+      </div>
+      <div class="nine columns">
+        <small>
+        {% set yyyy = 1900 %}
+        {% set mm = 0 %}
+        {% for entry in item.children.filter(F._model=='entry')|sort(attribute='date') %}
+          {% if entry.date.year > yyyy %}
+            <span class="gray">{{entry.date.year}}</span>
+            {% set yyyy = entry.date.year %}
+            {% set mm = 0 %}
+          {% endif %}
+          {% if entry.date.month > mm %}
+            <span class="lightgray">{{entry.date.strftime('%b')}}</span>
+            {% set mm = entry.date.month %}
+          {% endif %}
+          <a href="{{entry.parent|url}}#{{entry.date}}">{{entry.date.strftime('%e')}}</a>
+        {% endfor %}
+      </small> <a href="#" onclick="createEntry('{{item.path}}', document.querySelector('#date').value );">+</a></li>
+      </div>
     </div>
-  </div>
+
+  {{loop(item.children)}}
+
+    <div class="row">
+      <div class="five columns">
+        <span style="margin-left:{{loop.depth0 * 3 + 2.4}}rem; color:#4daf4a;">&boxur;</span><input id="newfolder{{loop.depth0}}{{loop.index0}}" class="newfolder" type="text" placeholder="new">
+        <a href="#" class="green" onclick="createFolder('{{item.path}}', document.querySelector('#newfolder{{loop.depth0}}{{loop.index0}}').value );">+</a>
+      </div>
+    </div>
+  {% endif %}
 {% endfor %}
 
 <div class="row">
   <div style="margin-left:2.4rem;" class="ten columns">
-    <span style="color:#1EAEDB;">&boxur;</span><input id="newproject" style="padding:2px 0px 3px 4px;" type="text" placeholder="new-project-name">
-    <a href="#" class="orange" onclick="createProject(document.querySelector('#newproject').value );">+</a>
+    <span style="color:#1EAEDB;">&boxur;</span><input id="newproject" class="newproject" type="text" placeholder="new-project">
+    <a href="#" class="orange" onclick="createProject('{{this.path}}',document.querySelector('#newproject').value );">+</a>
   </div>
 </div>
 

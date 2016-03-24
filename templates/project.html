@@ -21,10 +21,28 @@ function createEntry(projectdate) {
         url: "/admin/api/newrecord",
         data: JSON.stringify({"id":projectdate,
                               "path":"{{this.path}}",
-                              "data":{"date":projectdate}}),
+                              "data":{"_model":"entry",
+                                      "date":projectdate}})
     });
     location.reload();
 }
+
+function createFolder(foldername) {
+    $.ajax({
+        type: 'POST',
+        dataType: 'json',
+        contentType: 'application/json',
+        processData: false,
+        url: "/admin/api/newrecord",
+        data: JSON.stringify({"id":projectdate,
+                              "path":"{{this.path}}",
+                              "data":{"_model":"folder",
+                                      "date":new Date().toISOString().substring(0, 10),
+                                      "name":foldername}
+                             }});
+    location.reload();
+}
+
 </script>
 
 <div class="row">

@@ -229,6 +229,24 @@ input[type="date"]::-webkit-inner-spin-button {
   margin: 0;
 }
 
-input[type="text"]::-webkit-input-placeholder {
+input[type="text"].newproject::-webkit-input-placeholder {
   color: #FCBD7F;
+}
+
+input[type="text"].newfolder::-webkit-input-placeholder {
+  color: #b5d1b1;
+}
+
+input[type="text"].newproject {
+  padding: 2px 0px 3px 4px;
+  border: 1px solid #eee;
+  border-radius: 2px;
+  width: 90px;
+}
+
+input[type="text"].newfolder {
+  padding: 0px 2px;
+  width: 80px;
+  border: 1px solid #eee;
+  border-radius: 2px;
 }

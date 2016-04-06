@@ -45,6 +45,7 @@ function createFolder(foldername) {
 
 </script>
 
+
 <div class="row">
   <div class="five columns">
     <h1 style="display:inline-block;">{{ this.name }}</h1> {{ this.description }}
@@ -57,7 +58,53 @@ function createFolder(foldername) {
     </small>
   </div>
 </div>
+
+{% for item in this.children recursive %}
+  {% if item._model != 'entry' %}
+    <div class="row">
+      <div class="two columns">
+        {{browse_to(item)}}
+        {% if item._model == 'project' %}
+          {% set spanclass = 'orange' %}
+        {% elif item._model == 'folder' %}
+          {% set spanclass = 'green' %}
+        {% endif %}
+        <a style="margin-left:{{loop.depth0 * 2}}rem;" href="{{ item|url }}">&boxur;<span class="{{spanclass}}">{{ item.name }}</span></a>
+      </div>
+      <div class="nine columns">
+        <small>
+        {% set yyyy = 1900 %}
+        {% set mm = 0 %}
+        {% for entry in item.children.filter(F._model=='entry')|sort(attribute='date') %}
+          {% if entry.date.year > yyyy %}
+            <span class="gray">{{entry.date.year}}</span>
+            {% set yyyy = entry.date.year %}
+            {% set mm = 0 %}
+          {% endif %}
+          {% if entry.date.month > mm %}
+            <span class="lightgray">{{entry.date.strftime('%b')}}</span>
+            {% set mm = entry.date.month %}
+          {% endif %}
+          <a href="{{entry.parent|url}}#{{entry.date}}">{{entry.date.strftime('%e')}}</a>
+        {% endfor %}
+      </small> <a href="#" onclick="createEntry('{{item.path}}', document.querySelector('#date').value );">+</a></li>
+      </div>
+    </div>
+
+  {{loop(item.children)}}
+
+    <div class="row">
+      <div class="five columns">
+        <span style="margin-left:{{loop.depth * 2 + 2.4}}rem; color:#4daf4a;">&boxur;</span><input id="newfolder{{loop.depth0}}{{loop.index0}}" class="newfolder" type="text" placeholder="new">
+        <a href="#" class="green" onclick="createFolder('{{item.path}}', document.querySelector('#newfolder{{loop.depth0}}{{loop.index0}}').value );">+</a>
+      </div>
+    </div>
+  {% endif %}
+{% endfor %}
+
 <hr>
+
+
 {% for entry in this.children %}
   {{render_project_entry(entry)}}
 {% endfor %}

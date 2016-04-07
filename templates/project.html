@@ -12,7 +12,7 @@
 {% block body %}
 
 <script>
-function createEntry(projectdate) {
+function createEntry(path, projectdate) {
     $.ajax({
         type: 'POST',
         dataType: 'json',
@@ -20,35 +20,34 @@ function createEntry(projectdate) {
         processData: false,
         url: "/admin/api/newrecord",
         data: JSON.stringify({"id":projectdate,
-                              "path":"{{this.path}}",
+                              "path":path,
                               "data":{"_model":"entry",
                                       "date":projectdate}})
     });
     location.reload();
 }
 
-function createFolder(foldername) {
+function createFolder(path, foldername) {
     $.ajax({
         type: 'POST',
         dataType: 'json',
         contentType: 'application/json',
         processData: false,
         url: "/admin/api/newrecord",
-        data: JSON.stringify({"id":projectdate,
-                              "path":"{{this.path}}",
+        data: JSON.stringify({"id":foldername,
+                              "path":path,
                               "data":{"_model":"folder",
                                       "date":new Date().toISOString().substring(0, 10),
-                                      "name":foldername}
-                             }});
+                                      "name":foldername}})
+    });
     location.reload();
 }
 
 </script>
 
-
 <div class="row">
   <div class="five columns">
-    <h1 style="display:inline-block;">{{ this.name }}</h1> {{ this.description }}
+    <h1 style="display:inline-block;" class="orange">{{ this.name }}</h1> {{ this.description }}
   </div>
   <div class="one column">
     {{browse_to(this)}}
@@ -93,20 +92,23 @@ function createFolder(foldername) {
 
   {{loop(item.children)}}
 
-    <div class="row">
-      <div class="five columns">
-        <span style="margin-left:{{loop.depth * 2 + 2.4}}rem; color:#4daf4a;">&boxur;</span><input id="newfolder{{loop.depth0}}{{loop.index0}}" class="newfolder" type="text" placeholder="new">
-        <a href="#" class="green" onclick="createFolder('{{item.path}}', document.querySelector('#newfolder{{loop.depth0}}{{loop.index0}}').value );">+</a>
-      </div>
-    </div>
   {% endif %}
 {% endfor %}
 
+<div class="row">
+  <div class="five columns">
+    <span style="margin-left:2.4rem; color:#4daf4a;">&boxur;</span><input id="newfolder" class="newfolder" type="text" placeholder="new">
+    <a href="#" class="green" onclick="createFolder('{{this.path}}', document.querySelector('#newfolder').value );">+</a>
+  </div>
+</div>
+
+
 <hr>
 
-
 {% for entry in this.children %}
-  {{render_project_entry(entry)}}
+  {% if entry._model == 'entry' %}
+    {{render_project_entry(entry)}}
+  {% endif %}
 {% endfor %}
 
 <script>

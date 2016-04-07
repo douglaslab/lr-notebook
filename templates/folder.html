@@ -81,7 +81,7 @@ function createFolder(path, foldername) {
 {% set project = site.get("/projects/" + this.path.split('/')[2]) %}
 
 <div class="row">
-  <div class="five columns">
+  <div class="six columns">
     <h1 style="display:inline-block;" class="orange">{{project.name}}/</h1>
     <h2 style="display:inline-block;" class="green">{{this.path.split('/')[3:]|join('/')}}</h2>
     {{ this.description }}
@@ -89,14 +89,14 @@ function createFolder(path, foldername) {
   <div class="one column">
     {{browse_to(this)}}
   </div>
-  <div class="four columns">
+  <div class="three columns">
     <input id="date" type="date"> <a href="#" onclick="createEntry('{{this.path}}', document.querySelector('#date').value );">+</a>
     </small>
   </div>
 </div>
 
 <div class="row">
-  <div class="five columns">
+  <div class="ten columns">
     <span style="margin-left:{{this.path[2:]|length*0.8}}rem; color:#4daf4a;">&boxur;</span><input id="newfolder" class="newfolder" type="text" placeholder="new">
     <a href="#" class="green" onclick="createFolder('{{this.path}}', document.querySelector('#newfolder').value );">+</a>
   </div>

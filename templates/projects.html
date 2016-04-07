@@ -77,7 +77,7 @@ function createEntry(path, projectdate) {
 {% for item in this.children recursive %}
   {% if item._model != 'entry' %}
     <div class="row">
-      <div class="two columns">
+      <div class="five columns">
         {{browse_to(item)}}
         {% if item._model == 'project' %}
           {% set spanclass = 'orange' %}
@@ -86,7 +86,7 @@ function createEntry(path, projectdate) {
         {% endif %}
         <a style="margin-left:{{loop.depth0 * 2}}rem;" href="{{ item|url }}">&boxur;<span class="{{spanclass}}">{{ item.name }}</span></a>
       </div>
-      <div class="nine columns">
+      <div class="six columns">
         <small>
         {% set yyyy = 1900 %}
         {% set mm = 0 %}

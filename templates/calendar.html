@@ -2,26 +2,27 @@
 {% block title %}{{ this.name }}{% endblock %}
 {% block body %}
   {% set date_to_entry = {} %}
-  {% for project in this.children %}
-    {% for entry in project.children %}
+  {% for project in this.children recursive %}
+    {% for entry in project.children.filter(F._model=='entry') %}
       {% set date = entry.date %}
       {% set entrylist = date_to_entry[date]|default([]) %}
       {% set _ = date_to_entry.update({date:entrylist+[entry]}) %}
     {% endfor %}
+    {{ loop(project.children) }}
   {% endfor %}
   <h1>Calendar</h1>
   {% for date, entrylist in date_to_entry|dictsort %}
     {% for entry in entrylist %}
     <div class="row">
-      <div class="five columns">
-      {{date}}: <small><a href="{{entry.parent|url}}#{{date}}" class="orange">{{entry.parent.name}}/</a></small>
+      <div class="six columns">
+      {{date}}: <small><a href="{{entry.parent|url}}#{{date}}" class="orange">{{entry.path.split('/')[2:-1]|join('/')}}</a></small>
       {% if entry.description%}
         <a href="{{entry|url}}">{{entry.description}}</a>
       {%else%}
         <a class="lightgray" href="{{entry|url}}">Untitled</a>
       {%endif%}
       </div>
-      <div class="seven columns">
+      <div class="six columns">
       {% if entry.body %}
       <details>
         <summary>&nbsp;</summary>

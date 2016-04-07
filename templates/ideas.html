@@ -1,0 +1,7 @@
+{% extends "layout.html" %}
+{% block body %}
+  {% for i in this.children.filter(F.tags.contains("tag1")) %}
+  	{{ i._id }}
+    {{ i.body }}
+  {% endfor %}
+{% endblock %}

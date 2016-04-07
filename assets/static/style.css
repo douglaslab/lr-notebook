@@ -1,6 +1,4 @@
-/* Disabled to use skeleton.css (SD) */
-
-/*body {
+body {
     font-family: 'Verdana', sans-serif;
     margin: 50px 25px;
 }
@@ -31,155 +29,14 @@ header nav ul {
     list-style: none;
     margin: 0;
     padding: 0;
-}*/
-
-/* Re-enabled to override skeleton.css (SD) */
-
-header, footer, div.page {
-  max-width: 960px;
-}
-
-header, h4 {
-    margin-bottom: 0;
 }
 
 header nav ul li {
-  display: inline;
-  margin: 0 8px 0 0;
-  padding: 0;
+    display: inline;
+    margin: 0 8px 0 0;
+    padding: 0;
 }
 
-body {
-  margin: 50px 50px;
-}
-
-footer {
-  margin-top: 2em;
-}
-
-.active {color:#cc0000;}
-.inactive {color:#cccccc;}
-
-.color1 {color: #4daf4a;}
-.color2 {color: #ff7f00;}
-.color3 {color: #377eb8;}
-.color4 {color: #984ea3;}
-.light1 {color: #b5d1b1;}
-.light2 {color: #fbdcbf;}
-.light3 {color: #8bbae5;}
-.light4 {color: #8c6e91;}
-
-
-.red {color: #cc0000;}
-
-.purple {color: #984ea3;}
-.lightpurple {color: #8c6e91;}
-
-.blue {color: #377eb8;}
-.lightblue {color: #169bbd;}
-
-.green {color: #4daf4a;}
-.lightgreen {color: #b5d1b1;}
-
-.orange, .orange1 {color: #FF7F00;}
-.orange2 {color: #FE9E40;}
-.orange3, .lightorange {color: #FCBD7F;}
-.orange4, .orange5, .orange6, .orange7, .orange8, .orange9 {color: #FBDCBF;}
-
-.lightgray {color:#cccccc;}
-.gray {color:#666666;}
-
-
-.indent {margin-left: 1rem;}
-
-a.nochildren, div.category {
-    color:#ccc;
-}
-
-.category ul li {
-  color: #bbbbbb;
-  display: inline;
-  margin: 0 3px 0 0;
-  padding: 0;
-}
-
-.calendar {
-  font-family: "Anonymous Pro";
-}
-
-a {
-  text-decoration: none;
-}
-
-img.autosize {
-  height: auto;
-  width: 100%;
-  border-radius: 2px;
-  border: 1px solid #ddd; 
-}
-
-img.littlethumb {
-  max-height: 100px;
-  max-width: 100px;
-  border-radius: 2px;
-  border: 1px solid #ddd;
-}
-
-img.thumb {
-  max-height: 200px;
-  max-width: 200px;
-  border-radius: 2px;
-  border: 1px solid #ddd;
-}
-
-img.bigthumb {
-  margin-left: 1rem;
-  max-height: 400px;
-  max-width: 400px;
-  border-radius: 4px;
-  border: 1px solid #ddd;
-}
-
-input[type="submit"].hidden-button-link {
-  border:none;
-  outline:none;
-  cursor:pointer;
-  color:#ccc;
-  padding:0;
-  margin-top:1em;
-
-}
-
-input[type="image"] {
-  display: inline;
-  float: left;
-  margin-right:0.25em;
-}
-
-form {
-  display: inline;
-  margin:0;
-  padding:0;
-}
-
-.highlight {
-  padding: 0.1em 0em 0.1em 1em;
-  background: #eee;
-}
-
-.days {
-font-family: "Anonymous Pro", "HelveticaNeue", "Helvetica Neue", Helvetica, Arial, sans-serif;
-  margin-top: 0;
-  margin-bottom: 2rem;
-  font-weight: 300;
-  font-size: 2rem; 
-  line-height: 1.5;
-  letter-spacing: -.05rem;
-}
-
-body {
-  background: #fcfcfc;
-}
-div {
-    background: #ffffff;
+div.page {
+    background: #f1fbfe;
 }

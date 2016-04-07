@@ -1,17 +1,6 @@
 {% extends "layout.html" %}
-{% from "macros/log.html" import render_months %}
-
 {% block title %}{{ this.title }}{% endblock %}
 {% block body %}
-<form style="float:right;" target="frame" action="/admin/api/browsefs" method="post">
-  <input type="hidden" name="path" value="{{this.path}}">
-  <input type="image" src={{ '/static/images/link.png'|url }}>
-</form>
-
-<h2>{{ this.title }}</h2>
-
-<br>
-
-{{ this.body }}
-
+  <h2>{{ this.title }}</h2>
+  {{ this.body }}
 {% endblock %}

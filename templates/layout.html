@@ -1,46 +1,28 @@
 <!doctype html>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="icon" type="image/x-icon" href="{{ '/static/favicon.ico'|asseturl }}">
-<link rel="stylesheet" href="{{ '/static/normalize.css'|asseturl }}">
-<link rel="stylesheet" href="{{ '/static/skeleton.css'|asseturl }}">
-<link rel="stylesheet" href="{{ '/static/style.css'|asseturl }}">
-<link rel="stylesheet" href="{{ '/static/fonts/anonymous-pro/anonymous-pro.css'|asseturl }}">
-<link rel="stylesheet" href="{{ '/static/fonts/fa/css/font-awesome.min.css'|asseturl }}">
-<link rel="stylesheet" href="{{ '/static/fonts/ionicons/css/ionicons.min.css'|asseturl }}">
-<link rel="stylesheet" href="{{ '/static/fonts/source-sans-pro/source-sans-pro.css'|asseturl }}">
-<link rel="stylesheet" href="{{ get_pygments_stylesheet()|url }}">
-<script src="{{ '/static/js/jquery-2.2.1.min.js'|asseturl }}"></script>
-
-<title>{% block title %}Welcome{% endblock %}</title>
+<link rel="stylesheet" href="{{ '/static/style.css'|url }}">
+<title>{% block title %}Welcome{% endblock %} — mytags</title>
 <body>
   <header>
-    <h1><i class="fa fa-sticky-note-o"></i> nb-{{config.PROJECT.name}}</h1>
+    <h1>mytags</h1>
     <nav>
       <ul class="nav navbar-nav">
-        <li><a {% if this._path == '/' %} class="active"{% endif
-          %} href="{{ '/'|url }}">Welcome</a></li>
+        <li{% if this._path == '/' %} class="active"{% endif
+          %}><a href="{{ '/'|url }}">Welcome</a></li>
         {% for href, title in [
-          ['/log', 'Log'],
-          ['/folders', 'Folders'],
+          ['/projects', 'Projects'],
           ['/about', 'About']
         ] %}
-          <li><a {% if this.is_child_of(href) %} class="active"{% endif
-            %} href="{{ href|url }}">{{ title }}</a></li>
+          <li{% if this.is_child_of(href) %} class="active"{% endif
+            %}><a href="{{ href|url }}">{{ title }}</a></li>
         {% endfor %}
       </ul>
     </nav>
-    {% block header %}{% endblock %}
   </header>
-
-  <iframe width="0" height="0" border="0" name="frame" style="border-style: none;"></iframe>
-
   <div class="page">
     {% block body %}{% endblock %}
   </div>
-
   <footer>
-    &copy; 2016. Made with <a target="_new" href="http://bionano.ucsf.edu/"><i class="fa fa-{{['cubes', 'cutlery', 'flask', 'gamepad', 'gears', 'hand-lizard-o', 'sliders']|random }}"></i></a> in SF.
-
+    &copy; Copyright 2016 by pablo.
   </footer>
 </body>

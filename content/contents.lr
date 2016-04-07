@@ -1,15 +1,6 @@
-title: Welcome to lr-notebook!
----
-current_year: 2016
----
-current_month: 02
+title: Welcome to mytags!
 ---
 body:
 
-# To-do <i class="fa fa-square-o"></i>
-
-- item 2
-- item 3
-
-# Done <i class="lightblue fa fa-check-square-o"></i>
-- <i class="lightblue fa fa-check-square"></i> item 1
+This is a basic demo website that shows how to use Lektor for a basic
+website with some pages.

@@ -3,22 +3,14 @@
 
 {% block title %}{{ this.name }}{% endblock %}
 
-{% block header %}
-  {{ project_header_links(this.parent, show_count=false) }}
-{% endblock %}
-
 {% block body %}
-
-
+<h1 class="orange" style="display: inline;">{{this.parent.name}}</h1>
+<br>
 <form target="frame" action="/admin/api/browsefs" method="post">
-<input type="hidden" name="path" value="{{this.path}}">
-<input type="image" src={{ '/static/images/link.png'|url }}>
+  <input type="hidden" name="path" value="{{this.path}}">
+  <input type="image" src={{ '/static/images/link.png'|url }}>
 </form>
-
-<h1>{{this.parent.name}}: {{ this.date }}</h1>
-<div class="description">{{ this.description }}</div>
-
-<hr>
+<div class="red description" style="display: inline;">{{ this.description }}</div> <span class="midgray">{{ this.date }}</span>
 
 <div id="entry">
 {{this.body}}

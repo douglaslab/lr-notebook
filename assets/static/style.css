@@ -88,6 +88,7 @@ footer {
 .orange4, .orange5, .orange6, .orange7, .orange8, .orange9 {color: #FBDCBF;}
 
 .lightgray {color:#cccccc;}
+.midgray {color:#999999;}
 .gray {color:#666666;}
 
 
@@ -260,6 +261,11 @@ aside {
 }
 
 
+.description {
+  font-family: 'AnonymousPro', sans-serif;
+  font-size: 1.8rem;
+}
+
 #entry h1, h2, h3, h4, h5, h6 {
   font-family: 'Source Sans Pro', sans-serif;
   margin-top: 2.6rem;
@@ -290,7 +296,7 @@ aside {
   color: #FFBE64;
 }
 
-#entry h2, h3, h4, h5, h6 {
+#entry h3, h4, h5, h6 {
   display: inline-block;
 }
 

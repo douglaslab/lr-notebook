@@ -5,78 +5,7 @@
 
 {% block title %}{{ this.name }}{% endblock %}
 
-{% block header %}
-
-{% set project = site.get("/projects/" + this.path.split('/')[2]) %}
-{{project_header_links(project, show_count=false)}}
-
-{% set p = this.path.split('/') %}
-<br>
-
-<small>
-{% for i in range(4,p|length+1) %}
-  {% set ancestor = site.get(p[:i]|join('/')) %}
-  <a style="margin-left:{{loop.index0}}rem;" href="{{ancestor|url}}">&boxur;<span class="active">{{ancestor.name}}</span></a>
-  {% for item in ancestor.parent.children %}
-    {% if item._model == 'folder' and item != ancestor %}
-      <a class="lightgray" href="{{item|url}}">{{item.name}}</a>
-    {% endif %}
-  {% endfor %}
-  <br>
-{% endfor %}
-
-{% if this.children.filter(F._model == 'folder') %}
-  <span style="margin-left:{{p|length-3}}rem;" class="lightgray">
-  &boxur;
-  {% for item in this.children %}
-    {% if item._model == 'folder' %}
-      <a class="lightgray" href="{{item|url}}">{{item.name}}</a>
-    {% endif %}
-  {% endfor %}
-  </span>
-{% endif %}
-
-</small>
-
-{% endblock %}
-
-
-
 {% block body %}
-
-<script>
-function createEntry(path, projectdate) {
-    $.ajax({
-        type: 'POST',
-        dataType: 'json',
-        contentType: 'application/json',
-        processData: false,
-        url: "/admin/api/newrecord",
-        data: JSON.stringify({"id":projectdate,
-                              "path":path,
-                              "data":{"_model":"entry",
-                                      "date":projectdate}})
-    });
-    location.reload();
-}
-
-function createFolder(path, foldername) {
-    $.ajax({
-        type: 'POST',
-        dataType: 'json',
-        contentType: 'application/json',
-        processData: false,
-        url: "/admin/api/newrecord",
-        data: JSON.stringify({"id":foldername,
-                              "path":path,
-                              "data":{"_model":"folder",
-                                      "date":new Date().toISOString().substring(0, 10),
-                                      "name":foldername}})
-    });
-    location.reload();
-}
-
-</script>
 
 {% set project = site.get("/projects/" + this.path.split('/')[2]) %}
 

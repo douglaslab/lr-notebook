@@ -5,46 +5,7 @@
 
 {% block title %}{{ this.name }}{% endblock %}
 
-{% block header %}
-  {{project_header_links(this, show_count=false)}}
-{% endblock %}
-
 {% block body %}
-
-<script>
-function createEntry(path, projectdate) {
-    $.ajax({
-        type: 'POST',
-        dataType: 'json',
-        contentType: 'application/json',
-        processData: false,
-        url: "/admin/api/newrecord",
-        data: JSON.stringify({"id":projectdate,
-                              "path":path,
-                              "data":{"_model":"entry",
-                                      "date":projectdate}})
-    });
-    location.reload();
-}
-
-function createFolder(path, foldername) {
-    $.ajax({
-        type: 'POST',
-        dataType: 'json',
-        contentType: 'application/json',
-        processData: false,
-        url: "/admin/api/newrecord",
-        data: JSON.stringify({"id":foldername,
-                              "path":path,
-                              "data":{"_model":"folder",
-                                      "date":new Date().toISOString().substring(0, 10),
-                                      "name":foldername}})
-    });
-    location.reload();
-}
-
-</script>
-
 <div class="row">
   <div class="five columns">
     <h1 style="display:inline-block;" class="orange">{{ this.name }}</h1> {{ this.description }}

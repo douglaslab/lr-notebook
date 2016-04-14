@@ -3,64 +3,9 @@
 {% from "macros/projects.html" import render_project_list %}
 {% from "macros/projects.html" import browse_to %}
 
-
 {% block title %}Projects{% endblock %}
 
-{% block header %}
-  {{project_header_links(this)}}
-{% endblock %}
-
 {% block body %}
-<script>
-function createProject(path, projectname) {
-    $.ajax({
-        type: 'POST',
-        dataType: 'json',
-        contentType: 'application/json',
-        processData: false,
-        url: "/admin/api/newrecord",
-        data: JSON.stringify({"id":projectname,
-                              "path":path,
-                              "data":{"name":projectname,
-                                      "date":new Date().toISOString().substring(0, 10)}})
-    });
-    location.reload();
-}
-
-
-function createFolder(path, foldername) {
-    $.ajax({
-        type: 'POST',
-        dataType: 'json',
-        contentType: 'application/json',
-        processData: false,
-        url: "/admin/api/newrecord",
-        data: JSON.stringify({"id":foldername,
-                              "path":path,
-                              "data":{"_model":"folder",
-                                      "date":new Date().toISOString().substring(0, 10),
-                                      "name":foldername}})
-    });
-    location.reload();
-}
-
-function createEntry(path, projectdate) {
-    $.ajax({
-        type: 'POST',
-        dataType: 'json',
-        contentType: 'application/json',
-        processData: false,
-        url: "/admin/api/newrecord",
-        data: JSON.stringify({"id":projectdate,
-                              "path":path,
-                              "data":{"_model":"entry",
-                                      "date":projectdate}})
-    });
-    location.reload();
-}
-</script>
-
-
 <div class="row">
   <div class="two columns">
     <h1>Projects</h1>

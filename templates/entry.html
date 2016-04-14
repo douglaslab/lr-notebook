@@ -9,6 +9,7 @@
 
 {% block body %}
 
+
 <form target="frame" action="/admin/api/browsefs" method="post">
 <input type="hidden" name="path" value="{{this.path}}">
 <input type="image" src={{ '/static/images/link.png'|url }}>
@@ -17,6 +18,10 @@
 <h1>{{this.parent.name}}: {{ this.date }}</h1>
 <div class="description">{{ this.description }}</div>
 
+<hr>
+
+<div id="entry">
 {{this.body}}
+</div>
 
 {% endblock %}

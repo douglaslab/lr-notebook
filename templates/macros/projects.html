@@ -92,7 +92,7 @@
     <div class="four columns"> <!-- description -->
       <small>{{entry.date.strftime('%Y-%b-%e')}}</small>:
       {% if entry.description %}
-        <a href="{{ entry|url }}">{{ entry.description }}</a>
+        <a class="desc" href="{{ entry|url }}">{{ entry.description }}</a>
       {% else %}
         <a class="lightgray" href="{{ entry|url }}">Untitled</a>
       {%endif%}
@@ -130,9 +130,9 @@
     {% set thumbsize = 50/loop.depth %}
     {% set fontsize = 50-(10*loop.depth0) %}
     <div class="row">
-      <div class="four columns"> <!-- description -->
+      <div class="four columns">
         <small>
-        <a style="margin-left:{{loop.depth0 * 2}}rem" href="{{child|url}}">&boxur; <span class="orange{{loop.depth}}">{{child.path.split('/')[-1]}}/{% if child.description %}</span><span style="font-size:{{fontsize}}%"> {{child.description}}</span>{% else %}</span>{% endif %}</a></small><br/>
+        <a style="margin-left:{{loop.depth * 2}}rem" href="{{child|url}}">&boxur; <span class="orange{{loop.depth+1}}">{{child.path.split('/')[-1]}}/{% if child.description %}</span><span style="font-size:{{fontsize}}%"> {{child.description}}</span>{% else %}</span>{% endif %}</a></small><br/>
       </div>
       <div class="one column">
         <form style="display:inline;" target="frame" action="/admin/api/browsefs" method="post">

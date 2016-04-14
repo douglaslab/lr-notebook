@@ -124,14 +124,14 @@ body {
   font-size: 1.6em; /* currently ems cause chrome bug misinterpreting rems on body element */
   line-height: 1.6;
   font-weight: 400;
-  font-family: "Source Sans Pro", "HelveticaNeue", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-family: 'Source Sans Pro', sans-serif;
   color: #222222; }
 
 
 /* Typography
 –––––––––––––––––––––––––––––––––––––––––––––––––– */
 h1, h2, h3, h4, h5, h6 {
-  font-family: "Anonymous Pro", "HelveticaNeue", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-family: "Anonymous Pro", sans-serif;
   margin-top: 0;
   margin-bottom: 1.0rem;
   font-weight: 300; }
@@ -324,9 +324,9 @@ pre > code {
 –––––––––––––––––––––––––––––––––––––––––––––––––– */
 th,
 td {
-  padding: 12px 15px;
+  padding: 3px 3px;
   text-align: left;
-  border: 1px solid #E1E1E1; }
+  border: 1px solid #999; }
 th:first-child,
 td:first-child {
   padding-left: 1rem; }

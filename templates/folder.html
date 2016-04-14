@@ -1,55 +1,185 @@
 {% extends "layout.html" %}
-{% from "macros/log.html" import render_day_entry %}
-{% from "macros/log.html" import render_subfolders %}
-{% from "macros/projects.html" import render_category_nav, render_project_list %}
-{% from "macros/project-entry.html" import render_project_entry %}
+{% from "macros/projects.html" import project_header_links %}
+{% from "macros/projects.html" import render_project_entry %}
+{% from "macros/projects.html" import browse_to %}
 
-{% block title %}Project Folders {{ this.name }}{% endblock %}
+{% block title %}{{ this.name }}{% endblock %}
+
 {% block header %}
-{% set folder_to_count = {} %}
-{% for entry in site.query('/log') recursive %} 
- {% if entry._model == 'project-entry' %}
-   {% set fname = entry.path.split('/')[-1] %}
-   {% set count = 1+folder_to_count[fname]|default(0) %}
-   {% set _ = folder_to_count.update({fname:count}) %}
- {% endif %}
- {{ loop(entry.children)}}
-{% endfor %}
-{% set counts = folder_to_count|dictsort(false, 'value') %}
-{% set max_count = counts[-1][1] %}
-{% set existing_folders = this.children|map(attribute='path')|list %}
-{% set folders = site.query('/folders') %}
+
+{% set project = site.get("/projects/" + this.path.split('/')[2]) %}
+{{project_header_links(project, show_count=false)}}
+
+{% set p = this.path.split('/') %}
+<br>
+
 <small>
-  {% for folder in folders %}
-    {% set count = folder_to_count[folder.name]|default(0) %}
-    {% set lightness = 82 - 35*(count/max_count) %}
-    <a {% if folder.name==this.name %}class="active"{%else%}style="color:hsl(0, 0%, {{lightness}}%);"{%endif%} href="{{folder|url}}">{{folder.name}}</a>
+{% for i in range(4,p|length+1) %}
+  {% set ancestor = site.get(p[:i]|join('/')) %}
+  <a style="margin-left:{{loop.index0}}rem;" href="{{ancestor|url}}">&boxur;<span class="active">{{ancestor.name}}</span></a>
+  {% for item in ancestor.parent.children %}
+    {% if item._model == 'folder' and item != ancestor %}
+      <a class="lightgray" href="{{item|url}}">{{item.name}}</a>
+    {% endif %}
   {% endfor %}
+  <br>
+{% endfor %}
+
+{% if this.children.filter(F._model == 'folder') %}
+  <span style="margin-left:{{p|length-3}}rem;" class="lightgray">
+  &boxur;
+  {% for item in this.children %}
+    {% if item._model == 'folder' %}
+      <a class="lightgray" href="{{item|url}}">{{item.name}}</a>
+    {% endif %}
+  {% endfor %}
+  </span>
+{% endif %}
+
 </small>
+
 {% endblock %}
 
 
-{% block body %}
-<h3>Project Folder <span class="orange">/{{ this.name }}</span></h3>
- <div class="category">{{ render_category_nav(active=this._id) }}</div>
-  {{ render_project_list(this.children) }}
 
-{% for year in site.query('/log') %}
-  {% for month in year.children %}
-    {% for day in month.children %}
-      {% for entry in day.children %}
-        {% if this.name == entry.path.split('/')[-1] %}
-          {{ render_project_entry(entry, from_index=true, yyyymm=true) }}
-          {% for image in entry.attachments.images %}
-            <a href="{{day|url}}"><img src="{{ image.thumbnail(100,100)|url }}"></a>
-          {% endfor %}
-          {{ render_subfolders(entry) }}
+{% block body %}
+
+<script>
+function createEntry(path, projectdate) {
+    $.ajax({
+        type: 'POST',
+        dataType: 'json',
+        contentType: 'application/json',
+        processData: false,
+        url: "/admin/api/newrecord",
+        data: JSON.stringify({"id":projectdate,
+                              "path":path,
+                              "data":{"_model":"entry",
+                                      "date":projectdate}})
+    });
+    location.reload();
+}
+
+function createFolder(path, foldername) {
+    $.ajax({
+        type: 'POST',
+        dataType: 'json',
+        contentType: 'application/json',
+        processData: false,
+        url: "/admin/api/newrecord",
+        data: JSON.stringify({"id":foldername,
+                              "path":path,
+                              "data":{"_model":"folder",
+                                      "date":new Date().toISOString().substring(0, 10),
+                                      "name":foldername}})
+    });
+    location.reload();
+}
+
+</script>
+
+{% set project = site.get("/projects/" + this.path.split('/')[2]) %}
+
+<div class="row">
+  <div class="six columns">
+    <h1 style="display:inline-block;" class="orange">{{project.name}}/</h1>
+    <h2 style="display:inline-block;" class="green">{{this.path.split('/')[3:]|join('/')}}</h2>
+    {{ this.description }}
+  </div>
+  <div class="one column">
+    {{browse_to(this)}}
+  </div>
+  <div class="three columns">
+    <input id="date" type="date"> <a href="#" onclick="createEntry('{{this.path}}', document.querySelector('#date').value );">+</a>
+    </small>
+  </div>
+</div>
+
+<div class="row">
+  <div class="ten columns">
+    <span style="margin-left:{{this.path[2:]|length*0.8}}rem; color:#4daf4a;">&boxur;</span><input id="newfolder" class="newfolder" type="text" placeholder="new">
+    <a href="#" class="green" onclick="createFolder('{{this.path}}', document.querySelector('#newfolder').value );">+</a>
+  </div>
+</div>
+
+{% for item in this.children recursive %}
+  {% if item._model != 'entry' %}
+    <div class="row">
+      <div class="two columns">
+        {{browse_to(item)}}
+        {% if item._model == 'project' %}
+          {% set spanclass = 'orange' %}
+        {% elif item._model == 'folder' %}
+          {% set spanclass = 'green' %}
         {% endif %}
-      {% endfor %}
-    {% endfor %}
-  {% endfor %}
+        <a style="margin-left:{{loop.depth0 * 2}}rem;" href="{{ item|url }}">&boxur;<span class="{{spanclass}}">{{ item.name }}</span></a>
+      </div>
+      <div class="nine columns">
+        <small>
+        {% set yyyy = 1900 %}
+        {% set mm = 0 %}
+        {% for entry in item.children.filter(F._model=='entry')|sort(attribute='date') %}
+          {% if entry.date.year > yyyy %}
+            <span class="gray">{{entry.date.year}}</span>
+            {% set yyyy = entry.date.year %}
+            {% set mm = 0 %}
+          {% endif %}
+          {% if entry.date.month > mm %}
+            <span class="lightgray">{{entry.date.strftime('%b')}}</span>
+            {% set mm = entry.date.month %}
+          {% endif %}
+          <a href="{{entry.parent|url}}#{{entry.date}}">{{entry.date.strftime('%e')}}</a>
+        {% endfor %}
+      </small> <a href="#" onclick="createEntry('{{item.path}}', document.querySelector('#date').value );">+</a></li>
+      </div>
+    </div>
+
+  {{loop(item.children)}}
+
+  {% endif %}
 {% endfor %}
 
-<iframe width="0" height="0" border="0" name="frame" style="border-style: none;"></iframe>
+
+
+
+<div class="row">
+  <div class="nine columns">
+    <small>
+    {% set yyyy = 1900 %}
+    {% set mm = 0 %}
+    {% for entry in this.children.filter(F._model=='entry')|sort(attribute='date') %}
+      {% if entry.date.year > yyyy %}
+        <span class="gray">{{entry.date.year}}</span>
+        {% set yyyy = entry.date.year %}
+        {% set mm = 0 %}
+      {% endif %}
+      {% if entry.date.month > mm %}
+        <span class="lightgray">{{entry.date.strftime('%b')}}</span>
+        {% set mm = entry.date.month %}
+      {% endif %}
+      <a href="{{entry.parent|url}}#{{entry.date}}">{{entry.date.strftime('%e')}}</a>
+    {% endfor %}
+  </small> <a href="#" onclick="createEntry('{{this.path}}', document.querySelector('#date').value );">+</a></li>
+  </div>
+</div>
+
+<hr>
+
+{% for entry in this.children %}
+  {% if entry._model == 'entry' %}
+    {{render_project_entry(entry)}}
+  {% endif %}
+{% endfor %}
+
+
+<script>
+(function () {
+    var date = new Date().toISOString().substring(0, 10),
+        field = document.querySelector('#date');
+    field.value = date;
+    console.log(field.value);
+
+})()
+</script>
 
 {% endblock %}

@@ -1,0 +1,27 @@
+{% extends "layout.html" %}
+{% from "macros/projects.html" import project_header_links %}
+
+{% block title %}{{ this.name }}{% endblock %}
+
+{% block header %}
+  {{ project_header_links(this.parent, show_count=false) }}
+{% endblock %}
+
+{% block body %}
+
+
+<form target="frame" action="/admin/api/browsefs" method="post">
+<input type="hidden" name="path" value="{{this.path}}">
+<input type="image" src={{ '/static/images/link.png'|url }}>
+</form>
+
+<h1>{{this.parent.name}}: {{ this.date }}</h1>
+<div class="description">{{ this.description }}</div>
+
+<hr>
+
+<div id="entry">
+{{this.body}}
+</div>
+
+{% endblock %}

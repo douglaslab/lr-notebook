@@ -1,12 +1,124 @@
 {% extends "layout.html" %}
-{% from "macros/projects.html" import render_category_nav,
-   render_project_list, render_my_categories %}
+{% from "macros/projects.html" import project_header_links %}
+{% from "macros/projects.html" import render_project_entry %}
+{% from "macros/projects.html" import browse_to %}
 
 {% block title %}{{ this.name }}{% endblock %}
-{% block body %}
-  <h3>{{ this.name }}</h3>
-  <div class="description">{{ this.description }}</div>
-  <div class="category">{{ render_my_categories(active=this.categories) }}
-</div>
+
+{% block header %}
+  {{project_header_links(this, show_count=false)}}
 {% endblock %}
 
+{% block body %}
+
+<script>
+function createEntry(path, projectdate) {
+    $.ajax({
+        type: 'POST',
+        dataType: 'json',
+        contentType: 'application/json',
+        processData: false,
+        url: "/admin/api/newrecord",
+        data: JSON.stringify({"id":projectdate,
+                              "path":path,
+                              "data":{"_model":"entry",
+                                      "date":projectdate}})
+    });
+    location.reload();
+}
+
+function createFolder(path, foldername) {
+    $.ajax({
+        type: 'POST',
+        dataType: 'json',
+        contentType: 'application/json',
+        processData: false,
+        url: "/admin/api/newrecord",
+        data: JSON.stringify({"id":foldername,
+                              "path":path,
+                              "data":{"_model":"folder",
+                                      "date":new Date().toISOString().substring(0, 10),
+                                      "name":foldername}})
+    });
+    location.reload();
+}
+
+</script>
+
+<div class="row">
+  <div class="five columns">
+    <h1 style="display:inline-block;" class="orange">{{ this.name }}</h1> {{ this.description }}
+  </div>
+  <div class="one column">
+    {{browse_to(this)}}
+  </div>
+  <div class="four columns">
+    <input id="date" type="date"> <a href="#" onclick="createEntry('{{this.path}}', document.querySelector('#date').value );">+</a>
+    </small>
+  </div>
+</div>
+
+{% for item in this.children recursive %}
+  {% if item._model != 'entry' %}
+    <div class="row">
+      <div class="five columns">
+        {{browse_to(item)}}
+        {% if item._model == 'project' %}
+          {% set spanclass = 'orange' %}
+        {% elif item._model == 'folder' %}
+          {% set spanclass = 'green' %}
+        {% endif %}
+        <a style="margin-left:{{loop.depth0 * 2}}rem;" href="{{ item|url }}">&boxur;<span class="{{spanclass}}">{{ item.name }}</span></a>
+      </div>
+      <div class="six columns">
+        <small>
+        {% set yyyy = 1900 %}
+        {% set mm = 0 %}
+        {% for entry in item.children.filter(F._model=='entry')|sort(attribute='date') %}
+          {% if entry.date.year > yyyy %}
+            <span class="gray">{{entry.date.year}}</span>
+            {% set yyyy = entry.date.year %}
+            {% set mm = 0 %}
+          {% endif %}
+          {% if entry.date.month > mm %}
+            <span class="lightgray">{{entry.date.strftime('%b')}}</span>
+            {% set mm = entry.date.month %}
+          {% endif %}
+          <a href="{{entry.parent|url}}#{{entry.date}}">{{entry.date.strftime('%e')}}</a>
+        {% endfor %}
+      </small> <a href="#" onclick="createEntry('{{item.path}}', document.querySelector('#date').value );">+</a></li>
+      </div>
+    </div>
+
+  {{loop(item.children)}}
+
+  {% endif %}
+{% endfor %}
+
+<div class="row">
+  <div class="five columns">
+    <span style="margin-left:2.4rem; color:#4daf4a;">&boxur;</span><input id="newfolder" class="newfolder" type="text" placeholder="new">
+    <a href="#" class="green" onclick="createFolder('{{this.path}}', document.querySelector('#newfolder').value );">+</a>
+  </div>
+</div>
+
+
+<hr>
+
+{% for entry in this.children %}
+  {% if entry._model == 'entry' %}
+    {{render_project_entry(entry)}}
+  {% endif %}
+{% endfor %}
+
+<script>
+(function () {
+    var date = new Date().toISOString().substring(0, 10),
+        field = document.querySelector('#date');
+    field.value = date;
+    console.log(field.value);
+
+})()
+</script>
+
+{% endblock %}

@@ -121,17 +121,17 @@ are based on 10px sizing. So basically 1.5rem = 15px :) */
 html {
   font-size: 62.5%; }
 body {
-  font-size: 1.5em; /* currently ems cause chrome bug misinterpreting rems on body element */
+  font-size: 1.6em; /* currently ems cause chrome bug misinterpreting rems on body element */
   line-height: 1.6;
   font-weight: 400;
-  font-family: "Source Sans Pro", "HelveticaNeue", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-family: 'Source Sans Pro', sans-serif;
   color: #222222; }
 
 
 /* Typography
 –––––––––––––––––––––––––––––––––––––––––––––––––– */
 h1, h2, h3, h4, h5, h6 {
-  font-family: "Anonymous Pro", "HelveticaNeue", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-family: "Anonymous Pro", sans-serif;
   margin-top: 0;
   margin-bottom: 1.0rem;
   font-weight: 300; }
@@ -236,7 +236,6 @@ input[type="url"],
 input[type="password"],
 textarea,
 select {
-  height: 38px;
   padding: 6px 10px; /* The 6px vertically centers text on FF, ignored by Webkit */
   background-color: #fff;
   border: 1px solid #D1D1D1;
@@ -270,7 +269,6 @@ textarea:focus,
 select:focus {
   border: 1px solid #33C3F0;
   outline: 0; }
-label,
 legend {
   display: block;
   margin-bottom: .5rem;
@@ -326,15 +324,15 @@ pre > code {
 –––––––––––––––––––––––––––––––––––––––––––––––––– */
 th,
 td {
-  padding: 12px 15px;
+  padding: 3px 3px;
   text-align: left;
-  border-bottom: 1px solid #E1E1E1; }
+  border: 1px solid #999; }
 th:first-child,
 td:first-child {
-  padding-left: 0; }
+  padding-left: 1rem; }
 th:last-child,
 td:last-child {
-  padding-right: 0; }
+  padding-right: 1rem; }
 
 
 /* Spacing
@@ -342,7 +340,6 @@ td:last-child {
 button,
 .button {
   margin-bottom: 1rem; }
-input,
 textarea,
 select,
 fieldset {

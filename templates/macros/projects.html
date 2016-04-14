@@ -1,26 +1,179 @@
-{% macro render_category_nav(active=none) %}
-  <ul>
-  {% for category in site.query('/project-categories') %}
-    <li{% if category._id == active %} class="active"{% endif
-      %}><a href="{{ category|url }}">{{ category.name }}</a>
-  {% endfor %}
-  </ul>
+{% macro project_header_links(active=None, show_count=true) %}
+{% set project_to_count = {} %}
+{% for project in site.query('/projects') %}
+  {% set fname = project.path.split('/')[-1] %}
+  {% set count = project.children|list|length %}
+  {% set _ = project_to_count.update({fname:count}) %}
+{% endfor %}
+
+{% if project_to_count %}
+  {% set counts = project_to_count|dictsort(false, 'value') %}
+  {% set max_count = counts[-1][1] %}
+{% else %}
+  {% set max_count = 1 %}
+{% endif %}
+
+<small>
+{% for project in site.query('/projects') %}
+  {% set count = project_to_count[project.name]|default(0) %}
+  {% set lightness = 82 - 35*(count/(max_count+1)) %}
+  <a {% if project.name==active.name %}class="active"{%else%}style="color:hsl(0, 0%, {{lightness}}%);"{%endif%} href="{{project|url}}">{{project.name}}{%if show_count==true%} ({{count}}){%endif%}</a>
+{% endfor %}
+</small>
 {% endmacro %}
 
 {% macro render_project_list(projects) %}
   <ul>
   {% for project in projects %}
-    <li><a href="{{ project|url }}">{{ project.name }}</a>
+    <li><a class="orange" href="{{ project|url }}">{{ project.name }}</a> <input class="little" type="submit" value="+"> </li>
   {% endfor %}
   </ul>
 {% endmacro %}
 
-{% macro render_my_categories(active=none) %}
-  <ul>
-  <li>categories:
-  {% for category in site.query('/project-categories') %}
-    {% if category._id in active %}<li>
-    <a href="{{ category|url }}">{{ category.name }}</a></li>{% endif %}
+{% macro browse_to(entry) %}
+<form target="frame" action="/admin/api/browsefs" method="post">
+<input type="hidden" name="path" value="{{entry.path}}">
+<input type="image" src={{ '/static/images/link.png'|asseturl }}>
+</form>
+{% endmacro %}
+
+{% macro render_attachments(entry) %}
+{% if entry.attachments %}
+<div class="row">
+  <div class="one column"></div>
+  <div class="two columns"><!-- Attachments: --></div>
+<div class="nine columns">
+    {% for image in entry.attachments.images %}
+      {% if image.height > 50 %}
+        <a href="{{image|url}}"><img src="{{ image.thumbnail(50)|url }}"></a>
+      {% else %}
+        <a href="{{image|url}}"><img src="{{ image|url }}"></a>
+      {% endif %}
+    {% endfor %}
+    {% if entry.attachments.images %}<br/>{% endif %}
+    {% for item in entry.attachments.filter(F._attachment_type != 'image') %}
+        <a class="inactive" href="{{item|url}}">{{item.path.split('/')[-1]}}</a>
+        {{ get_attachment_icon(item._id) }}
+        {% if loop.revindex>1 %},{% endif %}
+    {% endfor %}
+  </div>
+</div>
+{% endif %}
+{% endmacro %}
+
+{% macro get_attachment_icon(item_id, color_class='') %}
+  {% if item_id.endswith('.ai') %}<i class="fa fa-object-ungroup"></i>{% endif %}
+  {% if item_id.endswith('.doc') %}<i class="fa fa-file-word-o"></i>{% endif %}
+  {% if item_id.endswith('.docx') %}<i class="fa fa-file-word-o"></i>{% endif %}
+  {% if item_id.endswith('.key') %}<i class="icon ion-easel"></i>{% endif %}
+  {% if item_id.endswith('.ppt') %}<i class="fa fa-file-powerpoint-o"></i>{% endif %}
+  {% if item_id.endswith('.pptx') %}<i class="fa fa-file-powerpoint-o"></i>{% endif %}
+  {% if item_id.endswith('.mp4') %}<i class="fa fa-file-video-o"></i>{% endif %}
+  {% if item_id.endswith('.mpg') %}<i class="fa fa-file-video-o"></i>{% endif %}
+  {% if item_id.endswith('.pages') %}<i class="fa fa-pencil-square-o"></i></i>{% endif %}
+  {% if item_id.endswith('.pdf') %}<i class="fa fa-file-pdf-o"></i>{% endif %}
+  {% if item_id.endswith('.psd') %}<i class="fa fa-file-image-o"></i>{% endif %}
+  {% if item_id.endswith('.py') %}<i class="icon ion-social-python"></i>{% endif %}
+  {% if item_id.endswith('.seq') %}<i class="icon ion-ios-pulse"></i>{% endif %}
+  {% if item_id.endswith('.svg') %}<i class="fa fa-object-ungroup"></i>{% endif %}
+  {% if item_id.endswith('.sublime-settings') %}<i class="fa fa-cogs"></i>{% endif %}
+  {% if item_id.endswith('.ttf') %}<i class="fa fa-font"></i>{% endif %}
+  {% if item_id.endswith('.tif') %}<i class="fa fa-file-image-o"></i>{% endif %}
+  {% if item_id.endswith('.tiff') %}<i class="fa fa-file-image-o"></i>{% endif %}
+  {% if item_id.endswith('.webm') %}<i class="fa fa-file-video-o"></i>{% endif %}
+  {% if item_id.endswith('.xls') %}<i class="fa fa-file-excel-o"></i>{% endif %}
+  {% if item_id.endswith('.zip') %}<i class="fa fa-file-archive-o"></i>{% endif %}
+{% endmacro %}
+
+
+{% macro render_project_entry(entry) %}
+<div id="{{entry.date}}">
+  <div class="row">
+    <div class="four columns"> <!-- description -->
+      <small>{{entry.date.strftime('%Y-%b-%e')}}</small>:
+      {% if entry.description %}
+        <a class="desc" href="{{ entry|url }}">{{ entry.description }}</a>
+      {% else %}
+        <a class="lightgray" href="{{ entry|url }}">Untitled</a>
+      {%endif%}
+    </div>
+    <div class="one column">
+      <form style="display:inline;" target="frame" action="/admin/api/browsefs" method="post">
+      <input type="hidden" name="path" value="{{entry.path}}">
+      <input type="image" src={{ '/static/images/link.png'|url }}>
+      </form>
+    </div>
+      <div class="four columns"> <!-- attachments -->
+      {% if entry.attachments %}
+        {% for image in entry.attachments.images %}
+          {% if image.height > 50 %}
+            <a href="{{image|url}}"><img src="{{ image.thumbnail(50)|url }}"></a>
+          {% else %}
+            <a href="{{image|url}}"><img src="{{ image|url }}"></a>
+          {% endif %}
+        {% endfor %}
+      {% else %}
+        &nbsp;
+      {% endif %}
+      </div>
+      <div class="three columns">&nbsp;
+        {{attachment_extension_counts(entry)}}
+      </div>
+  </div> <!-- end row -->
+  {{render_subfolders(entry)}}
+</div>
+{% endmacro %}
+
+
+{% macro render_subfolders(entry) %}
+  {% for child in entry.children recursive %}
+    {% set thumbsize = 50/loop.depth %}
+    {% set fontsize = 50-(10*loop.depth0) %}
+    <div class="row">
+      <div class="four columns">
+        <small>
+        <a style="margin-left:{{loop.depth * 2}}rem" href="{{child|url}}">&boxur; <span class="orange{{loop.depth+1}}">{{child.path.split('/')[-1]}}/{% if child.description %}</span><span style="font-size:{{fontsize}}%"> {{child.description}}</span>{% else %}</span>{% endif %}</a></small><br/>
+      </div>
+      <div class="one column">
+        <form style="display:inline;" target="frame" action="/admin/api/browsefs" method="post">
+        <input type="hidden" name="path" value="{{child.path}}">
+        <input type="image" src={{ '/static/images/sublink.png'|url }}>
+        </form>
+      </div>
+      {% if child.attachments %}
+        <div class="four columns"> <!-- attachments -->
+          &nbsp;
+          {% for image in child.attachments.images %}
+            {% if image.height > 50 %}
+              <a href="{{image|url}}"><img src="{{ image.thumbnail(thumbsize)|url }}"></a>
+            {% else %}
+              <a href="{{image|url}}"><img src="{{ image|url }}"></a>
+            {% endif %}
+          {% endfor %}
+        </div>
+        <div class="three columns">&nbsp;
+        {{attachment_extension_counts(child)}}
+      </div>
+      {% endif %}
+    </div>
+    {{ loop(child.children) }}
+    {% endfor %}
+{% endmacro %}
+
+{% macro attachment_extension_counts(page, include_images=false) %}
+  {% set ext_to_count = {} %}
+  {% if include_images %}
+    {% set attachment_list = page.attachments %}
+  {% else %}
+    {% set attachment_list = page.attachments.filter(F._attachment_type != 'image') %}
+  {% endif %}
+  {% for attachment in attachment_list %}
+    {% set ext = attachment.path.split('.')[-1] %}
+    {% set count = ext_to_count[ext]|default(0) %}
+    {% set _ = ext_to_count.update({ext:count+1}) %}
   {% endfor %}
-  </ul>
+
+  {% for ext,count in ext_to_count|dictsort %}
+   {{get_attachment_icon('.'+ext)}}<span class="green">.{{ext}}</span>{% if count>1 %}<span class="lightgray">({{count}})</span>{% endif %}
+  {% endfor %}
 {% endmacro %}

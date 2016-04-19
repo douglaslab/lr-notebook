@@ -266,7 +266,7 @@ aside {
   font-size: 1.8rem;
 }
 
-#entry h1, h2, h3, h4, h5, h6 {
+#entry h1, #entry h2, #entry h3, #entry h4, #entry h5, #entry h6 {
   font-family: 'Source Sans Pro', sans-serif;
   margin-top: 2.6rem;
   margin-right: -1.5rem;
@@ -292,11 +292,11 @@ aside {
   font-size: 1.8rem;
 }
 
-#entry h1 > a, h2 > a, h3 > a, h4 > a, h5 > a, h6 > a {
+#entry h1 > a, #entry h2 > a, #entry h3 > a, #entry h4 > a, #entry h5 > a, #entry h6 > a {
   color: #FFBE64;
 }
 
-#entry h3, h4, h5, h6 {
+#entry h3, #entry h4, #entry h5, #entry h6 {
   display: inline-block;
 }
 

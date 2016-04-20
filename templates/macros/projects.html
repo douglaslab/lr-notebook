@@ -37,24 +37,26 @@
 </form>
 {% endmacro %}
 
-{% macro render_attachments(entry) %}
+{% macro render_attachments(entry, size=50) %}
 {% if entry.attachments %}
 <div class="row">
   <div class="one column"></div>
   <div class="two columns"><!-- Attachments: --></div>
 <div class="nine columns">
     {% for image in entry.attachments.images %}
-      {% if image.height > 50 %}
-        <a href="{{image|url}}"><img src="{{ image.thumbnail(50)|url }}"></a>
+      {% if image.path.endswith('.svg') %}
+        <a class="green" href="{{image|url}}">{{image.path.split('/')[-1]}}</a>
+        {{ get_attachment_icon(image._id) }}
+      {% elif image.height > size %}
+        <a href="{{image|url}}"><img src="{{ image.thumbnail(size)|url }}"></a>
       {% else %}
         <a href="{{image|url}}"><img src="{{ image|url }}"></a>
       {% endif %}
     {% endfor %}
     {% if entry.attachments.images %}<br/>{% endif %}
     {% for item in entry.attachments.filter(F._attachment_type != 'image') %}
-        <a class="inactive" href="{{item|url}}">{{item.path.split('/')[-1]}}</a>
-        {{ get_attachment_icon(item._id) }}
-        {% if loop.revindex>1 %},{% endif %}
+        <a class="green" href="{{item|url}}">{{item.path.split('/')[-1]}}</a>
+        {{ get_attachment_icon(item._id) }}{% if not loop.last %},{% endif %}
     {% endfor %}
   </div>
 </div>
@@ -106,7 +108,10 @@
       <div class="four columns"> <!-- attachments -->
       {% if entry.attachments %}
         {% for image in entry.attachments.images %}
-          {% if image.height > 50 %}
+          {% if image.path.endswith('.svg') %}
+            <a class="green" href="{{image|url}}">{{image.path.split('/')[-1]}}</a>
+            {{ get_attachment_icon(image._id) }}
+          {% elif image.height > 50 %}
             <a href="{{image|url}}"><img src="{{ image.thumbnail(50)|url }}"></a>
           {% else %}
             <a href="{{image|url}}"><img src="{{ image|url }}"></a>
@@ -144,7 +149,10 @@
         <div class="four columns"> <!-- attachments -->
           &nbsp;
           {% for image in child.attachments.images %}
-            {% if image.height > 50 %}
+            {% if image.path.endswith('.svg') %}
+              <a class="green" href="{{image|url}}">{{image.path.split('/')[-1]}}</a>
+              {{ get_attachment_icon(image._id) }}
+            {% elif image.height > 50 %}
               <a href="{{image|url}}"><img src="{{ image.thumbnail(thumbsize)|url }}"></a>
             {% else %}
               <a href="{{image|url}}"><img src="{{ image|url }}"></a>

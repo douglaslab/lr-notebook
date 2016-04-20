@@ -245,12 +245,10 @@ a.desc {
 
 #entry {
   margin-top: 3rem;
-  /*background: linear-gradient(90deg, #fcfcfc 50%, #f8f8f8 50%);*/
   margin-bottom: 5em;
   height: 100%;
   width: 100%;
   overflow: hidden;
-  /*border: 1px solid #eee;*/
   padding: 1rem;
 }
 
@@ -279,18 +277,19 @@ a.desc {
     color:#fff;
     background: #377eb8;
     clear: both;
-
+    box-shadow: inset 0px 0px 10px 0px rgba(0,0,0,0.25);
   }
 
   #entry h2 {
     margin-top: 2rem;
-    width: 72%;
+    width: 100%;
+    box-shadow: inset 0px 0px 10px 0px rgba(0,0,0,0.25);
   }
 
   #entry h3, #entry h4, #entry h5, #entry h6 {
     font-family: 'Source Sans Pro', sans-serif;
     margin-top: 1.5rem;
-    width: 72%;
+    width: 70%;
     clear: both;
   }
 
@@ -306,6 +305,11 @@ a.desc {
     background: #fff;
     /*border: 1px solid #c00;*/
   }
+
+  #entry .right  {
+    background: #f0f0f0;
+  }
+
 }
 
 /* 2-column column */

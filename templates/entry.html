@@ -1,19 +1,45 @@
 {% extends "layout.html" %}
-{% from "macros/projects.html" import project_header_links %}
+{% from "macros/projects.html" import render_attachments, render_subfolders %}
 
 {% block title %}{{ this.name }}{% endblock %}
 
 {% block body %}
-<h1 class="orange" style="display: inline;">{{this.parent.name}}</h1>
+<h1 style="display: inline;"><a class="orange" href="{{this.parent|url}}">{{this.parent.name}}/</a></h1>
 <br>
 <form target="frame" action="/admin/api/browsefs" method="post">
   <input type="hidden" name="path" value="{{this.path}}">
   <input type="image" src={{ '/static/images/link.png'|url }}>
 </form>
-<div class="red description" style="display: inline;">{{ this.description }}</div> <span class="midgray">{{ this.date }}</span>
+<h2 class="lightblue" style="display: inline;">{{ this.description }}</h2> <span class="midgray">{{ this.date }}</span>
 
+{% if this.body %}
 <div id="entry">
-{{this.body}}
+    {{this.body}}
 </div>
+
+<script>
+  function renderRightAsMarkdown() {
+      var right = document.getElementsByClassName("right");
+      for (var i=0; i<right.length; i++) {
+          src = right[i].innerHTML
+          right[i].innerHTML = marked(src);
+      }
+  }
+  renderRightAsMarkdown();
+</script>
+
+{% endif %}
+
+{% if this.attachments %}
+{% if this.body %}<hr>{% endif %}
+<h5 style="float:left; margin-top:3rem;">Attachments:</h5>
+  {{render_attachments(this, 100)}}
+{% endif %}
+
+{% if this.children %}
+  <h5 style="float:left; margin-top:3rem;">Subfolders:</h5>
+  {{render_subfolders(this)}}
+{% endif %}
+
 
 {% endblock %}

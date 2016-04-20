@@ -9,8 +9,10 @@
 <link rel="stylesheet" href="{{ '/static/fonts/fa/css/font-awesome.min.css'|asseturl }}">
 <link rel="stylesheet" href="{{ '/static/fonts/ionicons/css/ionicons.min.css'|asseturl }}">
 <link rel="stylesheet" href="{{ '/static/fonts/source-sans-pro/source-sans-pro.css'|asseturl }}">
+<link rel="stylesheet" href="{{ get_pygments_stylesheet()|url }}">
 <script src="{{ '/static/js/jquery-2.2.1.min.js'|asseturl }}"></script>
 <script src="{{ '/static/js/lr-notebook.js'|asseturl }}"></script>
+<script src="{{ '/static/js/marked.js'|asseturl }}"></script>
 
 <title>{% block title %}Welcome{% endblock %}</title>
 <body>

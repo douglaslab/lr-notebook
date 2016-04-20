@@ -91,6 +91,7 @@ footer {
 .midgray {color:#999999;}
 .gray {color:#666666;}
 
+
 .indent {margin-left: 1rem;}
 
 a.nochildren, div.category {
@@ -167,6 +168,7 @@ body {
   background: #fcfcfc;
 }
 
+
 table {
   border:#c9c9c9 1px solid; margin: 1em 1em 1em 0; border-collapse: collapse;
 }
@@ -189,6 +191,7 @@ summary:after {
 details[open] summary:after {
   content: "-";
 }
+
 
 input[type="submit"].little {
   padding: 0px 2px;
@@ -242,7 +245,7 @@ a.desc {
 
 #entry {
   margin-top: 3rem;
-  background: linear-gradient(90deg, #fcfcfc 50%, #f8f8f8 50%);
+  /*background: linear-gradient(90deg, #fcfcfc 50%, #f8f8f8 50%);*/
   margin-bottom: 5em;
   height: 100%;
   width: 100%;
@@ -264,11 +267,10 @@ a.desc {
 
 /* single column (mobile) */
 @media (min-width: 400px) {
-  #entry h1, #entry h2, #entry h3, #entry h4, #entry h5, #entry h6 {
+  #entry h1, #entry h2 {
     font-family: 'Source Sans Pro', sans-serif;
-    margin-top: 2.6rem;
     margin-right: -1.5rem;
-    margin-bottom: 1.2rem;
+    margin-bottom: 1.0rem;
     margin-left: -1.5rem;
     padding-top: 0.6rem;
     padding-right: 1.5rem;
@@ -276,6 +278,20 @@ a.desc {
     padding-left: 1.5rem;
     color:#fff;
     background: #377eb8;
+    clear: both;
+
+  }
+
+  #entry h2 {
+    margin-top: 2rem;
+    width: 72%;
+  }
+
+  #entry h3, #entry h4, #entry h5, #entry h6 {
+    font-family: 'Source Sans Pro', sans-serif;
+    margin-top: 1.5rem;
+    width: 72%;
+    clear: both;
   }
 
   #entry body, #entry ul, #entry li {
@@ -295,9 +311,12 @@ a.desc {
 /* 2-column column */
 @media (min-width: 550px) {
 
-  #entry h1, #entry h2, #entry h3, #entry h4, #entry h5, #entry h6 {
+  #entry {
+    background: linear-gradient(90deg, #fcfcfc 50%, #f6f6f6 50%);
+  }
+
+  #entry h1, #entry h2 {
     font-family: 'Source Sans Pro', sans-serif;
-    margin-top: 2.6rem;
     margin-right: -1.5rem;
     margin-bottom: 1.0rem;
     margin-left: -1.5rem;
@@ -308,12 +327,20 @@ a.desc {
     color:#fff;
     background: #377eb8;
     clear: both;
-    /*background:linear-gradient(90deg, #377eb8 50%, #f8f8f8 50%);*/
   }
 
-  #entry h2, #entry h3, #entry h4, #entry h5, #entry h6 {
-    margin-top: 3rem;
+  #entry h2 {
+    margin-top: 2rem;
     width: 47%;
+  }
+
+  #entry h3, #entry h4, #entry h5, #entry h6 {
+    font-family: 'Source Sans Pro', sans-serif;
+    font-weight: 400;
+    margin-top: 1.5rem;
+    margin-left: 1.5rem;
+    width: 47%;
+    clear: both;
   }
 
   #entry img {
@@ -330,7 +357,7 @@ a.desc {
     float: left;
     clear: left;
     margin-left: 1.5rem;
-    margin-bottom: 1.0rem;
+    margin-bottom: 2.5rem;
   }
   
   #entry li {
@@ -358,6 +385,7 @@ a.desc {
   .right {
     width: 50%;
     float: right;
+    clear: right;
     display: inline;
     font-family: 'AnonymousPro', sans-serif;
     font-size: 90%;
@@ -382,4 +410,6 @@ a.desc {
     padding: 0rem 1rem 0rem 1rem;
     background: #eee;
   }
+
+
 }

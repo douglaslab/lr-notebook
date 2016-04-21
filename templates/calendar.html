@@ -38,7 +38,7 @@
             <a href="{{image|url}}"><img src="{{ image|url }}"></a>
           {% endif %}
         {% endfor %}
-        {% if entry.attachments.images.count > 5 %}<span class="lightgray">...{{entry.attachments.images.count()}} more</span>{% endif %}
+        {% if entry.attachments.images.count() > 5 %}<span class="lightgray">...{{entry.attachments.images.count()}} more</span>{% endif %}
       </div>
       <div class="two columns">
         {{ attachment_extension_counts(entry) }}

@@ -10,7 +10,7 @@
   <input type="hidden" name="path" value="{{this.path}}">
   <input type="image" src={{ '/static/images/link.png'|url }}>
 </form>
-<h2 class="lightblue" style="display: inline;">{{ this.description }}</h2> <span class="midgray">{{ this.date }}</span>
+<h2 class="lightblue" style="display: inline;">{{ this.description }}</h2> <span class="midgray">{{ this.date }}</span> {% if this.star %}<span class="small {{this.star}}"><i class="fa fa-star" aria-hidden="true"></i></span>{% endif %}
 
 {% if this.body %}
 <div id="entry">
@@ -33,7 +33,7 @@
 {% if this.attachments %}
 {% if this.body %}<hr>{% endif %}
 <h5 style="float:left; margin-top:3rem;">Attachments:</h5>
-  {{render_attachments(this, 100)}}
+  {{render_attachments(this, 50)}}
 {% endif %}
 
 {% if this.children %}

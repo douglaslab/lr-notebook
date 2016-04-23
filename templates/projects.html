@@ -30,6 +30,7 @@
           {% set spanclass = 'green' %}
         {% endif %}
         <a style="margin-left:{{loop.depth0 * 2}}rem;" href="{{ item|url }}">&boxur;<span class="{{spanclass}}">{{ item.name }}</span></a>
+        {% if item.star %}<span class="small {{item.star}}"><i class="fa fa-star" aria-hidden="true"></i></span>{% endif %}
       </div>
       <div class="six columns">
         <small>
@@ -45,7 +46,7 @@
             <span class="lightgray">{{entry.date.strftime('%b')}}</span>
             {% set mm = entry.date.month %}
           {% endif %}
-          <a href="{{entry.parent|url}}#{{entry.date}}">{{entry.date.strftime('%e')}}</a>
+          <a href="{{entry.parent|url}}#{{entry.date}}">{{entry.date.strftime('%e')}}{% if entry.star %}<span class="x-small {{entry.star}}"><i class="fa fa-star" aria-hidden="true"></i></span>{% endif %}</a>
         {% endfor %}
       </small> <a href="#" onclick="createEntry('{{item.path}}', document.querySelector('#date').value );">+</a></li>
       </div>

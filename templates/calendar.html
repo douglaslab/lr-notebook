@@ -15,11 +15,12 @@
     {{ loop(project.children) }}
   {% endfor %}
   <h1>Calendar</h1>
-  {% for date, entrylist in date_to_entry|dictsort %}
+  {% for date, entrylist in date_to_entry|dictsort|reverse %}
     {% for entry in entrylist %}
     <div class="row">
       <div class="four columns">
       {{date}}: <small><a href="{{entry.parent|url}}#{{date}}" class="orange">{{entry.path.split('/')[2:-1]|join('/')}}</a></small>
+      {% if entry.star %}<span class="{{entry.star}} x-small"><i class="fa fa-star" aria-hidden="true"></i></span>{% endif %}
       {% if entry.description%}
         <a href="{{entry|url}}">{{entry.description}}</a>
       {%else%}
@@ -44,6 +45,8 @@
       </div>
       <div class="two columns">
         {{ attachment_extension_counts(entry) }}
+      {% else %}
+      &nbsp;
       {% endif %}
       </div>
     </div>

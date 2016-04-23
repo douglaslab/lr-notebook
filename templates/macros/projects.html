@@ -64,27 +64,27 @@
 {% endmacro %}
 
 {% macro get_attachment_icon(item_id, color_class='') %}
-  {% if item_id.endswith('.ai') %}<i class="fa fa-object-ungroup"></i>{% endif %}
-  {% if item_id.endswith('.doc') %}<i class="fa fa-file-word-o"></i>{% endif %}
-  {% if item_id.endswith('.docx') %}<i class="fa fa-file-word-o"></i>{% endif %}
-  {% if item_id.endswith('.key') %}<i class="icon ion-easel"></i>{% endif %}
-  {% if item_id.endswith('.ppt') %}<i class="fa fa-file-powerpoint-o"></i>{% endif %}
-  {% if item_id.endswith('.pptx') %}<i class="fa fa-file-powerpoint-o"></i>{% endif %}
-  {% if item_id.endswith('.mp4') %}<i class="fa fa-file-video-o"></i>{% endif %}
-  {% if item_id.endswith('.mpg') %}<i class="fa fa-file-video-o"></i>{% endif %}
-  {% if item_id.endswith('.pages') %}<i class="fa fa-pencil-square-o"></i></i>{% endif %}
-  {% if item_id.endswith('.pdf') %}<i class="fa fa-file-pdf-o"></i>{% endif %}
-  {% if item_id.endswith('.psd') %}<i class="fa fa-file-image-o"></i>{% endif %}
-  {% if item_id.endswith('.py') %}<i class="icon ion-social-python"></i>{% endif %}
-  {% if item_id.endswith('.seq') %}<i class="icon ion-ios-pulse"></i>{% endif %}
-  {% if item_id.endswith('.svg') %}<i class="fa fa-object-ungroup"></i>{% endif %}
-  {% if item_id.endswith('.sublime-settings') %}<i class="fa fa-cogs"></i>{% endif %}
-  {% if item_id.endswith('.ttf') %}<i class="fa fa-font"></i>{% endif %}
-  {% if item_id.endswith('.tif') %}<i class="fa fa-file-image-o"></i>{% endif %}
-  {% if item_id.endswith('.tiff') %}<i class="fa fa-file-image-o"></i>{% endif %}
-  {% if item_id.endswith('.webm') %}<i class="fa fa-file-video-o"></i>{% endif %}
-  {% if item_id.endswith('.xls') %}<i class="fa fa-file-excel-o"></i>{% endif %}
-  {% if item_id.endswith('.zip') %}<i class="fa fa-file-archive-o"></i>{% endif %}
+   {% if item_id.endswith('.ai') %}<i aria-hidden="true" class="fa fa-object-ungroup"></i>{% endif %}
+  {% if item_id.endswith('.doc') %}<i aria-hidden="true" class="fa fa-file-word-o"></i>{% endif %}
+ {% if item_id.endswith('.docx') %}<i aria-hidden="true" class="fa fa-file-word-o"></i>{% endif %}
+  {% if item_id.endswith('.key') %}<i aria-hidden="true" class="icon ion-easel"></i>{% endif %}
+  {% if item_id.endswith('.ppt') %}<i aria-hidden="true" class="fa fa-file-powerpoint-o"></i>{% endif %}
+ {% if item_id.endswith('.pptx') %}<i aria-hidden="true" class="fa fa-file-powerpoint-o"></i>{% endif %}
+  {% if item_id.endswith('.mp4') %}<i aria-hidden="true" class="fa fa-file-video-o"></i>{% endif %}
+  {% if item_id.endswith('.mpg') %}<i aria-hidden="true" class="fa fa-file-video-o"></i>{% endif %}
+{% if item_id.endswith('.pages') %}<i aria-hidden="true" class="fa fa-pencil-square-o"></i></i>{% endif %}
+  {% if item_id.endswith('.pdf') %}<i aria-hidden="true" class="fa fa-file-pdf-o"></i>{% endif %}
+  {% if item_id.endswith('.psd') %}<i aria-hidden="true" class="fa fa-file-image-o"></i>{% endif %}
+   {% if item_id.endswith('.py') %}<i aria-hidden="true" class="icon ion-social-python"></i>{% endif %}
+  {% if item_id.endswith('.seq') %}<i aria-hidden="true" class="icon ion-ios-pulse"></i>{% endif %}
+  {% if item_id.endswith('.svg') %}<i aria-hidden="true" class="fa fa-object-ungroup"></i>{% endif %}
+  {% if item_id.endswith('.ttf') %}<i aria-hidden="true" class="fa fa-font"></i>{% endif %}
+  {% if item_id.endswith('.tif') %}<i aria-hidden="true" class="fa fa-file-image-o"></i>{% endif %}
+ {% if item_id.endswith('.tiff') %}<i aria-hidden="true" class="fa fa-file-image-o"></i>{% endif %}
+ {% if item_id.endswith('.webm') %}<i aria-hidden="true" class="fa fa-file-video-o"></i>{% endif %}
+  {% if item_id.endswith('.xls') %}<i aria-hidden="true" class="fa fa-file-excel-o"></i>{% endif %}
+  {% if item_id.endswith('.zip') %}<i aria-hidden="true" class="fa fa-file-archive-o"></i>{% endif %}
+  {% if item_id.endswith('.sublime-settings') %}<i aria-hidden="true" class="fa fa-cogs"></i>{% endif %}
 {% endmacro %}
 
 
@@ -92,9 +92,10 @@
 <div id="{{entry.date}}">
   <div class="row">
     <div class="four columns"> <!-- description -->
+      {% if entry.star %}<span class="x-small {{entry.star}}"><i class="fa fa-star" aria-hidden="true"></i></span>{% endif %}
       <small>{{entry.date.strftime('%Y-%b-%e')}}</small>:
       {% if entry.description %}
-        <a class="desc" href="{{ entry|url }}">{{ entry.description }}</a>
+        <a class="description" href="{{ entry|url }}">{{ entry.description }}</a>
       {% else %}
         <a class="lightgray" href="{{ entry|url }}">Untitled</a>
       {%endif%}

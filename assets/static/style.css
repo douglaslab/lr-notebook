@@ -1,46 +1,29 @@
-/* Disabled to use skeleton.css (SD) */
 
-/*body {
-    font-family: 'Verdana', sans-serif;
-    margin: 50px 25px;
+/* Override skeleton.css */
+body {
+  margin: 50px 50px;
+  background: #fcfcfc;
+}
+
+table {
+  border:#c9c9c9 1px solid; margin: 1em 1em 1em 0; border-collapse: collapse;
 }
 
 a {
-    color: #2a99b6;
+  text-decoration: none;
 }
 
-a:hover {
-    color: #33bbdf;
+a.description {
+  font-family: 'Anonymous Pro', sans-serif;
+  font-size: 1.8rem;
 }
-
-header, footer, div.page {
-    width: 760px;
-    margin: 0 auto;
-    background: #daeef3;
-    padding: 20px 30px;
-}
-
-header h1 {
-    color: #169bbd;
-    margin: 0;
-    font-weight: normal;
-    font-size: 42px;
-}
-
-header nav ul {
-   .detail-style: none;
-    margin: 0;
-    padding: 0;
-}*/
-
-/* Re-enabled to override skeleton.css (SD) */
 
 header, footer, div.page {
   max-width: 1200px;
 }
 
 header, h4 {
-    margin-bottom: 0;
+  margin-bottom: 0;
 }
 
 header nav ul li {
@@ -49,77 +32,37 @@ header nav ul li {
   padding: 0;
 }
 
-body {
-  margin: 50px 50px;
-}
-
 footer {
   margin-top: 2em;
 }
 
+
+/* Colors */
 .active {color:#cc0000;}
 .inactive {color:#cccccc;}
 
-.color1 {color: #4daf4a;}
-.color2 {color: #ff7f00;}
-.color3 {color: #377eb8;}
-.color4 {color: #984ea3;}
-.light1 {color: #b5d1b1;}
-.light2 {color: #fbdcbf;}
-.light3 {color: #8bbae5;}
-.light4 {color: #8c6e91;}
-
-
 .red {color: #cc0000;}
-
-.purple {color: #984ea3;}
-.lightpurple {color: #8c6e91;}
-
+.lightred {color: #ff4d4d;}
+.green {color: #4daf4a;}
+.lightgreen {color: #b5d1b1;}
 .blue {color: #377eb8;}
 .lightblue {color: #169bbd;}
 .linkblue {color: #1EAEDB;}
+.purple {color: #984ea3;}
+.lightpurple {color: #8c6e91;}
+.gray {color:#666666;}
+.midgray {color:#999999;}
+.lightgray {color:#cccccc;}
 
-.green {color: #4daf4a;}
-.lightgreen {color: #b5d1b1;}
-
+/* Some templates use a recursive loop.depth index to set color. */
 .orange, .orange1 {color: #FF7F00;}
 .orange2 {color: #FE9E40;}
-.orange3, .lightorange {color: #FCBD7F;}
+.lightorange, .orange3 {color: #FCBD7F;}
 .orange4, .orange5, .orange6, .orange7, .orange8, .orange9 {color: #FBDCBF;}
 
-.lightgray {color:#cccccc;}
-.midgray {color:#999999;}
-.gray {color:#666666;}
 
 
-.indent {margin-left: 1rem;}
-
-a.nochildren, div.category {
-    color:#ccc;
-}
-
-.category ul li {
-  color: #bbbbbb;
-  display: inline;
-  margin: 0 3px 0 0;
-  padding: 0;
-}
-
-.calendar {
-  font-family: "Anonymous Pro";
-}
-
-a {
-  text-decoration: none;
-}
-
-img.autosize {
-  height: auto;
-  width: 100%;
-  border-radius: 2px;
-  border: 1px solid #ddd; 
-}
-
+/* Images */
 img.littlethumb {
   max-height: 100px;
   max-width: 100px;
@@ -128,20 +71,20 @@ img.littlethumb {
 }
 
 img.thumb {
-  max-height: 200px;
-  max-width: 200px;
+  max-height: 180px;
+  max-width: 180px;
   border-radius: 2px;
   border: 1px solid #ddd;
 }
 
 img.bigthumb {
-  margin-left: 1rem;
   max-height: 400px;
   max-width: 400px;
   border-radius: 4px;
   border: 1px solid #ddd;
 }
 
+/* Forms */
 input[type="submit"].hidden-button-link {
   border:none;
   outline:none;
@@ -149,7 +92,6 @@ input[type="submit"].hidden-button-link {
   color:#ccc;
   padding:0;
   margin-top:1em;
-
 }
 
 input[type="image"] {
@@ -164,15 +106,8 @@ form {
   padding:0;
 }
 
-body {
-  background: #fcfcfc;
-}
 
-
-table {
-  border:#c9c9c9 1px solid; margin: 1em 1em 1em 0; border-collapse: collapse;
-}
-
+/* Styles for UI elements that talk to Lektor admin api (e.g. /projects) */
 details summary::-webkit-details-marker {
   color: #999999;
 }
@@ -191,7 +126,6 @@ summary:after {
 details[open] summary:after {
   content: "-";
 }
-
 
 input[type="submit"].little {
   padding: 0px 2px;
@@ -234,15 +168,7 @@ input[type="text"].newfolder {
   border-radius: 2px;
 }
 
-a.desc {
-  font-size: 1.8rem;
-}
-
-.description {
-  font-family: 'AnonymousPro', sans-serif;
-  font-size: 1.8rem;
-}
-
+/* Entry styles */
 #entry {
   margin-top: 3rem;
   margin-bottom: 5em;
@@ -263,7 +189,16 @@ a.desc {
     margin-right: 1.0rem;
 }
 
-/* single column (mobile) */
+#entry table {
+  margin-left: 1rem;
+}
+
+#entry th, #entry td {
+  border: none;
+  margin: 1em 1em 1em 0; border-collapse: collapse;
+}
+
+/* Single column (mobile) */
 @media (min-width: 400px) {
   #entry h1, #entry h2 {
     font-family: 'Source Sans Pro', sans-serif;
@@ -277,7 +212,7 @@ a.desc {
     color:#fff;
     background: #377eb8;
     clear: both;
-    box-shadow: inset 0px 0px 10px 0px rgba(0,0,0,0.25);
+    box-shadow: inset 0px 0px 10px 0px rgba(0,0,0,0.5);
   }
 
   #entry h2 {
@@ -299,25 +234,26 @@ a.desc {
   }
 
   #entry img {
-    margin-left: 1rem;
     max-width: 96%;
     border-radius: 4px;
     background: #fff;
-    /*border: 1px solid #c00;*/
   }
+} /* end Single column (mobile) */
 
-  #entry .right  {
-    background: #f0f0f0;
-  }
 
-}
-
-/* 2-column column */
+/* Two column (desktop) */
 @media (min-width: 550px) {
 
   #entry {
     background: linear-gradient(90deg, #fcfcfc 50%, #f6f6f6 50%);
   }
+
+  #entry h1 { font-size: 2.4rem; font-weight: 400; }
+  #entry h2 { font-size: 2.0rem; }
+  #entry h3 { font-size: 2.0rem; }
+  #entry h4 { font-size: 1.8rem; }
+  #entry h5 { font-size: 1.6rem; }
+  #entry h6 { font-size: 1.5rem; }
 
   #entry h1, #entry h2 {
     font-family: 'Source Sans Pro', sans-serif;
@@ -348,7 +284,6 @@ a.desc {
   }
 
   #entry img {
-    margin-left: 1rem;
     border-radius: 4px;
     background: #fff;
     clear: both;
@@ -383,7 +318,9 @@ a.desc {
   }
 
   #entry pre > code {
-    font-size: 50%;
+    margin-left: 2rem;
+    background: #eee;
+    border: 1px solid #E1E1E1;
   }
 
   .right {
@@ -391,7 +328,7 @@ a.desc {
     float: right;
     clear: right;
     display: inline;
-    font-family: 'AnonymousPro', sans-serif;
+    font-family: 'Anonymous Pro', sans-serif;
     font-size: 90%;
   }
 
@@ -405,15 +342,20 @@ a.desc {
     width: 96%;
   }
 
+  #entry .right table {
+    border: none;
+  }
+
   /* Here we force float:right because wrapping in a .right div
      would break pygments rendering is done by markdown-highlighter plugin */
   #entry .highlight {
-    width: 48%;
+    width: 45%;
+    font-size: 90%;
     float: right;
     display: inline;
-    padding: 0rem 1rem 0rem 1rem;
+    margin-right: 1rem;
     background: #eee;
+    border: 1px solid #E1E1E1;
+    padding: 0rem 1rem 0rem 1rem;
   }
-
-
-}
+} /* end Two column (desktop) */

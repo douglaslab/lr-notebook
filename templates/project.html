@@ -8,7 +8,7 @@
 {% block body %}
 <div class="row">
   <div class="five columns">
-    <h1 style="display:inline-block;" class="orange">{{ this.name }}/{% if this.star %}<span class="{{this.star}}"><i class="fa fa-star" aria-hidden="true"></i> </span>{% endif %}</h1> {{ this.description }}
+    <h1 style="display:inline-block;" class="orange">{{ this.name }}/{% if this.star %}<span class="small {{this.star}}"><i class="fa fa-star" aria-hidden="true"></i> </span>{% endif %}</h1> {{ this.description }}
   </div>
   <div class="one column">
     {{browse_to(this)}}

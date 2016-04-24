@@ -95,7 +95,7 @@
       {% if entry.star %}<span class="x-small {{entry.star}}"><i class="fa fa-star" aria-hidden="true"></i></span>{% endif %}
       <small>{{entry.date.strftime('%Y-%b-%e')}}</small>:
       {% if entry.description %}
-        <a class="description" href="{{ entry|url }}">{{ entry.description }}</a>
+        <a href="{{ entry|url }}">{{ entry.description }}</a>
       {% else %}
         <a class="lightgray" href="{{ entry|url }}">Untitled</a>
       {%endif%}
@@ -118,8 +118,7 @@
             <a href="{{image|url}}"><img src="{{ image|url }}"></a>
           {% endif %}
         {% endfor %}
-      {% else %}
-        &nbsp;
+        {% if not entry.attachments.images %}&nbsp;{% endif %}
       {% endif %}
       </div>
       <div class="three columns">&nbsp;
@@ -146,9 +145,8 @@
         <input type="image" src={{ '/static/images/sublink.png'|url }}>
         </form>
       </div>
-      {% if child.attachments %}
         <div class="four columns"> <!-- attachments -->
-          &nbsp;
+      {% if child.attachments %}
           {% for image in child.attachments.images %}
             {% if image.path.endswith('.svg') %}
               <a class="green" href="{{image|url}}">{{image.path.split('/')[-1]}}</a>
@@ -159,11 +157,14 @@
               <a href="{{image|url}}"><img src="{{ image|url }}"></a>
             {% endif %}
           {% endfor %}
+          {% if not child.attachments.images %}&nbsp;{% endif %}
         </div>
         <div class="three columns">&nbsp;
         {{attachment_extension_counts(child)}}
-      </div>
+      {% else %}
+        &nbsp;
       {% endif %}
+      </div>
     </div>
     {{ loop(child.children) }}
     {% endfor %}

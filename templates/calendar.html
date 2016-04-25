@@ -34,7 +34,7 @@
             <a class="green" href="{{image|url}}">{{image.path.split('/')[-1]}}</a>
             {{ get_attachment_icon(image._id) }}
           {% elif image.height > 50 %}
-            <a href="{{image|url}}"><img src="{{ image.thumbnail(50)|url }}"></a>
+            <a href="{{image|url}}"><img src="{{ image.thumbnail(50,50)|url }}"></a>
           {% else %}
             <a href="{{image|url}}"><img src="{{ image|url }}"></a>
           {% endif %}

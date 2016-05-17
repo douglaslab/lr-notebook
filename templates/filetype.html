@@ -1,0 +1,62 @@
+{% from "macros/projects.html" import get_attachment_icon %}
+
+{% extends "layout.html" %}
+{% block title %}{{ this.name }}{% endblock %}
+
+{% block body %}
+
+  {% set date_to_entry = {} %}
+  {% set ext_to_count = {} %}
+  {% for project in this.children recursive %}
+    {% for entry in project.children.filter(F._model=='entry') %}
+      {% set date = entry.date %}
+      {% set entrylist = date_to_entry[date]|default([]) %}
+      {% set _ = date_to_entry.update({date:entrylist+[entry]}) %}
+      {% for item in entry.attachments %}
+        {% set ext = '.' + item.path.split('.')[-1] %}
+        {% set count = 1+ext_to_count[ext]|default(0) %}
+        {% set _ = ext_to_count.update({ext:count}) %}
+      {% endfor %}
+    {% endfor %}
+    {{ loop(project.children) }}
+  {% endfor %}
+
+  <h1>Files</h1>
+  {% for filetype in this.parent.children %}
+  <div class="row">
+    <div class="one column">
+      <a class="u-pull-right{% if this == filetype %} active{%endif%}" href="{{filetype|url}}">{{filetype.name}}</a>
+    </div>
+    <div class="nine columns">
+      {% for ext in filetype.extensions %}
+        {% set count = ext_to_count[ext]|default(0) %}
+        {% if count > 0 %}
+        <small>
+        <span class="gray">{{ext}}</span>
+        <span class="lightgray"> ({{count}})</span>
+        </small>
+        {% endif %}
+      {% endfor %}
+    </div>
+  </div>
+  {% endfor %}
+
+<br>
+<hr>
+
+{% for date, entrylist in date_to_entry|dictsort|reverse %}
+  {% for entry in entrylist %}
+    {% for item in entry.attachments %}
+      {% for ext in this.extensions %}
+        {% if item.path.endswith(ext) %}
+        <small>{{date}}</small>:
+        <a class="green" href="{{item.parent|url}}">{{item.path.split('/')[-1]}}</a>
+        {{ get_attachment_icon(item._id) }}
+        <br>
+        {% endif %}
+      {% endfor %}
+    {% endfor %}
+  {% endfor %}
+{% endfor %}
+
+{% endblock %}

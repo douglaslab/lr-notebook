@@ -38,32 +38,39 @@ footer {
 
 
 /* Colors */
-.active {color:#cc0000;}
-.inactive {color:#cccccc;}
-
 .red {color: #cc0000;}
 .lightred {color: #ff4d4d;}
+.orange {color: #FF7F00;}
+.lightorange {color: #FCBD7F;}
+.yellow {color:#ccbb00;}
+.lightyellow {color:#f8e517;}
 .green {color: #4daf4a;}
 .lightgreen {color: #b5d1b1;}
 .blue {color: #377eb8;}
 .lightblue {color: #169bbd;}
-.linkblue {color: #1EAEDB;}
 .purple {color: #984ea3;}
 .lightpurple {color: #8c6e91;}
 .gray {color:#666666;}
 .midgray {color:#999999;}
 .lightgray {color:#cccccc;}
 
+.active {color:#cc0000;}
+.inactive {color:#cccccc;}
+.linkblue {color: #1EAEDB;}
+
 /* Some templates use a recursive loop.depth index to set color. */
-.orange, .orange1 {color: #FF7F00;}
+.orange1 {color: #FF7F00;}
 .orange2 {color: #FE9E40;}
-.lightorange, .orange3 {color: #FCBD7F;}
+.orange3 {color: #FCBD7F;}
 .orange4, .orange5, .orange6, .orange7, .orange8, .orange9 {color: #FBDCBF;}
 
+/* Font Sizes */
+.small { font-size:small; }
+.x-small { font-size:x-small; }
 
 
 /* Images */
-img.littlethumb {
+img.smallthumb, img.littlethumb {
   max-height: 100px;
   max-width: 100px;
   border-radius: 2px;
@@ -229,7 +236,7 @@ input[type="text"].newfolder {
   }
 
   #entry body, #entry ul, #entry li {
-    font-size: 1.8rem;
+    font-size: 1.6rem;
     width: 96%;
   }
 

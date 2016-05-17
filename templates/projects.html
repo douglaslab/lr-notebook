@@ -46,7 +46,7 @@
             <span class="lightgray">{{entry.date.strftime('%b')}}</span>
             {% set mm = entry.date.month %}
           {% endif %}
-          <a href="{{entry.parent|url}}#{{entry.date}}">{{entry.date.strftime('%e')}}{% if entry.star %}<span class="x-small {{entry.star}}"><i class="fa fa-star" aria-hidden="true"></i></span>{% endif %}</a>
+          <a href="{{entry.parent|url}}#{{entry.date}}">{{entry.date.strftime('%d').lstrip('0')}}{% if entry.star %}<span class="x-small {{entry.star}}"><i class="fa fa-star" aria-hidden="true"></i></span>{% endif %}</a>
         {% endfor %}
       </small> <a href="#" onclick="createEntry('{{item.path}}', document.querySelector('#date').value );">+</a></li>
       </div>
@@ -66,11 +66,9 @@
 
 <script>
 (function () {
-    var date = new Date().toISOString().substring(0, 10),
-        field = document.querySelector('#date');
-    field.value = date;
-    console.log(field.value);
-
+    var tzoffset = (new Date()).getTimezoneOffset() * 60000; //offset in milliseconds
+    var localISOTime = (new Date(Date.now() - tzoffset)).toISOString().slice(0,-1).substring(0, 10);
+    document.querySelector('#date').value = localISOTime;
 })()
 </script>
 

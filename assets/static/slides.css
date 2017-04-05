@@ -1,0 +1,154 @@
+/* Colors */
+@import url("colors.css");
+
+/* Images - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
+
+/* Remove img style per stackoverflow.com/questions/23082660/ */
+.reveal section img {
+  background:none;
+  border:none;
+  box-shadow:none;
+  height: auto;
+  width: auto;
+  margin: 0px;
+}
+
+/* Images after ordered list (left column) */
+.reveal section ol + p > img {
+  /*border: #cc0 3px solid;*/
+  display: block;
+  height: auto;
+  width: auto;
+}
+
+/* Images after unordered list (left column) */
+.reveal section ul + p > img {
+  /*border: #c0c 3px solid;*/
+  display: block;
+  height: auto;
+  width: auto;
+}
+
+/* Image without any text */
+.reveal section p:only-child > img {
+  /*border: #fff 3px solid;*/
+  max-height: 60vh;
+  width: auto;
+}
+
+/* Image without any text */
+.reveal section p > a > img {
+  border: #1eaedb 5px solid;
+  max-height: 60vh;
+  width: auto;
+}
+
+/* Image with h1 title */
+.reveal section h1 + p > img {
+  /*border: #c00 3px solid;*/
+  max-height: 50vh;
+}
+
+/* Image with h2 title */
+.reveal section h2 + p > img {
+  /*border: #c60 3px solid;*/
+  max-height: 50vh;
+}
+
+/* Image inheriting .right */
+.reveal .right img {
+  /*border: #cc0 3px solid;*/
+  width: 100%;
+  height: auto;
+}
+
+
+/* LISTS  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
+
+/* 2-column: lists left, div .right - - - - - - - - - - - - - - - - - - - - - */
+.reveal section ul, .reveal section ol {
+  margin:0px;
+}
+
+.reveal section ul, .reveal section ol {
+  /*border: #cc0 3px solid;*/
+  text-align: left;
+  z-index:-10;
+  padding-left: 3rem;
+}
+
+/* List after div.right */
+.reveal section div.right + ul, .reveal section div.right + ol {
+  /*border: #c0c 3px solid;*/
+  width: 48%;
+}
+
+/* Image with h2 title */
+.reveal section li > ul {
+  margin-left: 4rem;
+}
+
+.right {
+  float: right;
+  text-align: right;
+  z-index:-10;
+  width:45%;
+}
+
+.right + ol, .right + ul, .right + p {
+  text-align: left;
+  float: left;
+  width:50%;
+  z-index:-10;
+  margin: 0px;
+}
+
+
+/* Title settings - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
+.reveal section h1, .reveal section h2 {
+  font-size: 2em;
+  white-space: nowrap;
+  margin-bottom: 0.5em;
+}
+
+/* Used for inline overrides */
+.reveal .wrap {
+  white-space: normal;
+}
+
+
+/* Tag-specific appearance  - - - - - - - - - - - - - - - - - - - - - - - - - */
+.reveal section code {
+  display: inline-block;
+  color: #f92672;
+  background-color: #333;
+}
+
+
+/* Slide Link - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
+#exit-slides-link {
+  position: fixed;
+  z-index: 9999999;
+  right: 46px;
+  bottom: 47px;
+  position: fixed;
+  margin: 0;
+  font-family: 'Verdana', sans-serif;
+  color: #cccccc;
+  font-weight: normal;
+  font-size: 32px;
+  padding: 0;
+  text-decoration: none!important;
+  width: 40px;
+  height: 40px;
+  line-height: 36px;
+  text-align: center;
+  vertical-align: text-top;
+  opacity: 0.05;
+}
+
+#exit-slides-link:hover {
+  background: white!important;
+  opacity: 0.5;
+  /*border: 1px solid #aaa!important;*/
+}

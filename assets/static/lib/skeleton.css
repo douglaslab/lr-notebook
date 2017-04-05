@@ -153,14 +153,10 @@ h6 { font-size: 1.5rem; line-height: 1.6;  }
   h6 { font-size: 1.5rem; }
 }
 
-p {
-  margin-top: 0; }
-
-
 /* Links
 –––––––––––––––––––––––––––––––––––––––––––––––––– */
 a {
-  color: #1EAEDB; }
+  color: #1EAEDB }  /*#1EAEDB;*/
 a:hover {
   color: #0FA0CE; }
 
@@ -311,7 +307,7 @@ code {
   margin: 0 .2rem;
   font-size: 90%;
   white-space: nowrap;
-  color: #c3666a;
+  color: #cc0066;
   background: #f7f7f7;
   border: 1px solid #E1E1E1;
   border-radius: 4px; }
@@ -354,7 +350,8 @@ form {
   margin-bottom: 2.5rem; }
 
 p {
-  margin-top:2.0rem;
+  margin-bottom: 1.0rem;
+  margin-top:1.0rem;
 }
 
 ul {

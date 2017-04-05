@@ -1,0 +1,11 @@
+name: code
+---
+extensions:
+
+.as
+.c
+.cpp
+.cs
+.js
+.py
+.sh

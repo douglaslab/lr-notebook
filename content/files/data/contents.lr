@@ -1,0 +1,11 @@
+name: data
+---
+extensions:
+
+.dcd
+.gel
+.log
+.mrc
+.out
+.pos
+.xml

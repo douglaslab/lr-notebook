@@ -1,0 +1,8 @@
+name: archive
+---
+extensions:
+
+.7z
+.gz
+.tar
+.zip

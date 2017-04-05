@@ -1,0 +1,9 @@
+name: config
+---
+extensions:
+
+.sublime-settings
+.ini
+.yml
+.gitignore
+.wlt

@@ -1,0 +1,11 @@
+name: video
+---
+extensions:
+
+.avi
+.mov
+.mp4
+.mpg
+.mpeg
+.wmv
+.ogv

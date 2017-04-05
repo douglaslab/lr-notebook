@@ -1,0 +1,13 @@
+name: docs
+---
+extensions:
+
+.doc
+.docx
+.html
+.md
+.markdown
+.pages
+.pdf
+.tex
+.txt

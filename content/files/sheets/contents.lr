@@ -1,0 +1,8 @@
+name: sheets
+---
+extensions:
+
+.xls
+.xlsx
+.numbers
+.csv

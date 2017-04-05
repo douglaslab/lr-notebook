@@ -1,0 +1,8 @@
+name: molecule
+---
+extensions:
+
+.fasta
+.pdb
+.pdb1
+.pse

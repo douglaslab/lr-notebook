@@ -10,7 +10,6 @@
 <link rel="stylesheet" href="{{ '/static/fonts/fa/css/font-awesome.min.css'|asseturl }}">
 <link rel="stylesheet" href="{{ '/static/fonts/ionicons/css/ionicons.min.css'|asseturl }}">
 <link rel="stylesheet" href="{{ '/static/fonts/source-sans-pro/source-sans-pro.css'|asseturl }}">
-<<<<<<< HEAD
 
 <!-- <script src="{{ '/static/lib/clipboard.min.js'|asseturl }}"></script> -->
 <script src="{{ '/static/lib/jquery-2.2.1.min.js'|asseturl }}"></script>
@@ -21,12 +20,6 @@
 <script src="{{ '/static/lib/me-markdown.standalone.min.js'|asseturl }}"></script>
 <script src="{{ '/static/lr-notebook.js'|asseturl }}"></script>
 
-=======
-<link rel="stylesheet" href="{{ get_pygments_stylesheet()|url }}">
-<script src="{{ '/static/js/jquery-2.2.1.min.js'|asseturl }}"></script>
-<script src="{{ '/static/js/lr-notebook.js'|asseturl }}"></script>
-<script src="{{ '/static/js/marked.js'|asseturl }}"></script>
->>>>>>> origin/master
 
 <title>{% block title %}Welcome{% endblock %}</title>
 <body>
@@ -38,10 +31,8 @@
           %} href="{{ '/'|url }}">Welcome</a></li>
         {% for href, title in [
           ['/projects', 'Projects'],
-          ['/files', 'Files'],
           ['/calendar', 'Calendar'],
           ['/meetings', 'Meetings'],
-          ['/files', 'Files'],
           ['/about', 'About']
         ] %}
           <li><a {% if this.is_child_of(href) %} class="active"{% endif

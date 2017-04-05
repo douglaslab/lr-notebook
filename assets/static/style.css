@@ -1,7 +1,4 @@
-<<<<<<< HEAD
 @import url("colors.css");
-=======
->>>>>>> origin/master
 
 /* Override skeleton.css */
 body {
@@ -41,7 +38,6 @@ footer {
 }
 
 
-<<<<<<< HEAD
 /* clipboard.js button */
 .btn {
   opacity:0.3;
@@ -59,40 +55,6 @@ footer {
 .x-small { font-size:x-small; }
 
 
-=======
-/* Colors */
-.red {color: #cc0000;}
-.lightred {color: #ff4d4d;}
-.orange {color: #FF7F00;}
-.lightorange {color: #FCBD7F;}
-.yellow {color:#ccbb00;}
-.lightyellow {color:#f8e517;}
-.green {color: #4daf4a;}
-.lightgreen {color: #b5d1b1;}
-.blue {color: #377eb8;}
-.lightblue {color: #169bbd;}
-.purple {color: #984ea3;}
-.lightpurple {color: #8c6e91;}
-.gray {color:#666666;}
-.midgray {color:#999999;}
-.lightgray {color:#cccccc;}
-
-.active {color:#cc0000;}
-.inactive {color:#cccccc;}
-.linkblue {color: #1EAEDB;}
-
-/* Some templates use a recursive loop.depth index to set color. */
-.orange1 {color: #FF7F00;}
-.orange2 {color: #FE9E40;}
-.orange3 {color: #FCBD7F;}
-.orange4, .orange5, .orange6, .orange7, .orange8, .orange9 {color: #FBDCBF;}
-
-/* Font Sizes */
-.small { font-size:small; }
-.x-small { font-size:x-small; }
-
-
->>>>>>> origin/master
 /* Images */
 img.smallthumb, img.littlethumb {
   max-height: 100px;
@@ -108,11 +70,7 @@ img.thumb {
   border: 1px solid #ddd;
 }
 
-<<<<<<< HEAD
 img.bigthumb, img.largethumb {
-=======
-img.bigthumb {
->>>>>>> origin/master
   max-height: 400px;
   max-width: 400px;
   border-radius: 4px;
@@ -120,15 +78,10 @@ img.bigthumb {
 }
 
 /* Forms */
-<<<<<<< HEAD
 input[type="submit"].textbutton {
-=======
-input[type="submit"].hidden-button-link {
->>>>>>> origin/master
   border:none;
   cursor:pointer;
   margin-top:1em;
-<<<<<<< HEAD
   outline:none;
   padding:0;
 }
@@ -143,8 +96,6 @@ input[type="submit"]#nrsubmit.textbutton {
 
 input[type="submit"]:disabled {
   background: #cc0000;
-=======
->>>>>>> origin/master
 }
 
 input[type="image"] {
@@ -159,7 +110,6 @@ form {
   padding:0;
 }
 
-<<<<<<< HEAD
 .inlinewarning {
   visibility: hidden;
   color: #f00;
@@ -210,9 +160,6 @@ input:focus:invalid {
   color:#1eaedb;
 }
 
-=======
-
->>>>>>> origin/master
 /* Styles for UI elements that talk to Lektor admin api (e.g. /projects) */
 details summary::-webkit-details-marker {
   color: #999999;
@@ -275,7 +222,6 @@ input[type="text"].newfolder {
   border-radius: 2px;
 }
 
-<<<<<<< HEAD
 
 .droparea {
   height: 25px;
@@ -285,11 +231,6 @@ input[type="text"].newfolder {
 /* Entry styles */
 #entry {
   margin-top: 2rem;
-=======
-/* Entry styles */
-#entry {
-  margin-top: 3rem;
->>>>>>> origin/master
   margin-bottom: 5em;
   height: 100%;
   width: 100%;
@@ -300,7 +241,6 @@ input[type="text"].newfolder {
 #entry ol {
     list-style: none;
     counter-reset: count;
-<<<<<<< HEAD
 }
 
 #entry ol li:before {
@@ -311,13 +251,6 @@ input[type="text"].newfolder {
 
 #entry ul li:before {
     content: none;
-=======
-}
-#entry ol li:before {
-    content: counter(count, decimal) ".";
-    counter-increment: count;
-    font-weight: bold;
->>>>>>> origin/master
     margin-right: 1.0rem;
 }
 
@@ -387,7 +320,6 @@ input[type="text"].newfolder {
   #entry h5 { font-size: 1.6rem; }
   #entry h6 { font-size: 1.5rem; }
 
-<<<<<<< HEAD
   #entry h1:first-child {
     margin-top: 0;
   }
@@ -395,8 +327,6 @@ input[type="text"].newfolder {
     margin-top: 0;
   }
 
-=======
->>>>>>> origin/master
   #entry h1, #entry h2 {
     font-family: 'Source Sans Pro', sans-serif;
     margin-right: -1.5rem;
@@ -404,16 +334,11 @@ input[type="text"].newfolder {
     margin-left: -1.5rem;
     padding-top: 0.6rem;
     padding-right: 1.5rem;
-<<<<<<< HEAD
     padding-bottom: 0.6rem;
-=======
-    padding-bottom: 0.4rem;
->>>>>>> origin/master
     padding-left: 1.5rem;
     color:#fff;
     background: #377eb8;
     clear: both;
-<<<<<<< HEAD
     width: 47.5%;
   }
 
@@ -422,29 +347,14 @@ input[type="text"].newfolder {
     width: 47%;
   }
 */
-=======
-  }
-
-  #entry h2 {
-    margin-top: 2rem;
-    width: 47%;
-  }
-
->>>>>>> origin/master
   #entry h3, #entry h4, #entry h5, #entry h6 {
     font-family: 'Source Sans Pro', sans-serif;
     font-weight: 400;
     margin-top: 1.5rem;
-<<<<<<< HEAD
     /*margin-left: 1.5rem;*/
     width: 47%;
     clear: both;
     border-bottom: 1px solid #ccc;
-=======
-    margin-left: 1.5rem;
-    width: 47%;
-    clear: both;
->>>>>>> origin/master
   }
 
   #entry img {
@@ -459,7 +369,6 @@ input[type="text"].newfolder {
     width: 46%;
     float: left;
     clear: left;
-<<<<<<< HEAD
     /*margin-left: 1.5rem;*/
     margin-bottom: 2.5rem;
   }
@@ -468,12 +377,6 @@ input[type="text"].newfolder {
     color: #0066cc;
   }
 
-=======
-    margin-left: 1.5rem;
-    margin-bottom: 2.5rem;
-  }
-  
->>>>>>> origin/master
   #entry li {
     float: left;
     clear: left;
@@ -482,14 +385,11 @@ input[type="text"].newfolder {
     margin-bottom: 1rem;
   }
 
-<<<<<<< HEAD
   #entry li li {
     margin-left: 0rem;
     width: 100%;
   }
 
-=======
->>>>>>> origin/master
   #entry li > p {
     width: 96%;
   }
@@ -501,17 +401,11 @@ input[type="text"].newfolder {
   }
 
   #entry pre > code {
-<<<<<<< HEAD
     background: #e9e9e9;
     border: 1px solid #E1E1E1;
     font-size: 1rem;
     line-height: 1.2;
     margin-left: 2rem;
-=======
-    margin-left: 2rem;
-    background: #eee;
-    border: 1px solid #E1E1E1;
->>>>>>> origin/master
   }
 
   .right {
@@ -523,7 +417,6 @@ input[type="text"].newfolder {
     font-size: 90%;
   }
 
-<<<<<<< HEAD
   .justify {
     text-align: justify !important;
   }
@@ -536,8 +429,6 @@ input[type="text"].newfolder {
     clear: none;
   }
 
-=======
->>>>>>> origin/master
   #entry .right p {
     width: 96%;
     line-height: 1.3;
@@ -548,13 +439,10 @@ input[type="text"].newfolder {
     width: 96%;
   }
 
-<<<<<<< HEAD
   #entry table {
     clear: both;
   }
 
-=======
->>>>>>> origin/master
   #entry .right table {
     border: none;
   }
@@ -564,7 +452,6 @@ input[type="text"].newfolder {
   #entry .highlight {
     width: 45%;
     font-size: 90%;
-<<<<<<< HEAD
     /*float: right;*/
     /*display: inline;*/
     /*margin-right: 1rem;*/
@@ -646,13 +533,3 @@ input[type="text"].newfolder {
 .outline8  {border: 3px solid #7f7f7f !important;}
 .outline9  {border: 3px solid #bcbd22 !important;}
 .outline10 {border: 3px solid #17becf !important;}
-=======
-    float: right;
-    display: inline;
-    margin-right: 1rem;
-    background: #eee;
-    border: 1px solid #E1E1E1;
-    padding: 0rem 1rem 0rem 1rem;
-  }
-} /* end Two column (desktop) */
->>>>>>> origin/master

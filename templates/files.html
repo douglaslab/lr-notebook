@@ -1,0 +1,79 @@
+{% from "macros/projects.html" import get_attachment_icon, attachment_extension_counts %}
+
+{% extends "layout.html" %}
+{% block title %}{{ this.name }}{% endblock %}
+{% block body %}
+
+{% set ext_to_count = {} %}
+{% for project in site.query('/projects') %}
+  {% for entry in project.children.filter(F._model=='entry') %}
+    {% for item in entry.attachments %}
+      {% set ext = '.' + item.path.split('.')[-1] %}
+      {% set count = 1+ext_to_count[ext]|default(0) %}
+      {% set _ = ext_to_count.update({ext:count}) %}
+    {% endfor %}
+  {% endfor %}
+{% endfor %}
+
+{% set counts = ext_to_count|dictsort(false, 'value') %}
+
+{% if counts %}
+
+{% set max_count = counts[-1][1] %}
+
+
+  <h1>Files</h1>
+  {% for filetype in this.children %}
+  <div class="row">
+    <div class="one column">
+      <a class="u-pull-right" href="{{filetype|url}}">{{filetype.name}}</a>
+    </div>
+    <div class="nine columns">
+      {% for ext in filetype.extensions %}
+        {% set count = ext_to_count[ext]|default(0) %}
+        {% if count > 0 %}
+        <small>
+        <span class="gray">{{ext}}</span>
+        <span class="lightgray"> ({{count}})</span>
+        </small>
+        {% endif %}
+      {% endfor %}
+    </div>
+  </div>
+  {% endfor %}
+
+<hr>
+
+<h2>Uncategorized</h2>
+{% set flag = {'no_uncategorized': True} %}
+{% set all_extensions = site.query('/files').distinct('extensions') %}
+{% for project in site.query('/projects') %}
+  {% for entry in project.children.filter(F._model=='entry') %}
+    {% for item in entry.attachments %}
+      {% set item_ext = '.' + item.path.split('.')[-1]|lower %}
+      {% if not item_ext in all_extensions %}
+        <span class="orange">{{project._id}}</span> <small>{{entry.date}}</small>:
+        <a class="green" href="{{item.parent|url}}">{{item.path.split('/')[-1]}}</a>
+        {{ get_attachment_icon(item._id) }}<br>
+        {% set _ = flag.update({'no_uncategorized': False}) %}
+      {% endif %}
+    {% endfor %}
+  {% endfor %}
+{% endfor %}
+
+{% if flag.no_uncategorized %}
+None.
+{% else %}
+<br>
+<form target="frame" action="/admin/api/browsefs" method="post">
+  <input type="hidden" name="path" value="{{this.path}}">
+  <input type="image" src={{ '/static/images/link.png'|url }}>
+</form>
+<small>To create a filetype group, use "Add Page" from the admin interface, or create one manually in content/files.</small>
+{% endif %}
+
+{% else %}
+No files yet
+{% endif %}
+
+{% endblock %}

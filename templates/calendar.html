@@ -1,3 +1,7 @@
+{% from "macros/projects.html" import get_attachment_icon, attachment_extension_counts %}
+
+
+
 {% extends "layout.html" %}
 {% block title %}{{ this.name }}{% endblock %}
 {% block body %}
@@ -11,23 +15,38 @@
     {{ loop(project.children) }}
   {% endfor %}
   <h1>Calendar</h1>
-  {% for date, entrylist in date_to_entry|dictsort %}
+  {% for date, entrylist in date_to_entry|dictsort|reverse %}
     {% for entry in entrylist %}
     <div class="row">
-      <div class="six columns">
+      <div class="four columns">
       {{date}}: <small><a href="{{entry.parent|url}}#{{date}}" class="orange">{{entry.path.split('/')[2:-1]|join('/')}}</a></small>
+      {% if entry.star %}<span class="{{entry.star}} x-small"><i class="fa fa-star" aria-hidden="true"></i></span>{% endif %}
       {% if entry.description%}
         <a href="{{entry|url}}">{{entry.description}}</a>
       {%else%}
         <a class="lightgray" href="{{entry|url}}">Untitled</a>
       {%endif%}
       </div>
-      <div class="six columns">
-      {% if entry.body %}
-      <details>
-        <summary>&nbsp;</summary>
-        <small>{{entry.body}}</small>
-      </details>
+      <div class="five columns">
+      {% if entry.attachments %}
+        {% for image in entry.attachments.images.limit(5) %}
+          {% if image.path.endswith('.svg') %}
+            <a class="green" href="{{image|url}}">{{image.path.split('/')[-1]}}</a>
+            {{ get_attachment_icon(image._id) }}
+          {% elif image.height > 50 %}
+            <a href="{{image|url}}"><img src="{{ image.thumbnail(50,50)|url }}"></a>
+          {% else %}
+            <a href="{{image|url}}"><img src="{{ image|url }}"></a>
+          {% endif %}
+        {% endfor %}
+        {% if entry.attachments.images.count() > 5 %}
+          <small><a class="lightgray" href="{{entry|url}}">...{{entry.attachments.images.count()-5}} more</a></small>
+        {% endif %}
+      </div>
+      <div class="two columns">
+        {{ attachment_extension_counts(entry) }}
+      {% else %}
+      &nbsp;
       {% endif %}
       </div>
     </div>

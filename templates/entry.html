@@ -1,19 +1,126 @@
 {% extends "layout.html" %}
-{% from "macros/projects.html" import project_header_links %}
+{% from "macros/projects.html" import render_attachments, render_subfolders, render_project_entry %}
 
 {% block title %}{{ this.name }}{% endblock %}
 
 {% block body %}
-<h1 class="orange" style="display: inline;">{{this.parent.name}}</h1>
-<br>
+<h2 style="display: inline;"><a class="orange" href="{{this.parent|url}}">{{this.parent.name}}/</a></h2><br>
 <form target="frame" action="/admin/api/browsefs" method="post">
   <input type="hidden" name="path" value="{{this.path}}">
   <input type="image" src={{ '/static/images/link.png'|url }}>
 </form>
-<div class="red description" style="display: inline;">{{ this.description }}</div> <span class="midgray">{{ this.date }}</span>
+<h2 class="lightblue" style="display: inline;">{{ this.description }}</h2> <span style="float:right;" class="midgray">{{ this.date }}</span> {% if this.star %}<span class="small {{this.star}}"><i class="fa fa-star" aria-hidden="true"></i></span>{% endif %}
+<hr>
 
+{% set siblings = this.parent.children.filter(F.description==this.description).order_by('date') %}
+{% for entry in siblings %}
+{% if entry == this %}
 <div id="entry">
-{{this.body}}
+    {{entry.body}}
 </div>
+
+{% if this.children %}
+  <h5 style="float:left; margin-top:3rem;">Subfolders:</h5>
+  {{render_subfolders(this)}}
+{% endif %}
+
+
+{% if this.attachments %}
+<h5 style="float:left; border-top:#ccc 1px solid;">Attachments:</h5>
+{{render_attachments(this, 50)}}
+{% endif %}
+
+
+{% else %}
+{{ render_project_entry(entry, false) }}
+{% endif %}
+{% endfor %}
+
+<pre style="display:none;" class="markdown"></pre>
+
+<script>
+  function renderRightAsMarkdown() {
+      var right = document.getElementsByClassName("right");
+      for (var i=0; i<right.length; i++) {
+          src = right[i].innerHTML
+          right[i].innerHTML = marked(src);
+      }
+  }
+  renderRightAsMarkdown();
+</script>
+
+
+
+
+<script>
+// Disable clipboard stuff for now
+// var pre = document.getElementsByTagName('pre');
+// for (var i = 0; i < pre.length; i++) {
+//   var button = document.createElement('button');
+//   button.className = 'btn fa fa-copy';
+//   pre[i].appendChild(button);
+// }
+
+// var clipboard = new Clipboard('.btn', {
+//   target: function(trigger) {return trigger.previousElementSibling;}
+// });
+
+// function showSuccess(elem){elem.setAttribute('class','btn fa fa-check');}
+// function sleep (time) {return new Promise((resolve) => setTimeout(resolve, time));}
+// clipboard.on('success',function(e){
+//   showSuccess(e.trigger);
+//   sleep(350).then(() => {e.clearSelection();
+//     e.trigger.setAttribute('class','btn fa fa-copy');})
+// });
+
+// Experimental direct editing
+
+// var paragraphs = $$("#entry>p");
+// var lastEl = paragraphs.getLast();
+// var path = '{{this.path}}';
+
+// paragraphs.each(function(el) {
+//   var dropArea = new Element('div', {'class':'right droparea',
+//                                      'ondrop':'drop(event, path)',
+//                                      'ondragover':'dragover_handler(event)'
+//                                      });
+//   var next = el.getNext();
+//   if (!!next && !next.hasClass('right')) {
+//     droptext = new Element('div', {'id':'targetString',
+//                                    styles:{display: 'none'},
+//                                    'html':el.get('html')
+//                                   });
+//     droptext.inject(dropArea);
+//     dropArea.inject(el, 'after');
+//   }
+// });
+
+// var rightimgs = $$("img.thumb");
+// rightimgs.each(function(el) {
+//   var button = document.createElement('button');
+//   button.className = 'btn fa fa-window-close';
+//   el.appendChild(button);
+// });
+
+// var markDownEl = document.querySelector(".markdown");
+
+// new MediumEditor($$("#entry>p"), {
+//     extensions: {markdown: new MeMarkdown(function (md) {markDownEl.textContent = md;})},
+//     toolbar: {
+//       allowMultiParagraphSelection: false,
+//       buttons: ['bold', 'italic', 'underline']
+//     },
+//     disableReturn: true,
+//     disableDoubleReturn: true,
+//     disableExtraSpaces: true,
+//     paste: {
+//         forcePlainText: true,
+//         cleanPastedHTML: true
+//     }
+// });
+
+</script>
+
+<a href="slides" id="play-slides-link"><i class="fa fa-play" aria-hidden="true"></i></a>
 
 {% endblock %}

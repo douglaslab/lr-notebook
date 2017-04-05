@@ -1,0 +1,27 @@
+/* Colors */
+.red {color: #cc0000;}
+.lightred {color: #ff4d4d;}
+.orange {color: #ff7f00;}
+.lightorange {color: #fcbd7f;}
+.yellow {color:#ccbb00;}
+.lightyellow {color:#f8e517;}
+.green {color: #4daf4a;}
+.lightgreen {color: #b5d1b1;}
+.blue {color: #377eb8;}
+.lightblue {color: #169bbd;}
+.purple {color: #984ea3;}
+.lightpurple {color: #8c6e91;}
+.gray {color:#666666;}
+.midgray {color:#999999;}
+.lightgray {color:#cccccc;}
+.black {color:#000000;}
+
+.active {color:#cc0000;}
+.inactive {color:#cccccc;}
+.linkblue {color: #1eaedb;}
+
+/* Some templates use a recursive loop.depth index to set color. */
+.orange1 {color: #ff7f00;}
+.orange2 {color: #fe9e40;}
+.orange3 {color: #fcbd7f;}
+.orange4, .orange5, .orange6, .orange7, .orange8, .orange9 {color: #fbdcbf;}

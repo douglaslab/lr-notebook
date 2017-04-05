@@ -48,7 +48,11 @@
         <a class="green" href="{{image|url}}">{{image.path.split('/')[-1]}}</a>
         {{ get_attachment_icon(image._id) }}
       {% elif image.width > size or image.height > size %}
+<<<<<<< HEAD
         <a href="{{image|url}}"><img id="{{image._id}}" draggable="true" ondragstart="drag(event)" ondragend="dragend(event)" src="{{ image.thumbnail(size,size)|url }}"></a>
+=======
+        <a href="{{image|url}}"><img src="{{ image.thumbnail(size,size)|url }}"></a>
+>>>>>>> origin/master
       {% else %}
         <a href="{{image|url}}"><img id="{{image._id}}" draggable="true" ondragstart="drag(event);" ondragend="dragend(event)" src="{{ image|url }}"></a>
       {% endif %}
@@ -93,6 +97,7 @@
   <div class="row">
     <div class="four columns"> <!-- description -->
       {% if entry.star %}<span class="x-small {{entry.star}}"><i class="fa fa-star" aria-hidden="true"></i></span>{% endif %}
+<<<<<<< HEAD
       {% if show_desc %}
       <small>{{entry.date.strftime('%Y-%b-%d')}}</small>:
         {% if entry.description %}
@@ -100,6 +105,11 @@
         {% else %}
           <a class="lightgray" href="{{ entry|url }}">Untitled</a>
         {% endif %}
+=======
+      <small>{{entry.date.strftime('%Y-%b-%d')}}</small>:
+      {% if entry.description %}
+        <a href="{{ entry|url }}">{{ entry.description }}</a>
+>>>>>>> origin/master
       {% else %}
       <small><a href="{{ entry|url }}">{{entry.date.strftime('%Y-%b-%d')}}</a></small>
       {% endif %}

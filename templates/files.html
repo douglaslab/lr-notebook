@@ -16,9 +16,12 @@
 {% endfor %}
 
 {% set counts = ext_to_count|dictsort(false, 'value') %}
+<<<<<<< HEAD
 
 {% if counts %}
 
+=======
+>>>>>>> origin/master
 {% set max_count = counts[-1][1] %}
 
 
@@ -72,8 +75,12 @@ None.
 <small>To create a filetype group, use "Add Page" from the admin interface, or create one manually in content/files.</small>
 {% endif %}
 
+<<<<<<< HEAD
 {% else %}
 No files yet
 {% endif %}
+=======
+
+>>>>>>> origin/master
 
 {% endblock %}

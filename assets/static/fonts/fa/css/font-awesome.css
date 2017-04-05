@@ -1,13 +1,22 @@
 /*!
+<<<<<<< HEAD
  *  Font Awesome 4.7.0 by @davegandy - http://fontawesome.io - @fontawesome
+=======
+ *  Font Awesome 4.6.1 by @davegandy - http://fontawesome.io - @fontawesome
+>>>>>>> origin/master
  *  License - http://fontawesome.io/license (Font: SIL OFL 1.1, CSS: MIT License)
  */
 /* FONT PATH
  * -------------------------- */
 @font-face {
   font-family: 'FontAwesome';
+<<<<<<< HEAD
   src: url('../fonts/fontawesome-webfont.eot?v=4.7.0');
   src: url('../fonts/fontawesome-webfont.eot?#iefix&v=4.7.0') format('embedded-opentype'), url('../fonts/fontawesome-webfont.woff2?v=4.7.0') format('woff2'), url('../fonts/fontawesome-webfont.woff?v=4.7.0') format('woff'), url('../fonts/fontawesome-webfont.ttf?v=4.7.0') format('truetype'), url('../fonts/fontawesome-webfont.svg?v=4.7.0#fontawesomeregular') format('svg');
+=======
+  src: url('../fonts/fontawesome-webfont.eot?v=4.6.1');
+  src: url('../fonts/fontawesome-webfont.eot?#iefix&v=4.6.1') format('embedded-opentype'), url('../fonts/fontawesome-webfont.woff2?v=4.6.1') format('woff2'), url('../fonts/fontawesome-webfont.woff?v=4.6.1') format('woff'), url('../fonts/fontawesome-webfont.ttf?v=4.6.1') format('truetype'), url('../fonts/fontawesome-webfont.svg?v=4.6.1#fontawesomeregular') format('svg');
+>>>>>>> origin/master
   font-weight: normal;
   font-style: normal;
 }
@@ -2159,6 +2168,7 @@
 .fa-snapchat-square:before {
   content: "\f2ad";
 }
+<<<<<<< HEAD
 .fa-pied-piper:before {
   content: "\f2ae";
 }
@@ -2316,6 +2326,8 @@
 .fa-meetup:before {
   content: "\f2e0";
 }
+=======
+>>>>>>> origin/master
 .sr-only {
   position: absolute;
   width: 1px;

@@ -1,14 +1,24 @@
 {% extends "layout.html" %}
+<<<<<<< HEAD
 {% from "macros/projects.html" import render_attachments, render_subfolders, render_project_entry %}
+=======
+{% from "macros/projects.html" import render_attachments, render_subfolders %}
+>>>>>>> origin/master
 
 {% block title %}{{ this.name }}{% endblock %}
 
 {% block body %}
+<<<<<<< HEAD
 <h2 style="display: inline;"><a class="orange" href="{{this.parent|url}}">{{this.parent.name}}/</a></h2><br>
+=======
+<h1 style="display: inline;"><a class="orange" href="{{this.parent|url}}">{{this.parent.name}}/</a></h1>
+<br>
+>>>>>>> origin/master
 <form target="frame" action="/admin/api/browsefs" method="post">
   <input type="hidden" name="path" value="{{this.path}}">
   <input type="image" src={{ '/static/images/link.png'|url }}>
 </form>
+<<<<<<< HEAD
 <h2 class="lightblue" style="display: inline;">{{ this.description }}</h2> <span style="float:right;" class="midgray">{{ this.date }}</span> {% if this.star %}<span class="small {{this.star}}"><i class="fa fa-star" aria-hidden="true"></i></span>{% endif %}
 <hr>
 
@@ -38,6 +48,15 @@
 
 <pre style="display:none;" class="markdown"></pre>
 
+=======
+<h2 class="lightblue" style="display: inline;">{{ this.description }}</h2> <span class="midgray">{{ this.date }}</span> {% if this.star %}<span class="small {{this.star}}"><i class="fa fa-star" aria-hidden="true"></i></span>{% endif %}
+
+{% if this.body %}
+<div id="entry">
+    {{this.body}}
+</div>
+
+>>>>>>> origin/master
 <script>
   function renderRightAsMarkdown() {
       var right = document.getElementsByClassName("right");
@@ -49,6 +68,7 @@
   renderRightAsMarkdown();
 </script>
 
+<<<<<<< HEAD
 
 
 
@@ -122,5 +142,19 @@
 </script>
 
 <a href="slides" id="play-slides-link"><i class="fa fa-play" aria-hidden="true"></i></a>
+=======
+{% endif %}
+
+{% if this.attachments %}
+{% if this.body %}<hr>{% endif %}
+<h5 style="float:left; margin-top:3rem;">Attachments:</h5>
+  {{render_attachments(this, 50)}}
+{% endif %}
+
+{% if this.children %}
+  <h5 style="float:left; margin-top:3rem;">Subfolders:</h5>
+  {{render_subfolders(this)}}
+{% endif %}
+>>>>>>> origin/master
 
 {% endblock %}

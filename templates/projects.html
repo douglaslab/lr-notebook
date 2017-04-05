@@ -44,7 +44,11 @@
             <span class="lightgray">{{entry.date.strftime('%b')}}</span>
             {% set _ = latest.update({'mm': entry.date.month}) %}
           {% endif %}
+<<<<<<< HEAD
           <a href="{{entry|url}}">{{entry.date.strftime('%d').lstrip('0')}}{% if entry.star %}<span class="x-small {{entry.star}}"><i class="fa fa-star" aria-hidden="true"></i></span>{% endif %}</a>
+=======
+          <a href="{{entry.parent|url}}#{{entry.date}}">{{entry.date.strftime('%d').lstrip('0')}}{% if entry.star %}<span class="x-small {{entry.star}}"><i class="fa fa-star" aria-hidden="true"></i></span>{% endif %}</a>
+>>>>>>> origin/master
         {% endfor %}
       </small> <a href="#" onclick="createEntry('{{item.path}}', document.querySelector('#date').value );">+</a></li>
       </div>

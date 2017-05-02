@@ -194,7 +194,7 @@
     {% set thumbsize = 50/loop.depth %}
     {% set fontsize = 50-(10*loop.depth0) %}
     <div class="row">
-      <div class="two columns">
+      <div class="three columns">
         <small>
         <a style="margin-left:{{loop.depth * 2}}rem" href="{{child|url}}">&boxur; <span class="orange{{loop.depth+1}}">{{child.path.split('/')[-1]}}/{% if child.description %}</span><span style="font-size:{{fontsize}}%"> {{child.description}}</span>{% else %}</span>{% endif %}</a></small><br/>
       </div>
@@ -220,7 +220,6 @@
         </div>
         <div class="two columns">&nbsp;
         {{attachment_extension_counts(child)}}
-        </div>
       {% else %}
         &nbsp;
       {% endif %}

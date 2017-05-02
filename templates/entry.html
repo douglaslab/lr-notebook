@@ -12,6 +12,13 @@
 <h2 class="lightblue" style="display: inline;">{{ this.description }}</h2> <span style="float:right;" class="midgray">{{ this.date }}</span> {% if this.star %}<span class="small {{this.star}}"><i class="fa fa-star" aria-hidden="true"></i></span>{% endif %}
 <hr>
 
+{% if this.attachments %}
+<h5 style="float:left;">Attachments:</h5>
+{{render_attachments(this, 50)}}
+<hr>
+{% endif %}
+
+
 {% set siblings = this.parent.children.filter(F.description==this.description).order_by('date') %}
 {% for entry in siblings %}
 {% if entry == this %}
@@ -20,16 +27,9 @@
 </div>
 
 {% if this.children %}
-  <h5 style="float:left; margin-top:3rem;">Subfolders:</h5>
+  <h5 style="float:left; padding-bottom:3rem;">Subfolders:</h5>
   {{render_subfolders(this)}}
 {% endif %}
-
-
-{% if this.attachments %}
-<h5 style="float:left; border-top:#ccc 1px solid;">Attachments:</h5>
-{{render_attachments(this, 50)}}
-{% endif %}
-
 
 {% else %}
 {{ render_project_entry(entry, false) }}
@@ -53,6 +53,7 @@
 
 
 <script>
+
 // Disable clipboard stuff for now
 // var pre = document.getElementsByTagName('pre');
 // for (var i = 0; i < pre.length; i++) {

@@ -40,9 +40,9 @@
             <span class="gray">{{entry.date.year}}</span>
             {% set _ = latest.update({'yyyy': entry.date.year, 'mm':0}) %}
           {% endif %}
-          {% if entry.date.month > mm %}
+          {% if entry.date.month > latest.mm %}
             <span class="lightgray">{{entry.date.strftime('%b')}}</span>
-            {% set mm = entry.date.month %}
+            {% set _ = latest.update({'mm': entry.date.month}) %}
           {% endif %}
           <a href="{{entry.parent|url}}#{{entry.date}}">{{entry.date.strftime('%e')}}</a>
         {% endfor %}

@@ -34,13 +34,11 @@
       </div>
       <div class="six columns">
         <small>
-        {% set yyyy = 1900 %}
-        {% set mm = 0 %}
+        {% set latest = {'yyyy': 1900, 'mm':0} %}
         {% for entry in item.children.filter(F._model=='entry')|sort(attribute='date') %}
-          {% if entry.date.year > yyyy %}
+          {% if entry.date.year > latest.yyyy %}
             <span class="gray">{{entry.date.year}}</span>
-            {% set yyyy = entry.date.year %}
-            {% set mm = 0 %}
+            {% set _ = latest.update({'yyyy': entry.date.year, 'mm':0}) %}
           {% endif %}
           {% if entry.date.month > mm %}
             <span class="lightgray">{{entry.date.strftime('%b')}}</span>
